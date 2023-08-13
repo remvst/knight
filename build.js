@@ -30,6 +30,7 @@ compiler.run((tasks) => {
                 "src/js/entities/player.js",
                 "src/js/entities/grass.js",
                 "src/js/entities/tree.js",
+                "src/js/entities/bush.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

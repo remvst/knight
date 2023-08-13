@@ -28,6 +28,13 @@ for (let x = 0 ; x < 10000 ; x += 150) {
     scene.add(tree);
 }
 
+for (let x = 0 ; x < 10000 ; x += 150) {
+    const tree = new Bush();
+    tree.x = x;
+    tree.y = scene.pathCurve(tree.x) + rnd(50, 500) * pick([-1, 1]);
+    scene.add(tree);
+}
+
 frame = () => {
     const now = performance.now();
     const elapsed = (now - lastFrame) / 1000;
