@@ -33,6 +33,7 @@ compiler.run((tasks) => {
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",
+                "src/js/util/rng.js",
             
                 "src/js/globals.js",
                 "src/js/math.js",
