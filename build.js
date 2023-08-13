@@ -22,11 +22,15 @@ compiler.run((tasks) => {
                 "src/js/graphics/create-canvas.js",
                 "src/js/graphics/wrap.js",
 
+                "src/js/input/keyboard.js",
+
                 "src/js/entities/entity.js",
                 "src/js/entities/camera.js",
                 "src/js/entities/character.js",
+                "src/js/entities/player.js",
                 
                 "src/js/util/resizer.js",
+                "src/js/util/first-item.js",
             
                 "src/js/globals.js",
                 "src/js/math.js",

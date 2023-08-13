@@ -11,10 +11,8 @@ onload = () => {
 
 let lastFrame = performance.now();
 
-const player = new Entity();
-
 const scene = new Scene();
-scene.add(player);
+scene.add(new Player());
 
 frame = () => {
     const now = performance.now();
@@ -27,10 +25,9 @@ frame = () => {
     // Rendering
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    scene.camera.x += elapsed * 10;
+    const camera = firstItem(scene.category('camera'));
 
     ctx.wrap(() => {
-        const { camera } = scene;
         ctx.imageSmoothingEnabled = false;
         ctx.scale(camera.zoom, camera.zoom);
         ctx.translate(-camera.x, -camera.y);
