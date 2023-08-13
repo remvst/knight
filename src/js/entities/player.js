@@ -7,9 +7,22 @@ class Player extends Character {
     render() {
         super.render();
 
+        const { inWater } = this;
+        const renderAge = this.age * (inWater ? 0.5 : 1);
+
         ctx.wrap(() => {
-            ctx.translate(this.x, this.y - 30);
+            ctx.translate(this.x, this.y);
             ctx.scale(this.facing, 1);
+
+            if (inWater) {
+                ctx.beginPath();
+                ctx.rect(-100, -100, 200, 100);
+                ctx.clip();
+
+                ctx.translate(0, 10);
+            }
+
+            ctx.translate(0, -30);
 
             ctx.fillStyle = '#fff';
 
@@ -17,7 +30,7 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.fillStyle = '#666';
                 ctx.translate(-6, 15);
-                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 16);
+                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
             });
 
@@ -25,14 +38,14 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.fillStyle = '#666';
                 ctx.translate(6, 15);
-                if (this.controls.force) ctx.rotate(sin(this.age * TWO_PI * 4) * PI / 16);
+                if (this.controls.force) ctx.rotate(sin(renderAge * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
             });
             
             // Chest
             ctx.wrap(() => {
                 ctx.fillStyle = '#ccc';
-                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 64);
+                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
                 ctx.fillRect(-12, -15, 25, 30);
             });
 
@@ -40,7 +53,7 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.fillStyle = '#666';
                 ctx.translate(12, -10);
-                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
+                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 if (this.controls.shield) ctx.rotate(-PI / 2);
 
                 if (this.age < this.attackEnd) {
@@ -78,7 +91,7 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.fillStyle = '#fec';
                 ctx.translate(0, -22);
-                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
+                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 ctx.fillRect(-6, -7, 12, 15);
             });
 
@@ -86,7 +99,7 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.fillStyle = '#666';
                 ctx.translate(-10, -8);
-                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
+                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 if (!this.controls.shield) ctx.rotate(Math.PI / 3);
 
                 const armLength = this.controls.shield ? 25 : 10;

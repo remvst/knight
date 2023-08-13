@@ -64,25 +64,7 @@ class Scene {
 
         ctx.stroke();
 
-        // ctx.lineWidth = 100;
-        // ctx.beginPath();
-        // ctx.moveTo(0, 0);
-        // ctx.lineTo(100, 100);
-        // ctx.lineTo(300, 400);
-        // ctx.lineTo(800, 300);
-        // ctx.lineTo(1200, 600);
-        // ctx.stroke();
-
-        ctx.strokeStyle = '#08a';
-
-        ctx.lineWidth = 100;
-        ctx.beginPath();
-        ctx.moveTo(400, 0);
-        ctx.lineTo(500, 200);
-        ctx.lineTo(600, 150);
-        ctx.stroke();
-
-        const ordered = Array.from(this.entities).sort((a, b) => a.y - b.y);
+        const ordered = Array.from(this.entities).sort((a, b) => a.z - b.z);
         for (const entity of ordered) {
             entity.render();
         }

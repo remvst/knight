@@ -29,11 +29,25 @@ for (let x = 0 ; x < 10000 ; x += 150) {
 }
 
 for (let x = 0 ; x < 10000 ; x += 150) {
-    const tree = new Bush();
-    tree.x = x;
-    tree.y = scene.pathCurve(tree.x) + rnd(50, 500) * pick([-1, 1]);
-    scene.add(tree);
+    const bush = new Bush();
+    bush.x = x;
+    bush.y = scene.pathCurve(bush.x) + rnd(50, 500) * pick([-1, 1]);
+    scene.add(bush);
 }
+
+for (let x = 0 ; x < 10000 ; x += 150) {
+    const water = new Water();
+    water.width = rnd(100, 200);
+    water.height = rnd(200, 400);
+    water.rotation = random() * TWO_PI;
+    water.x = x;
+    water.y = scene.pathCurve(water.x) + rnd(300, 800) * pick([-1, 1]);
+    scene.add(water);
+}
+
+const water = new Water();
+water.rotation = PI / 3;
+scene.add(water);
 
 frame = () => {
     const now = performance.now();

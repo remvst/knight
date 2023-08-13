@@ -4,6 +4,8 @@ class Entity {
         this.categories = [];
     }
 
+    get z() { return this.y; }
+
     cycle(elapsed) {
         this.age += elapsed;
     }

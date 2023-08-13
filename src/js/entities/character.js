@@ -17,13 +17,22 @@ class Character extends Entity {
         };
     }
 
+    get inWater() {
+        for (const water of this.scene.category('water')) {
+            if (water.contains(this)) return true;
+        }
+        return false;
+    }
+
     cycle(elapsed) {
         const ageBefore = this.age;
 
         super.cycle(elapsed);
+
+        const speed = this.inWater ? 100 : 200;
         
-        this.x += cos(this.controls.angle) * this.controls.force * 200 * elapsed;
-        this.y += sin(this.controls.angle) * this.controls.force * 200 * elapsed;
+        this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
+        this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
 
         if (this.controls.force) this.facing = sign(cos(this.controls.angle)) || 1;
 
@@ -38,9 +47,10 @@ class Character extends Entity {
 
     attack() {
         if (this.attackEnd <= this.age) {
+            const { inWater } = this;
             this.attackStart = this.age;
-            this.attackStrike = this.age + 0.05;
-            this.attackEnd = this.age + 0.2;
+            this.attackStrike = this.age + 0.05 * (inWater ? 2 : 1);
+            this.attackEnd = this.age + 0.2 * (inWater ? 2 : 1);
         }
     }
 
