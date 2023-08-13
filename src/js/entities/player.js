@@ -1,15 +1,7 @@
-class Player extends Entity {
+class Player extends Character {
     constructor() {
         super();
         this.categories.push('player');
-
-        this.facing = 1;
-
-        this.controls = {
-            'force': 0,
-            'angle': 0,
-            'shield': false,
-        };
     }
 
     render() {
@@ -50,6 +42,17 @@ class Player extends Entity {
                 ctx.translate(12, -10);
                 if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
                 if (this.controls.shield) ctx.rotate(-PI / 2);
+
+                if (this.age < this.attackEnd) {
+                    if (this.age < this.attackStrike) {
+                        const progress = (this.age - this.attackStart) / (this.attackStrike - this.attackStart);
+                        ctx.rotate(progress * PI / 2);
+                    } else {
+                        const progress = (this.age - this.attackStrike) / (this.attackEnd - this.attackStrike);
+                        ctx.rotate((1 - progress) * PI / 2);
+                    }
+                }
+
                 ctx.fillRect(0, -3, 20, 6);
 
                 // Sword
@@ -81,12 +84,9 @@ class Player extends Entity {
 
             // Shield arm
             ctx.wrap(() => {
-                // if (!this.controls.shield) return;
-
                 ctx.fillStyle = '#888';
                 ctx.translate(-10, -8);
-                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 2) * PI / 32);
-
+                if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
                 if (!this.controls.shield) ctx.rotate(Math.PI / 3);
 
                 const armLength = this.controls.shield ? 25 : 10;
@@ -97,7 +97,6 @@ class Player extends Entity {
                     ctx.translate(armLength, 0);
 
                     if (!this.controls.shield) ctx.rotate(-Math.PI / 4);
-                    // else ctx.translate(5, 0);
 
                     ctx.fillStyle = '#fff';
 
@@ -119,8 +118,6 @@ class Player extends Entity {
     }
 
     cycle(elapsed) {
-        super.cycle(elapsed);
-
         let x = 0, y = 0;
         if (DOWN[37]) x = -1;
         if (DOWN[38]) y = -1;
@@ -129,12 +126,9 @@ class Player extends Entity {
 
         this.controls.angle = atan2(y, x);
         this.controls.force = x || y ? 1 : 0;
-        this.controls.shield = DOWN[32];
+        this.controls.shield = DOWN[16];
+        this.controls.attack = DOWN[32];
 
-        if (x) this.facing = x;
-        
-        this.x += cos(this.controls.angle) * this.controls.force * 200 * elapsed;
-        this.y += sin(this.controls.angle) * this.controls.force * 200 * elapsed;
-
+        super.cycle(elapsed);
     }
 }
