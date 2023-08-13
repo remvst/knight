@@ -16,7 +16,7 @@ class Grass extends Entity {
             ctx.fillStyle = '#ab8';
 
             let x = 0;
-            for (let i = 0 ; i < 15 ; i++) {
+            for (let i = 0 ; i < 5 ; i++) {
                 ctx.wrap(() => {
                     ctx.translate(x, 0);
                     ctx.rotate(sin((this.age + this.rng.next(0, 5)) * TWO_PI / this.rng.next(4, 8)) * this.rng.next(PI / 16, PI / 4));

@@ -40,22 +40,38 @@ class Scene {
         }
     }
 
+    pathCurve(x) {
+        const main = sin(x * TWO_PI / 2000) * 200;
+        const wiggle = sin(x * TWO_PI / 1000) * 100;
+        return main + wiggle;
+    }
+
     render() {
         const camera = firstItem(this.category('camera'));
         ctx.fillStyle = '#996';
         ctx.fillRect(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-        
         ctx.strokeStyle = '#dc9';
+        ctx.lineWidth = 70;
 
-        ctx.lineWidth = 100;
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.lineTo(100, 100);
-        ctx.lineTo(300, 400);
-        ctx.lineTo(800, 300);
-        ctx.lineTo(1200, 600);
+
+        for (let x = 0 ; x < 10000 ; x += 300) {
+            const y = this.pathCurve(x);
+            ctx.lineTo(x, y);
+        }
+
         ctx.stroke();
+
+        // ctx.lineWidth = 100;
+        // ctx.beginPath();
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(100, 100);
+        // ctx.lineTo(300, 400);
+        // ctx.lineTo(800, 300);
+        // ctx.lineTo(1200, 600);
+        // ctx.stroke();
 
         ctx.strokeStyle = '#08a';
 

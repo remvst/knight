@@ -14,17 +14,17 @@ let lastFrame = performance.now();
 const scene = new Scene();
 scene.add(new Player());
 
-for (let i = 0 ; i < 20 ; i++) {
+for (let x = 0 ; x < 10000 ; x += 25) {
     const grass = new Grass();
-    grass.x = rnd(-400, 400);
-    grass.y = rnd(-400, 400);
+    grass.x = x;
+    grass.y = scene.pathCurve(grass.x) + rnd(50, 500) * pick([-1, 1]);
     scene.add(grass);
 }
 
-for (let i = 0 ; i < 20 ; i++) {
+for (let x = 0 ; x < 10000 ; x += 150) {
     const tree = new Tree();
-    tree.x = rnd(-800, 800);
-    tree.y = rnd(-800, 800);
+    tree.x = x;
+    tree.y = scene.pathCurve(tree.x) + rnd(50, 500) * pick([-1, 1]);
     scene.add(tree);
 }
 
