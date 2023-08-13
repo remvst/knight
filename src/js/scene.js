@@ -66,7 +66,7 @@ class Scene {
 
         const ordered = Array.from(this.entities).sort((a, b) => a.z - b.z);
         for (const entity of ordered) {
-            entity.render();
+            ctx.wrap(() => entity.render());
         }
     }
 }

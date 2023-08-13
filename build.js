@@ -21,6 +21,7 @@ compiler.run((tasks) => {
             tasks.loadFiles([
                 "src/js/graphics/create-canvas.js",
                 "src/js/graphics/wrap.js",
+                "src/js/graphics/with-shadow.js",
 
                 "src/js/input/keyboard.js",
 

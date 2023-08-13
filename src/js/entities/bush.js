@@ -7,9 +7,10 @@ class Bush extends Entity {
 
     render() {
         super.render();
+
+        ctx.translate(this.x, this.y);
         
-        ctx.wrap(() => {
-            ctx.translate(this.x, this.y);
+        ctx.withShadow((color) => {
 
             this.rng.reset();
 
@@ -25,7 +26,7 @@ class Bush extends Entity {
 
                     ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(2, 8)) * PI / 64);
 
-                    ctx.fillStyle = 'green';
+                    ctx.fillStyle = color('green');
                     ctx.beginPath();
                     ctx.moveTo(0, -radius)
                     ctx.lineTo(radius, 0);

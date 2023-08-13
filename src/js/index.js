@@ -35,7 +35,7 @@ for (let x = 0 ; x < 10000 ; x += 150) {
     scene.add(bush);
 }
 
-for (let x = 0 ; x < 10000 ; x += 150) {
+for (let x = 0 ; x < 10000 ; x += 300) {
     const water = new Water();
     water.width = rnd(100, 200);
     water.height = rnd(200, 400);

@@ -10,10 +10,9 @@ class Player extends Character {
         const { inWater } = this;
         const renderAge = this.age * (inWater ? 0.5 : 1);
 
-        ctx.wrap(() => {
-            ctx.translate(this.x, this.y);
-            ctx.scale(this.facing, 1);
+        ctx.translate(this.x, this.y);
 
+        ctx.withShadow((color) => {
             if (inWater) {
                 ctx.beginPath();
                 ctx.rect(-100, -100, 200, 100);
@@ -22,13 +21,13 @@ class Player extends Character {
                 ctx.translate(0, 10);
             }
 
-            ctx.translate(0, -30);
-
             ctx.fillStyle = '#fff';
 
             // Left leg
             ctx.wrap(() => {
-                ctx.fillStyle = '#666';
+                ctx.translate(0, -30);
+
+                ctx.fillStyle = color('#666');
                 ctx.translate(-6, 15);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
@@ -36,7 +35,9 @@ class Player extends Character {
 
             // Right leg
             ctx.wrap(() => {
-                ctx.fillStyle = '#666';
+                ctx.translate(0, -30);
+
+                ctx.fillStyle = color('#666');
                 ctx.translate(6, 15);
                 if (this.controls.force) ctx.rotate(sin(renderAge * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
@@ -44,14 +45,20 @@ class Player extends Character {
             
             // Chest
             ctx.wrap(() => {
-                ctx.fillStyle = '#ccc';
+                ctx.scale(this.facing, 1);
+                ctx.translate(0, -30);
+
+                ctx.fillStyle = color('#ccc');
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
                 ctx.fillRect(-12, -15, 25, 30);
             });
 
             // Sword arm
             ctx.wrap(() => {
-                ctx.fillStyle = '#666';
+                ctx.scale(this.facing, 1);
+                ctx.translate(0, -30);
+                
+                ctx.fillStyle = color('#666');
                 ctx.translate(12, -10);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 if (this.controls.shield) ctx.rotate(-PI / 2);
@@ -72,11 +79,11 @@ class Player extends Character {
                 ctx.wrap(() => {
                     ctx.translate(18, -6);
 
-                    ctx.fillStyle = '#444';
+                    ctx.fillStyle = color('#444');
                     ctx.fillRect(-10, -2, 20, 4);
                     ctx.fillRect(-3, 0, 6, 12);
 
-                    ctx.fillStyle = '#fff';
+                    ctx.fillStyle = color('#fff');
                     ctx.beginPath();
                     ctx.moveTo(-3, 0);
                     ctx.lineTo(-5, -35);
@@ -89,7 +96,10 @@ class Player extends Character {
 
             // Head
             ctx.wrap(() => {
-                ctx.fillStyle = '#fec';
+                ctx.scale(this.facing, 1);
+                ctx.translate(0, -30);
+
+                ctx.fillStyle = color('#fec');
                 ctx.translate(0, -22);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 ctx.fillRect(-6, -7, 12, 15);
@@ -97,7 +107,10 @@ class Player extends Character {
 
             // Shield arm
             ctx.wrap(() => {
-                ctx.fillStyle = '#666';
+                ctx.scale(this.facing, 1);
+                ctx.translate(0, -30);
+
+                ctx.fillStyle = color('#666');
                 ctx.translate(-10, -8);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 if (!this.controls.shield) ctx.rotate(Math.PI / 3);
@@ -111,10 +124,10 @@ class Player extends Character {
 
                     if (!this.controls.shield) ctx.rotate(-Math.PI / 4);
 
-                    ctx.fillStyle = '#fff';
+                    ctx.fillStyle = color('#fff');
 
-                    for (const [scale, color] of [[0.8, '#fff'], [0.6, '#888']]) {
-                        ctx.fillStyle = color;
+                    for (const [scale, col] of [[0.8, color('#fff')], [0.6, color('#888')]]) {
+                        ctx.fillStyle = col;
                         ctx.scale(scale, scale);
                         ctx.beginPath();
                         ctx.moveTo(0, -15);
