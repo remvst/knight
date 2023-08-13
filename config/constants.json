@@ -1,0 +1,9 @@
+{
+    "true": 1,
+    "false": 0,
+    "const": "let",
+    "null": 0,
+
+    "CANVAS_WIDTH": 1280,
+    "CANVAS_HEIGHT": 720
+}
