@@ -8,14 +8,14 @@ class Player extends Character {
         super.render();
 
         ctx.wrap(() => {
-            ctx.translate(this.x, this.y);
+            ctx.translate(this.x, this.y - 30);
             ctx.scale(this.facing, 1);
 
             ctx.fillStyle = '#fff';
 
             // Left leg
             ctx.wrap(() => {
-                ctx.fillStyle = '#888';
+                ctx.fillStyle = '#666';
                 ctx.translate(-6, 15);
                 if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
@@ -23,7 +23,7 @@ class Player extends Character {
 
             // Right leg
             ctx.wrap(() => {
-                ctx.fillStyle = '#888';
+                ctx.fillStyle = '#666';
                 ctx.translate(6, 15);
                 if (this.controls.force) ctx.rotate(sin(this.age * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
@@ -38,7 +38,7 @@ class Player extends Character {
 
             // Sword arm
             ctx.wrap(() => {
-                ctx.fillStyle = '#888';
+                ctx.fillStyle = '#666';
                 ctx.translate(12, -10);
                 if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
                 if (this.controls.shield) ctx.rotate(-PI / 2);
@@ -84,7 +84,7 @@ class Player extends Character {
 
             // Shield arm
             ctx.wrap(() => {
-                ctx.fillStyle = '#888';
+                ctx.fillStyle = '#666';
                 ctx.translate(-10, -8);
                 if (this.controls.force) ctx.rotate(-sin(this.age * TWO_PI * 4) * PI / 32);
                 if (!this.controls.shield) ctx.rotate(Math.PI / 3);

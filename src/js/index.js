@@ -14,6 +14,20 @@ let lastFrame = performance.now();
 const scene = new Scene();
 scene.add(new Player());
 
+for (let i = 0 ; i < 20 ; i++) {
+    const grass = new Grass();
+    grass.x = rnd(-400, 400);
+    grass.y = rnd(-400, 400);
+    scene.add(grass);
+}
+
+for (let i = 0 ; i < 20 ; i++) {
+    const tree = new Tree();
+    tree.x = rnd(-800, 800);
+    tree.y = rnd(-800, 800);
+    scene.add(tree);
+}
+
 frame = () => {
     const now = performance.now();
     const elapsed = (now - lastFrame) / 1000;

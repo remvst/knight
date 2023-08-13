@@ -41,7 +41,12 @@ class Scene {
     }
 
     render() {
-        for (const entity of this.entities) {
+        const camera = firstItem(this.category('camera'));
+        ctx.fillStyle = '#996';
+        ctx.fillRect(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        const ordered = Array.from(this.entities).sort((a, b) => a.y - b.y);
+        for (const entity of ordered) {
             entity.render();
         }
     }

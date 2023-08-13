@@ -28,6 +28,8 @@ compiler.run((tasks) => {
                 "src/js/entities/camera.js",
                 "src/js/entities/character.js",
                 "src/js/entities/player.js",
+                "src/js/entities/grass.js",
+                "src/js/entities/tree.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",
