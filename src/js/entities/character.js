@@ -1,0 +1,3 @@
+class Character extends Entity {
+    
+}

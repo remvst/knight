@@ -1,6 +1,5 @@
 const compiler = require('./js13k-compiler/src/compiler');
 
-const JS_FILES = require('./config/js');
 const CONSTANTS = require('./config/constants');
 const MANGLE_SETTINGS = require('./config/mangle');
 
@@ -19,7 +18,21 @@ compiler.run((tasks) => {
 
         const sequence = [
             tasks.label('Building JS'),
-            tasks.loadFiles(JS_FILES),
+            tasks.loadFiles([
+                "src/js/graphics/create-canvas.js",
+                "src/js/graphics/wrap.js",
+
+                "src/js/entities/entity.js",
+                "src/js/entities/camera.js",
+                "src/js/entities/character.js",
+                
+                "src/js/util/resizer.js",
+            
+                "src/js/globals.js",
+                "src/js/math.js",
+                "src/js/scene.js",
+                "src/js/index.js",
+            ]),
             tasks.concat(),
             tasks.constants(constants),
             tasks.macro('evaluate'),
