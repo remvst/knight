@@ -34,10 +34,10 @@ frame = () => {
         ctx.translate(CANVAS_WIDTH / 2 / camera.zoom, CANVAS_HEIGHT / 2 / camera.zoom);
 
         if (DEBUG) {
-            const CELL_SIZE = 10;
+            const CELL_SIZE = 50;
             ctx.wrap(() => {
                 ctx.fillStyle = '#f00';
-                ctx.globalAlpha = 0.25;
+                ctx.globalAlpha = 0.5;
                 for (let x = roundToNearest(camera.x - CANVAS_WIDTH / 2, CELL_SIZE) ; x < roundToNearest(camera.x + CANVAS_WIDTH / 2, CELL_SIZE) ; x += CELL_SIZE) {
                     ctx.fillRect(x - 0.5, camera.y - CANVAS_HEIGHT / 2, 1, CANVAS_HEIGHT);
                 }

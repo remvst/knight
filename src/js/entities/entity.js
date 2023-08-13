@@ -1,11 +1,11 @@
 class Entity {
     constructor() {
-        this.x = this.y = this.rotation = 0;   
+        this.x = this.y = this.rotation = this.age = 0;   
         this.categories = [];
     }
 
     cycle(elapsed) {
-
+        this.age += elapsed;
     }
 
     render() {
