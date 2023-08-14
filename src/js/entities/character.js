@@ -34,7 +34,9 @@ class Character extends Entity {
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
 
-        if (this.controls.force) this.facing = sign(cos(this.controls.angle)) || 1;
+        if (this.controls.force && abs(cos(this.controls.angle)) > 0.1) {
+            this.facing = sign(cos(this.controls.angle)) || 1;
+        }
 
         if (this.controls.attack) {
             this.attack();
