@@ -1,7 +1,11 @@
-class Player extends Character {
+class MediumEnemy extends Character {
     constructor() {
         super();
-        this.categories.push('player');
+        this.categories.push('enemy');
+
+        this.controller = new EnemyAI(this);
+        this.controller.setEntity(this);
+        this.controller.start();
     }
 
     render() {
@@ -27,7 +31,7 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.translate(0, -32);
 
-                ctx.fillStyle = color('#666');
+                ctx.fillStyle = color(this.getColor('#666'));
                 ctx.translate(-6, 15);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
@@ -37,7 +41,7 @@ class Player extends Character {
             ctx.wrap(() => {
                 ctx.translate(0, -32);
 
-                ctx.fillStyle = color('#666');
+                ctx.fillStyle = color(this.getColor('#666'));
                 ctx.translate(6, 15);
                 if (this.controls.force) ctx.rotate(sin(renderAge * TWO_PI * 4) * PI / 16);
                 ctx.fillRect(-4, 0, 8, 20);
@@ -48,7 +52,7 @@ class Player extends Character {
                 ctx.scale(this.facing, 1);
                 ctx.translate(0, -32);
 
-                ctx.fillStyle = color('#ccc');
+                ctx.fillStyle = color(this.getColor('#ccc'));
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
                 ctx.fillRect(-12, -15, 25, 30);
             });
@@ -58,7 +62,7 @@ class Player extends Character {
                 ctx.scale(this.facing, 1);
                 ctx.translate(0, -32);
                 
-                ctx.fillStyle = color('#666');
+                ctx.fillStyle = color(this.getColor('#666'));
                 ctx.translate(12, -10);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 if (this.shielding) ctx.rotate(-PI / 2);
@@ -82,11 +86,11 @@ class Player extends Character {
                 ctx.wrap(() => {
                     ctx.translate(18, -6);
 
-                    ctx.fillStyle = color('#444');
+                    ctx.fillStyle = color(this.getColor('#444'));
                     ctx.fillRect(-10, -2, 20, 4);
                     ctx.fillRect(-3, 0, 6, 12);
 
-                    ctx.fillStyle = color('#fff');
+                    ctx.fillStyle = color(this.getColor('#fff'));
                     ctx.beginPath();
                     ctx.moveTo(-3, 0);
                     ctx.lineTo(-5, -35);
@@ -102,7 +106,7 @@ class Player extends Character {
                 ctx.scale(this.facing, 1);
                 ctx.translate(0, -32);
 
-                ctx.fillStyle = color('#fec');
+                ctx.fillStyle = color(this.getColor('#fec'));
                 ctx.translate(0, -22);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 ctx.fillRect(-6, -7, 12, 15);
@@ -113,7 +117,7 @@ class Player extends Character {
                 ctx.scale(this.facing, 1);
                 ctx.translate(0, -32);
 
-                ctx.fillStyle = color('#666');
+                ctx.fillStyle = color(this.getColor('#666'));
                 ctx.translate(-10, -8);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
                 if (!this.shielding) ctx.rotate(Math.PI / 3);
@@ -127,9 +131,9 @@ class Player extends Character {
 
                     if (!this.shielding) ctx.rotate(-Math.PI / 4);
 
-                    ctx.fillStyle = color('#fff');
+                    ctx.fillStyle = color(this.getColor('#fff'));
 
-                    for (const [scale, col] of [[0.8, color('#fff')], [0.6, color('#888')]]) {
+                    for (const [scale, col] of [[0.8, color(this.getColor('#fff'))], [0.6, color(this.getColor('#888'))]]) {
                         ctx.fillStyle = col;
                         ctx.scale(scale, scale);
                         ctx.beginPath();
@@ -144,20 +148,5 @@ class Player extends Character {
                 });
             });
         });
-    }
-
-    cycle(elapsed) {
-        let x = 0, y = 0;
-        if (DOWN[37]) x = -1;
-        if (DOWN[38]) y = -1;
-        if (DOWN[39]) x = 1;
-        if (DOWN[40]) y = 1;
-
-        this.controls.angle = atan2(y, x);
-        this.controls.force = x || y ? 1 : 0;
-        this.controls.shield = DOWN[16];
-        this.controls.attack = DOWN[32];
-
-        super.cycle(elapsed);
     }
 }

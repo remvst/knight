@@ -31,7 +31,7 @@ class Tree extends Obstacle {
                 for (const player of this.scene.category('player')) {
                     if (
                         isBetween(this.x - 50, player.x, this.x + 50) &&
-                        isBetween(this.y - trunkHeight, player.y, this.y)
+                        isBetween(this.y - trunkHeight - 50, player.y, this.y)
                     ) {
                         ctx.globalAlpha = 0.5;
                     }

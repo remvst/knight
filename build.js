@@ -27,13 +27,17 @@ compiler.run((tasks) => {
 
                 "src/js/entities/entity.js",
                 "src/js/entities/camera.js",
-                "src/js/entities/character.js",
-                "src/js/entities/player.js",
                 "src/js/entities/grass.js",
                 "src/js/entities/obstacle.js",
                 "src/js/entities/tree.js",
                 "src/js/entities/bush.js",
                 "src/js/entities/water.js",
+
+                "src/js/entities/characters/character.js",
+                "src/js/entities/characters/player.js",
+                "src/js/entities/characters/medium-enemy.js",
+
+                "src/js/ai/character-controller.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

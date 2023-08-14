@@ -14,6 +14,13 @@ let lastFrame = performance.now();
 const scene = new Scene();
 scene.add(new Player());
 
+for (let i = 0 ; i < 1 ; i++) {
+    const enemy = new MediumEnemy();
+    enemy.x = rnd(-300, 300);
+    enemy.y = rnd(-300, 300);
+    scene.add(enemy);
+}
+
 for (let i = 0 ; i < 400 ; i++) {
     const grass = new Grass();
     grass.x = random() * 10000;
