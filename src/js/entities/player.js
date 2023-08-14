@@ -61,7 +61,7 @@ class Player extends Character {
                 ctx.fillStyle = color('#666');
                 ctx.translate(12, -10);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-                if (this.controls.shield) ctx.rotate(-PI / 2);
+                if (this.shielding) ctx.rotate(-PI / 2);
 
                 if (this.age < this.attackEnd) {
                     if (this.age < this.attackStrike) {
@@ -71,6 +71,9 @@ class Player extends Character {
                         const progress = (this.age - this.attackStrike) / (this.attackEnd - this.attackStrike);
                         ctx.rotate((1 - progress) * PI / 2);
                     }
+                } else if (this.attackPrepareEnd) {
+                    const progress = min(1, (this.age - this.attackPrepareStart) / (this.attackPrepareEnd - this.attackPrepareStart));
+                    ctx.rotate(progress * -PI / 2);
                 }
 
                 ctx.fillRect(0, -3, 20, 6);
@@ -113,16 +116,16 @@ class Player extends Character {
                 ctx.fillStyle = color('#666');
                 ctx.translate(-10, -8);
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-                if (!this.controls.shield) ctx.rotate(Math.PI / 3);
+                if (!this.shielding) ctx.rotate(Math.PI / 3);
 
-                const armLength = this.controls.shield ? 25 : 10;
+                const armLength = this.shielding ? 25 : 10;
                 ctx.fillRect(0, -3, armLength, 6);
 
                 // Shield
                 ctx.wrap(() => {
                     ctx.translate(armLength, 0);
 
-                    if (!this.controls.shield) ctx.rotate(-Math.PI / 4);
+                    if (!this.shielding) ctx.rotate(-Math.PI / 4);
 
                     ctx.fillStyle = color('#fff');
 
