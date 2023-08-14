@@ -16,6 +16,8 @@ class PlayerController extends CharacterController {
         this.entity.controls.force = x || y ? 1 : 0;
         this.entity.controls.shield = DOWN[16];
         this.entity.controls.attack = DOWN[32];
+
+        if (x) this.entity.facing = x;
     }
 }
 
@@ -29,38 +31,32 @@ class AI extends CharacterController {
     }
 
     cycle() {
-        if (this.resolve) {
-            const player = firstItem(this.entity.scene.category('player'));
-            if (player) {
-                this.update(player);
-            }
+        const player = firstItem(this.entity.scene.category('player'));
+        if (player) {
+            this.update(player);
         }
     }
 }
 
 class EnemyAI extends AI {
-    constructor() {
-        super();
-        this.facePlayer = new FacePlayerAI();
-    }
-
-    setEntity(entity) {
-        super.setEntity(entity);
-        this.facePlayer.setEntity(entity);
-    }
-
     async start() {
         while (true) {
-            await this.startAI(new LightAttackAI());
-            await this.startAI(new WaitAI(1));
+            for (let i = rnd(1, 3) ; i > 0 ; i--) {
+                await this.startAI(new LightAttackAI());
+                await this.startAI(new WaitAI(1));
+            }
             await this.startAI(new RetreatAI());
-            await this.startAI(new WaitAI(1));
+            await this.startAI(new WaitAI(2));
         }
     }
 
     cycle(elapsed) {
-        this.facePlayer.cycle(elapsed);
+        super.cycle(elapsed);
         this.currentAI.cycle(elapsed);
+    }
+
+    update(player) {
+        this.entity.facing = sign(player.x - this.entity.x);
     }
 
     startAI(ai) {
@@ -86,12 +82,6 @@ class WaitAI extends AI {
         if (this.entity.age > this.endTime) {
             this.resolve();
         }
-    }
-}
-
-class FacePlayerAI extends AI {
-    update(player) {
-        this.entity.facing = sign(player.x - this.entity.x);
     }
 }
 

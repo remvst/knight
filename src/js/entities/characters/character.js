@@ -57,10 +57,6 @@ class Character extends Entity {
             this.y = character.y - sin(angle) * this.collisionRadius;
         }
 
-        if (this.controls.force && abs(cos(this.controls.angle)) > 0.1) {
-            this.facing = sign(cos(this.controls.angle)) || 1;
-        }
-
         if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding) {
             this.attackPrepareStart = this.age;
             this.attackPrepareEnd = this.age + 1;
@@ -129,11 +125,7 @@ class Character extends Entity {
             ctx.strokeStyle = '#f00';
             ctx.beginPath();
             ctx.ellipse(this.x, this.y, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.ellipse(this.x, this.y, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-            ctx.stroke();
+            // ctx.stroke();
         }
     }
 }
