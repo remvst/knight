@@ -25,7 +25,7 @@ class Player extends Character {
 
             // Left leg
             ctx.wrap(() => {
-                ctx.translate(0, -30);
+                ctx.translate(0, -32);
 
                 ctx.fillStyle = color('#666');
                 ctx.translate(-6, 15);
@@ -35,7 +35,7 @@ class Player extends Character {
 
             // Right leg
             ctx.wrap(() => {
-                ctx.translate(0, -30);
+                ctx.translate(0, -32);
 
                 ctx.fillStyle = color('#666');
                 ctx.translate(6, 15);
@@ -46,7 +46,7 @@ class Player extends Character {
             // Chest
             ctx.wrap(() => {
                 ctx.scale(this.facing, 1);
-                ctx.translate(0, -30);
+                ctx.translate(0, -32);
 
                 ctx.fillStyle = color('#ccc');
                 if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
@@ -56,7 +56,7 @@ class Player extends Character {
             // Sword arm
             ctx.wrap(() => {
                 ctx.scale(this.facing, 1);
-                ctx.translate(0, -30);
+                ctx.translate(0, -32);
                 
                 ctx.fillStyle = color('#666');
                 ctx.translate(12, -10);
@@ -97,7 +97,7 @@ class Player extends Character {
             // Head
             ctx.wrap(() => {
                 ctx.scale(this.facing, 1);
-                ctx.translate(0, -30);
+                ctx.translate(0, -32);
 
                 ctx.fillStyle = color('#fec');
                 ctx.translate(0, -22);
@@ -108,7 +108,7 @@ class Player extends Character {
             // Shield arm
             ctx.wrap(() => {
                 ctx.scale(this.facing, 1);
-                ctx.translate(0, -30);
+                ctx.translate(0, -32);
 
                 ctx.fillStyle = color('#666');
                 ctx.translate(-10, -8);

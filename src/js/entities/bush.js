@@ -5,34 +5,29 @@ class Bush extends Entity {
         this.rng = new RNG();
     }
 
+    cycle(elapsed) {
+        super.cycle(elapsed);
+        regenEntity(this, CANVAS_WIDTH / 2 + 50);
+    }
+
     render() {
         super.render();
 
         ctx.translate(this.x, this.y);
         
+        this.rng.reset();
+        
         ctx.withShadow((color) => {
-
-            this.rng.reset();
-
-            for (let i = 0 ; i < 3 ; i++) {
-                const angle = i / 3 * TWO_PI;
-                const dist = this.rng.next(10, 20);
-                const x =  cos(angle) * dist;
-                const y = sin(angle) * dist * 0.5;
-                const radius = this.rng.next(30, 60);
-
+            let x = 0;
+            for (let i = 0 ; i < 5 ; i++) {
                 ctx.wrap(() => {
-                    ctx.translate(x, y);
-
-                    ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(2, 8)) * PI / 64);
-
                     ctx.fillStyle = color('green');
-                    ctx.beginPath();
-                    ctx.moveTo(0, -radius)
-                    ctx.lineTo(radius, 0);
-                    ctx.lineTo(-radius, 0);
-                    ctx.fill();
+                    ctx.translate(x, 0);
+                    ctx.rotate(sin((this.age + this.rng.next(0, 5)) * TWO_PI / this.rng.next(4, 8)) * this.rng.next(PI / 32, PI / 16));
+                    ctx.fillRect(-10, 0, 20, -this.rng.next(20, 60));
                 });
+
+                x += this.rng.next(5, 15);
             }
         });
     }

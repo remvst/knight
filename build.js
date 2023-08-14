@@ -30,6 +30,7 @@ compiler.run((tasks) => {
                 "src/js/entities/character.js",
                 "src/js/entities/player.js",
                 "src/js/entities/grass.js",
+                "src/js/entities/obstacle.js",
                 "src/js/entities/tree.js",
                 "src/js/entities/bush.js",
                 "src/js/entities/water.js",
@@ -37,6 +38,7 @@ compiler.run((tasks) => {
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",
                 "src/js/util/rng.js",
+                "src/js/util/regen-entity.js",
             
                 "src/js/globals.js",
                 "src/js/math.js",

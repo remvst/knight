@@ -1,7 +1,7 @@
 limit = (a, b, c) => b < a ? a : (b > c ? c : b);
 isBetween = (a, b, c) => a <= b && b <= c || a >= b && b >= c;
 rnd = (min, max) => random() * (max - min) + min;
-distP = (x1, y1, x2, y2) => sqrt((x1 - x2)**2 + (y1 - y2)**2);
+distP = (x1, y1, x2, y2) => hypot(x1 - x2, y1 - y2);
 dist = (a, b) => distP(a.x, a.y, b.x, b.y);
 normalize = x => moduloWithNegative(x, PI);
 angleBetween = (a, b) => atan2(b.y - a.y, b.x - a.x);

@@ -1,8 +1,15 @@
-class Tree extends Entity {
+class Tree extends Obstacle {
 
     constructor() {
         super();
         this.rng = new RNG();
+
+        this.radius = 20;
+    }
+
+    cycle(elapsed) {
+        super.cycle(elapsed);
+        regenEntity(this, CANVAS_WIDTH / 2 + 200);
     }
 
     render() {
@@ -11,6 +18,7 @@ class Tree extends Entity {
         ctx.translate(this.x, this.y);
         
         ctx.withShadow((color) => {
+            ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(4, 16)) * this.rng.next(PI / 32, PI / 64));
 
             ctx.fillStyle = color('#a65');
 
@@ -36,25 +44,10 @@ class Tree extends Entity {
 
                     ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(2, 8)) * PI / 32);
 
-                    ctx.fillStyle = color('green');
+                    ctx.fillStyle = color('#060');
                     ctx.fillRect(-radius, -radius, radius * 2, radius * 2);
                 });
             }
         });
-        
-        // ctx.wrap(() => {
-        //     ctx.translate(this.x, this.y);
-        //     ctx.scale(1, 0.5);
-        //     ctx.transform(1, 0, 0.15, 1, 0, 0); // shear the context
-
-        //     ctx.fillStyle = '#000';
-
-        //     this.rng.reset();
-
-        //     const trunkWidth = this.rng.next(10, 20);
-        //     const trunkHeight = this.rng.next(100, 250);
-
-        //     ctx.fillRect(-trunkWidth / 2, 0, trunkWidth, -trunkHeight);
-        // });
     }
 }

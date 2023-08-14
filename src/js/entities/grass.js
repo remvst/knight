@@ -5,6 +5,11 @@ class Grass extends Entity {
         this.rng = new RNG();
     }
 
+    cycle(elapsed) {
+        super.cycle(elapsed);
+        regenEntity(this, CANVAS_WIDTH / 2 + 50);
+    }
+
     render() {
         super.render();
 
@@ -12,11 +17,10 @@ class Grass extends Entity {
 
         this.rng.reset();
         
-        ctx.wrap(() => {
-
+        ctx.withShadow((color) => {
             let x = 0;
             for (let i = 0 ; i < 5 ; i++) {
-                ctx.withShadow((color) => {
+                ctx.wrap(() => {
                     ctx.fillStyle = color('#ab8');
                     ctx.translate(x, 0);
                     ctx.rotate(sin((this.age + this.rng.next(0, 5)) * TWO_PI / this.rng.next(4, 8)) * this.rng.next(PI / 16, PI / 4));

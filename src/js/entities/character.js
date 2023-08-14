@@ -17,13 +17,6 @@ class Character extends Entity {
         };
     }
 
-    get inWater() {
-        for (const water of this.scene.category('water')) {
-            if (water.contains(this)) return true;
-        }
-        return false;
-    }
-
     cycle(elapsed) {
         const ageBefore = this.age;
 
