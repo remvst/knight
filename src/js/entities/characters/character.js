@@ -38,6 +38,9 @@ class Character extends Entity {
 
         this.lastDamage = 0;
 
+        this.dashStart = 0;
+        this.dashEnd = 0;
+
         this.controller = null; // TODO remove
 
         this.controls = {
