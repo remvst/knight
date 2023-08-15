@@ -12,7 +12,7 @@ class PlayerController extends CharacterController {
         if (DOWN[39]) x = 1;
         if (DOWN[40]) y = 1;
 
-        this.entity.controls.angle = atan2(y, x);
+        if (x || y) this.entity.controls.angle = atan2(y, x);
         this.entity.controls.force = x || y ? 1 : 0;
         this.entity.controls.shield = DOWN[16];
         this.entity.controls.attack = DOWN[32];

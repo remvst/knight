@@ -118,6 +118,7 @@ class Character extends Entity {
     }
 
     isWithinStrikeRadius(character) {
+        if (character === this) return false;
         return abs(character.x - this.x) < this.strikeRadiusX && 
             abs(character.y - this.y) < this.strikeRadiusY;
     }
@@ -134,18 +135,20 @@ class Character extends Entity {
 
             this.attackPrepareEnd = 0;
 
-            this.loseStamina(power * 0.1);
+            // this.loseStamina(power * 0.05);
         }
     }
 
     strike() {
         const victim = Array
             .from(this.scene.category(this.targetTeam))
-            .filter(character => character !== this && this.isWithinStrikeRadius(character))[0]
+            .filter(character => character !== this && this.isWithinStrikeRadius(character))[0];
 
         const damage = 0.15 * this.strikePowerRatio;
 
         if (victim) {
+            this.facing = sign(victim.x - this.x) || 1;
+
             const angle = atan2(victim.y - this.y, victim.x - this.x);
             if (victim.shielding) {
                 victim.facing = sign(this.x - victim.x) || 1;
@@ -222,12 +225,13 @@ class Character extends Entity {
             }
         });
 
-        if (DEBUG) {
-            // ctx.lineWidth = 1;
-            // ctx.strokeStyle = '#f00';
-            // ctx.beginPath();
-            // ctx.ellipse(this.x, this.y, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-            // ctx.stroke();
-        }
+        // if (DEBUG) {
+        //     ctx.lineWidth = 1;
+        //     ctx.strokeStyle = '#f00';
+        //     ctx.beginPath();
+        //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+        //     ctx.ellipse(0, 0, this.attackMagnetRadiusX, this.attackMagnetRadiusY, 0, 0, TWO_PI);
+        //     ctx.stroke();
+        // }
     }
 }
