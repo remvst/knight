@@ -46,6 +46,7 @@ class Character extends Entity {
             'shield': false,
             'attack': false,
             'aim': {'x': 0, 'y': 0},
+            'dash': false,
         };
     }
 
@@ -132,7 +133,8 @@ class Character extends Entity {
         if (character === this) return false;
 
         const angle = angleBetween(this, character);
-        if (abs(normalize(this.controls.angle - angle)) > PI / 4) {
+        const aimAngle = angleBetween(this, this.controls.aim);
+        if (abs(normalize(aimAngle - angle)) > PI / 4) {
             return false;
         }
 

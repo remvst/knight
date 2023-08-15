@@ -114,6 +114,29 @@ class Player extends Character {
         // anim.y = this.y;
         // this.scene.add(anim);
     }
+
+    cycle(elapsed) {
+        super.cycle(elapsed);
+
+        if (this.controls.dash) {
+            if (!this.waitingForDashRelease) {
+                this.dash();
+            }
+        } else {
+            this.waitingForDashRelease = false;
+        }
+    }
+
+    dash() {
+        // const angle = angleBetween(this, this.controls.aim);
+        const { angle } = this.controls;
+        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 200, 0.3));
+        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 200, 0.3));
+
+        this.waitingForDashRelease = true;
+
+        this.loseStamina(0.2);
+    }
 }
 
 class PlayerController extends CharacterController {
@@ -128,10 +151,11 @@ class PlayerController extends CharacterController {
 
         if (x || y) this.entity.controls.angle = atan2(y, x);
         this.entity.controls.force = x || y ? 1 : 0;
-        this.entity.controls.shield = DOWN[32];
+        this.entity.controls.shield = DOWN[16];
         this.entity.controls.attack = MOUSE_DOWN;
         this.entity.controls.aim.x = MOUSE_POSITION.x + camera.x - CANVAS_WIDTH / 2;
         this.entity.controls.aim.y = MOUSE_POSITION.y + camera.y - CANVAS_HEIGHT / 2;
+        this.entity.controls.dash = DOWN[32];
 
         if (x) this.entity.facing = x;
     }
