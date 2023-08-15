@@ -122,11 +122,26 @@ class Character extends Entity {
 
         // Dash
         if (this.controls.dash) {
-            if (!this.waitingForDashRelease) {
+            if (!this.waitingForDashRelease && !dashing) {
                 this.dash();
             }
         } else {
             this.waitingForDashRelease = false;
+        }
+
+        if (dashing) {
+            for (let i = 0 ; i < 3 ; i++) {
+                const x = this.x + rnd(-5, 5);
+                const y = this.y + rnd(-5, 5);
+    
+                this.scene.add(new Particle(
+                    '#eee',
+                    [5, 10],
+                    [x, x + rnd(-20, 20)],
+                    [y, y + rnd(-20, 20)],
+                    rnd(0.5, 1),
+                ));
+            }
         }
     }
 
@@ -272,7 +287,7 @@ class Character extends Entity {
     }
 
     dash() {
-        const duration = 0.3;
+        const duration = 0.2;
         const { angle } = this.controls;
         this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 200, duration));
         this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 200, duration));

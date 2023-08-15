@@ -45,6 +45,7 @@ compiler.run((tasks) => {
                 "src/js/entities/interpolator.js",
                 "src/js/entities/perfect-parry.js",
                 "src/js/entities/cursor.js",
+                "src/js/entities/particle.js",
 
                 "src/js/entities/characters/character-hud.js",
                 "src/js/entities/characters/player-hud.js",
