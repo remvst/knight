@@ -15,6 +15,10 @@ class Player extends Character {
         this.attackMagnetRadiusX = this.strikeRadiusX * 3;
         this.attackMagnetRadiusY = this.strikeRadiusY * 3;
 
+
+        this.strikeRadiusX = 120;
+        this.strikeRadiusY = 60;
+
         this.renderSteps = [
             (color) => renderLegs(this, color),
             (color) => renderSword(this, color),

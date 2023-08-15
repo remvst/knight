@@ -160,8 +160,12 @@ class Character extends Entity {
             return false;
         }
 
-        return abs(character.x - this.x) < this.strikeRadiusX && 
-            abs(character.y - this.y) < this.strikeRadiusY;
+        return this.isWithinRadii(character, this.strikeRadiusX, this.strikeRadiusY);
+    }
+
+    isWithinRadii(character, radiusX, radiusY) {
+        return abs(character.x - this.x) < radiusX && 
+            abs(character.y - this.y) < radiusY;
     }
 
     attack() {
@@ -195,9 +199,6 @@ class Character extends Entity {
                 this.x -= cos(angle) * damage * 10;
                 this.y -= sin(angle) * damage * 10;
 
-                let animation;
-                let pushBack;
-
                 const shieldingTime = victim.age - victim.shieldingStart;
                 if (shieldingTime < 0.1) {
                     // Perfect parry, victim gets stamina back, we lose ours
@@ -205,26 +206,32 @@ class Character extends Entity {
                     victim.updateCombo(1, nomangle('Perfect Parry!'));
                     this.loseStamina(1);
 
-                    animation = new PerfectParry();
-                    pushBack = 100;
+                    const animation = new PerfectParry();
+                    animation.x = victim.x;
+                    animation.y = victim.y - 30;
+                    this.scene.add(animation);
+
+                    for (const parryVictim of this.scene.category(victim.targetTeam)) {
+                        if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX, victim.strikeRadiusY)) {
+                            const angle = atan2(parryVictim.y - victim.y, parryVictim.x - victim.x);
+
+                            this.scene.add(new Interpolator(parryVictim, 'x', parryVictim.x, parryVictim.x + cos(angle) * 100, 0.2));
+                            this.scene.add(new Interpolator(parryVictim, 'y', parryVictim.y, parryVictim.y + sin(angle) * 100, 0.2));
+
+                            parryVictim.loseStamina(1);
+                        }
+                    }
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(0.3);
 
                     victim.updateCombo(1, nomangle('Parry'));
                 
-                    animation = new ShieldBlock();
-                    pushBack = 0;
+                    const animation = new ShieldBlock();
+                    animation.x = victim.x;
+                    animation.y = victim.y - 30;
+                    this.scene.add(animation);
                 }
-
-                // Animation for the shield
-                animation.x = victim.x;
-                animation.y = victim.y - 30;
-                this.scene.add(animation);
-
-                // Push back
-                this.scene.add(new Interpolator(this, 'x', this.x, this.x - cos(angle) * pushBack, 0.3));
-                this.scene.add(new Interpolator(this, 'y', this.y, this.y - sin(angle) * pushBack, 0.3));
             } else {
                 victim.damage(damage);
 
@@ -233,6 +240,8 @@ class Character extends Entity {
 
                 this.updateCombo(1, nomangle('Hit'));
             }
+
+            break;
         }
     }
 
