@@ -37,6 +37,7 @@ compiler.run((tasks) => {
                 "src/js/entities/bush.js",
                 "src/js/entities/water.js",
                 "src/js/entities/shield-block.js",
+                "src/js/entities/interpolator.js",
 
                 "src/js/entities/characters/character-hud.js",
                 "src/js/entities/characters/player-hud.js",

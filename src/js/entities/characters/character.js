@@ -139,6 +139,11 @@ class Character extends Entity {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
                     this.loseStamina(1);
+
+                    const camera = firstItem(this.scene.category('camera'));
+                    // camera.zoom = 2;
+
+                    // this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 2, 0.2));
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(0.3);

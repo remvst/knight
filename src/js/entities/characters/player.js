@@ -147,6 +147,18 @@ class Player extends Character {
                     }
                 });
             });
+
+            if (this.exhausted) {
+                ctx.wrap(() => {
+                    ctx.translate(0, -70);
+
+                    ctx.fillStyle = color('#ff0');
+                    for (let r = 0 ; r < 1 ; r += 0.15) {
+                        const angle = r * TWO_PI + this.age * PI;
+                        ctx.fillRect(cos(angle) * 20, sin(angle) * 20 * 0.5, 4, 4);
+                    }
+                });
+            }
         });
     }
 }
