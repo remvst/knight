@@ -1,4 +1,4 @@
-limit = (a, b, c) => b < a ? a : (b > c ? c : b);
+between = (a, b, c) => b < a ? a : (b > c ? c : b);
 isBetween = (a, b, c) => a <= b && b <= c || a >= b && b >= c;
 rnd = (min, max) => random() * (max - min) + min;
 distP = (x1, y1, x2, y2) => hypot(x1 - x2, y1 - y2);

@@ -27,6 +27,7 @@ compiler.run((tasks) => {
                 "src/js/graphics/with-shadow.js",
                 "src/js/graphics/characters/exclamation.js",
                 "src/js/graphics/characters/body.js",
+                "src/js/graphics/gauge.js",
 
                 "src/js/input/keyboard.js",
 

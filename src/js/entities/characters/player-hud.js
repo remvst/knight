@@ -2,9 +2,16 @@ class PlayerHUD extends Entity {
     constructor(player) {
         super();
         this.player = player;
+
+        this.gauge = new Gauge(this.player);
     }
 
     get z() { return Number.MAX_SAFE_INTEGER; }
+
+    cycle(elapsed) {
+        super.cycle(elapsed);
+        this.gauge.cycle(elapsed);
+    }
 
     render() {
         super.render();
@@ -13,23 +20,7 @@ class PlayerHUD extends Entity {
 
         ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
 
-        ctx.wrap(() => {
-            ctx.translate(20, 20);
-            
-            ctx.fillStyle = 'rgba(0,0,0,.5)';
-            ctx.fillRect(0, 0, 400, 20);
-    
-            ctx.fillStyle = '#900';
-            ctx.fillRect(0, 0, 400 * this.player.health, 20);
-    
-            ctx.translate(0, 20);
-    
-            ctx.fillStyle = 'rgba(0,0,0,.5)';
-            ctx.fillRect(0, 0, 400, 4);
-    
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, 400 * this.player.stamina, 4);
-        });
+        ctx.wrap(() => this.gauge.render(20, 20, 400, 20));
 
         if (this.player.age - this.player.lastComboChange < 2) {
             ctx.wrap(() => {
