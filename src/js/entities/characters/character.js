@@ -45,6 +45,7 @@ class Character extends Entity {
             'angle': 0,
             'shield': false,
             'attack': false,
+            'aim': {'x': 0, 'y': 0},
         };
     }
 
@@ -69,6 +70,8 @@ class Character extends Entity {
         
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
+
+        this.facing = sign(this.controls.aim.x - this.x) || 1;
 
         // Collisions with other characters
         for (const character of this.scene.category('character')) {
@@ -119,8 +122,20 @@ class Character extends Entity {
         this.lastComboChangeReason = reason.toUpperCase();
     }
 
-    isWithinStrikeRadius(character) {
+    // isWithinStrikeRadius(character) {
+    //     if (character === this) return false;
+    //     return abs(character.x - this.x) < this.strikeRadiusX && 
+    //         abs(character.y - this.y) < this.strikeRadiusY;
+    // }
+
+    isStrikable(character) {
         if (character === this) return false;
+
+        const angle = angleBetween(this, character);
+        if (abs(normalize(this.controls.angle - angle)) > PI / 4) {
+            return false;
+        }
+
         return abs(character.x - this.x) < this.strikeRadiusX && 
             abs(character.y - this.y) < this.strikeRadiusY;
     }
@@ -142,15 +157,13 @@ class Character extends Entity {
     }
 
     strike() {
-        const victim = Array
+        const victims = Array
             .from(this.scene.category(this.targetTeam))
-            .filter(character => character !== this && this.isWithinStrikeRadius(character))[0];
+            .filter(character => character !== this && this.isStrikable(character));
 
         const damage = 0.15 * this.strikePowerRatio;
 
-        if (victim) {
-            this.facing = sign(victim.x - this.x) || 1;
-
+        for (const victim of victims) {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
             if (victim.shielding) {
                 victim.facing = sign(this.x - victim.x) || 1;
@@ -158,23 +171,36 @@ class Character extends Entity {
                 this.x -= cos(angle) * damage * 10;
                 this.y -= sin(angle) * damage * 10;
 
+                let animation;
+                let pushBack;
+
                 const shieldingTime = victim.age - victim.shieldingStart;
                 if (shieldingTime < 0.1) {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
                     victim.updateCombo(1, nomangle('Perfect Parry!'));
                     this.loseStamina(1);
+
+                    animation = new PerfectParry();
+                    pushBack = 100;
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(0.3);
 
                     victim.updateCombo(1, nomangle('Parry'));
-                }
                 
-                const block = new ShieldBlock();
-                block.x = victim.x + victim.facing * 20;
-                block.y = victim.y - 30;
-                this.scene.add(block);
+                    animation = new ShieldBlock();
+                    pushBack = 0;
+                }
+
+                // Animation for the shield
+                animation.x = victim.x;
+                animation.y = victim.y - 30;
+                this.scene.add(animation);
+
+                // Push back
+                this.scene.add(new Interpolator(this, 'x', this.x, this.x - cos(angle) * pushBack, 0.3));
+                this.scene.add(new Interpolator(this, 'y', this.y, this.y - sin(angle) * pushBack, 0.3));
             } else {
                 victim.damage(damage);
 
@@ -227,13 +253,12 @@ class Character extends Entity {
             }
         });
 
-        // if (DEBUG) {
-        //     ctx.lineWidth = 1;
-        //     ctx.strokeStyle = '#f00';
-        //     ctx.beginPath();
-        //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-        //     ctx.ellipse(0, 0, this.attackMagnetRadiusX, this.attackMagnetRadiusY, 0, 0, TWO_PI);
-        //     ctx.stroke();
-        // }
+        if (DEBUG) {
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#f00';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+            ctx.stroke();
+        }
     }
 }

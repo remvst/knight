@@ -30,6 +30,9 @@ compiler.run((tasks) => {
                 "src/js/graphics/gauge.js",
 
                 "src/js/input/keyboard.js",
+                "src/js/input/mouse.js",
+
+                "src/js/ai/character-controller.js",
 
                 "src/js/entities/entity.js",
                 "src/js/entities/camera.js",
@@ -40,6 +43,8 @@ compiler.run((tasks) => {
                 "src/js/entities/water.js",
                 "src/js/entities/shield-block.js",
                 "src/js/entities/interpolator.js",
+                "src/js/entities/perfect-parry.js",
+                "src/js/entities/cursor.js",
 
                 "src/js/entities/characters/character-hud.js",
                 "src/js/entities/characters/player-hud.js",
@@ -48,8 +53,6 @@ compiler.run((tasks) => {
                 "src/js/entities/characters/player.js",
                 "src/js/entities/characters/medium-enemy.js",
                 "src/js/entities/characters/light-enemy.js",
-
-                "src/js/ai/character-controller.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

@@ -4,23 +4,6 @@ class CharacterController {
     }
 }
 
-class PlayerController extends CharacterController {
-    cycle() {
-        let x = 0, y = 0;
-        if (DOWN[37]) x = -1;
-        if (DOWN[38]) y = -1;
-        if (DOWN[39]) x = 1;
-        if (DOWN[40]) y = 1;
-
-        if (x || y) this.entity.controls.angle = atan2(y, x);
-        this.entity.controls.force = x || y ? 1 : 0;
-        this.entity.controls.shield = DOWN[16];
-        this.entity.controls.attack = DOWN[32];
-
-        if (x) this.entity.facing = x;
-    }
-}
-
 class AI extends CharacterController {
 
     start() {
@@ -56,7 +39,8 @@ class EnemyAI extends AI {
     }
 
     update(player) {
-        this.entity.facing = sign(player.x - this.entity.x);
+        this.entity.controls.aim.x = player.x;
+        this.entity.controls.aim.y = player.y;
     }
 
     startAI(ai) {
@@ -94,7 +78,7 @@ class LightAttackAI extends AI {
         this.entity.controls.force = 0;
 
         if (!this.entity.attackPrepareEnd) {
-            if (!this.entity.isWithinStrikeRadius(player)) {
+            if (!this.entity.isStrikable(player)) {
                 // Approach the player
                 this.entity.controls.force = 1;
                 this.entity.controls.angle = angleBetween(this.entity, player);
