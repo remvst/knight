@@ -40,6 +40,10 @@ class Player extends Character {
             return 0;
         }
 
+        if (this.isWithinStrikeRadius(character)) {
+            return 3;
+        }
+
         return angleAffinity + distX + distY;
     }
 
@@ -76,8 +80,8 @@ class Player extends Character {
         if (victim && !this.isWithinStrikeRadius(victim)) {
             const angle = atan2(this.y - victim.y, this.x - victim.x);
 
-            this.scene.add(new Interpolator(this, 'x', this.x, victim.x + cos(angle) * this.strikeRadiusX / 2, this.timeToStrike));
-            this.scene.add(new Interpolator(this, 'y', this.y, victim.y + sin(angle) * this.strikeRadiusY / 2, this.timeToStrike));
+            this.scene.add(new Interpolator(this, 'x', this.x, victim.x + cos(angle) * this.strikeRadiusX / 2, this.timeToStrike * 2));
+            this.scene.add(new Interpolator(this, 'y', this.y, victim.y + sin(angle) * this.strikeRadiusY / 2, this.timeToStrike * 2));
         }
     }
 }

@@ -17,19 +17,19 @@ const player = new Player();
 scene.add(player);
 scene.add(new PlayerHUD(player));
 
-for (let i = 0 ; i < 10 ; i++) {
+for (let i = 0 ; i < 5 ; i++) {
     const enemy = new LightEnemy();
-    enemy.x = rnd(-300, 300);
-    enemy.y = rnd(-300, 300);
+    enemy.x = rnd(-600, 600);
+    enemy.y = rnd(-600, 600);
     scene.add(enemy);
 
     scene.add(new CharacterHUD(enemy));
 }
 
-for (let i = 0 ; i < 0 ; i++) {
+for (let i = 0 ; i < 5 ; i++) {
     const enemy = new MediumEnemy();
-    enemy.x = rnd(-300, 300);
-    enemy.y = rnd(-300, 300);
+    enemy.x = rnd(-600, 600);
+    enemy.y = rnd(-600, 600);
     scene.add(enemy);
 
     scene.add(new CharacterHUD(enemy));

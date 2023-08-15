@@ -12,6 +12,8 @@ class LightEnemy extends Character {
         this.timeToStrike = 0.05;
         this.timeToCooldown = 0.1;
 
+        this.baseSpeed = 150;
+
         this.renderSteps = [
             (color, shadow) => renderAttackIndicator(this, color, shadow),
             (color) => renderLegs(this, color),

@@ -14,6 +14,8 @@ class Character extends Entity {
         this.stamina = 1;
         this.lastStaminaLoss = 0;
 
+        this.baseSpeed = 200;
+
         this.shielding = false;
         this.shieldingStart = 0;
 
@@ -63,7 +65,7 @@ class Character extends Entity {
         }
 
         const attackingOrPreparingAttack = this.attackPrepareEnd || this.attackEnd > this.age;
-        const speed = this.shielding || this.attackPrepareEnd || this.inWater || this.exhausted ? 100 : 200;
+        const speed = (this.shielding || this.attackPrepareEnd || this.inWater || this.exhausted ? 0.5 : 1) * this.baseSpeed;
         
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
