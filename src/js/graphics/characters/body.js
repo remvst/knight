@@ -184,7 +184,7 @@ renderExhaustion = (entity, color, shadow, y) => {
             ctx.fillStyle = color('#ff0');
             for (let r = 0 ; r < 1 ; r += 0.15) {
                 const angle = r * TWO_PI + entity.age * PI;
-                ctx.fillRect(cos(angle) * 20, sin(angle) * 20 * 0.5, 4, 4);
+                ctx.fillRect(cos(angle) * 15, sin(angle) * 15 * 0.5, 4, 4);
             }
         });
     }

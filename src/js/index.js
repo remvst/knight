@@ -18,7 +18,7 @@ scene.add(player);
 scene.add(new PlayerHUD(player));
 scene.add(new Cursor(player));
 
-for (let i = 0 ; i < 1 ; i++) {
+for (let i = 0 ; i < 0 ; i++) {
     const enemy = new LightEnemy();
     enemy.x = rnd(-600, 600);
     enemy.y = rnd(-600, 600);

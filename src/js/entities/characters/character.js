@@ -277,13 +277,13 @@ class Character extends Entity {
             }
         });
 
-        if (DEBUG) {
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = '#f00';
-            ctx.beginPath();
-            ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-            ctx.stroke();
-        }
+        // if (DEBUG) {
+        //     ctx.lineWidth = 1;
+        //     ctx.strokeStyle = '#f00';
+        //     ctx.beginPath();
+        //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+        //     ctx.stroke();
+        // }
     }
 
     dash() {
