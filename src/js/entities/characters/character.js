@@ -5,6 +5,11 @@ class Character extends Entity {
 
         this.facing = 1;
 
+        this.health = 1;
+
+        this.stamina = 1;
+        this.lastStaminaLoss = 0;
+
         this.shielding = false;
 
         this.timeToPrepareHeavyAttack = 1;
@@ -47,6 +52,10 @@ class Character extends Entity {
 
         this.controller.cycle(elapsed);
 
+        if (this.inWater) {
+            this.loseStamina(elapsed * 0.2);
+        }
+
         const attackingOrPreparingAttack = this.attackPrepareEnd || this.attackEnd > this.age;
         const speed = this.shielding || this.attackPrepareEnd || this.inWater ? 100 : 200;
         
@@ -75,6 +84,10 @@ class Character extends Entity {
         }
 
         this.shielding = this.controls.shield && !attackingOrPreparingAttack;
+
+        if (this.age - this.lastStaminaLoss > 1) {
+            this.stamina = min(1, this.stamina + elapsed * 0.2);
+        }
     }
 
     isWithinStrikeRadius(character) {
@@ -93,6 +106,8 @@ class Character extends Entity {
             this.strikePowerRatio = power;
 
             this.attackPrepareEnd = 0;
+
+            this.loseStamina(power * 0.25);
         }
     }
 
@@ -101,15 +116,17 @@ class Character extends Entity {
             .from(this.scene.category('character'))
             .filter(character => character !== this && this.isWithinStrikeRadius(character))[0]
 
-        const damage = 1 * this.strikePowerRatio;
+        const damage = 0.15 * this.strikePowerRatio;
 
         if (victim) {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
             if (victim.shielding) {
+                victim.loseStamina(0.3);
+
                 this.x -= cos(angle) * damage * 10;
                 this.y -= sin(angle) * damage * 10;
             } else {
-                victim.damage();
+                victim.damage(damage);
 
                 victim.x += cos(angle) * damage * 10;
                 victim.y += sin(angle) * damage * 10;
@@ -117,18 +134,28 @@ class Character extends Entity {
         }
     }
 
-    damage() {
+    loseStamina(amount) {
+        this.stamina = max(0, this.stamina - amount * 0.2);
+        this.lastStaminaLoss = this.age;
+    }
+
+    damage(amount) {
+        this.health = max(0, this.health - amount);
         this.lastDamage = this.age;
+
+        this.loseStamina(amount * 0.3);
+
+        // TODO death
     }
 
     render() {
         super.render();
 
         if (DEBUG) {
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = '#f00';
-            ctx.beginPath();
-            ctx.ellipse(this.x, this.y, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+            // ctx.lineWidth = 1;
+            // ctx.strokeStyle = '#f00';
+            // ctx.beginPath();
+            // ctx.ellipse(this.x, this.y, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
             // ctx.stroke();
         }
     }

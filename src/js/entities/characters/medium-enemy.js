@@ -190,7 +190,7 @@ class MediumEnemy extends Character {
 
         // Exclamation mark
         ctx.wrap(() => {
-            ctx.translate(0, -100);
+            ctx.translate(0, -100 + pick([-2, 2]));
 
             if (this.attackPrepareEnd) {
                 const progress = min(1, 2 * (this.age - this.attackPrepareStart) / 0.25);

@@ -68,5 +68,29 @@ class Scene {
         for (const entity of ordered) {
             ctx.wrap(() => entity.render());
         }
+
+        ctx.wrap(() => {
+            ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
+
+            const player = firstItem(this.category('player'));
+            if (player) {
+                ctx.wrap(() => {
+                    ctx.translate(20, 20);
+                    ctx.fillStyle = 'rgba(0,0,0,.5)';
+                    ctx.fillRect(0, 0, 400, 20);
+
+                    ctx.fillStyle = '#900';
+                    ctx.fillRect(0, 0, 400 * player.health, 20);
+
+                    ctx.translate(0, 21);
+
+                    ctx.fillStyle = 'rgba(0,0,0,.5)';
+                    ctx.fillRect(0, 0, 400, 8);
+
+                    ctx.fillStyle = '#0ef';
+                    ctx.fillRect(0, 0, 400 * player.stamina, 8);
+                });
+            }
+        });
     }
 }
