@@ -115,13 +115,13 @@ class Character extends Entity {
 
             this.attackPrepareEnd = 0;
 
-            this.loseStamina(power * 0.15);
+            this.loseStamina(power * 0.1);
         }
     }
 
     strike() {
         const victim = Array
-            .from(this.scene.category('character'))
+            .from(this.scene.category(this.targetTeam))
             .filter(character => character !== this && this.isWithinStrikeRadius(character))[0]
 
         const damage = 0.15 * this.strikePowerRatio;
@@ -183,6 +183,24 @@ class Character extends Entity {
 
     render() {
         super.render();
+
+        const { inWater } = this;
+
+        ctx.translate(this.x, this.y);
+
+        ctx.withShadow((color, shadow) => {
+            if (inWater) {
+                ctx.beginPath();
+                ctx.rect(-100, -100, 200, 100);
+                ctx.clip();
+
+                ctx.translate(0, 10);
+            }
+
+            for (const step of this.renderSteps) {
+                ctx.wrap(() => step(color, shadow));
+            }
+        });
 
         if (DEBUG) {
             // ctx.lineWidth = 1;

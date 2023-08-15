@@ -18,6 +18,15 @@ scene.add(player);
 scene.add(new PlayerHUD(player));
 
 for (let i = 0 ; i < 1 ; i++) {
+    const enemy = new LightEnemy();
+    enemy.x = rnd(-300, 300);
+    enemy.y = rnd(-300, 300);
+    scene.add(enemy);
+
+    scene.add(new CharacterHUD(enemy));
+}
+
+for (let i = 0 ; i < 1 ; i++) {
     const enemy = new MediumEnemy();
     enemy.x = rnd(-300, 300);
     enemy.y = rnd(-300, 300);
@@ -67,13 +76,7 @@ frame = () => {
     scene.cycle(elapsed);
 
     // Rendering
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    const camera = firstItem(scene.category('camera'));
-
-    ctx.wrap(() => {
-        scene.render();
-    });
+    ctx.wrap(() => scene.render());
 
     if (DEBUG) {
         ctx.fillStyle = '#fff';

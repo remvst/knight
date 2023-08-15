@@ -1,4 +1,4 @@
-class MediumEnemy extends Character {
+class LightEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
@@ -15,9 +15,8 @@ class MediumEnemy extends Character {
         this.renderSteps = [
             (color, shadow) => renderAttackIndicator(this, color, shadow),
             (color) => renderLegs(this, color),
-            (color) => renderChest(this, color),
-            (color) => renderSword(this, color),
-            (color) => renderShield(this, color),
+            (color) => renderNakedChest(this, color),
+            (color) => renderStick(this, color),
             (color, shadow) => renderExhaustion(this, color, shadow, -70),
             (color, shadow) => renderExclamation(this, color, shadow),
         ];

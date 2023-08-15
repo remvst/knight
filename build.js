@@ -26,6 +26,7 @@ compiler.run((tasks) => {
                 "src/js/graphics/wrap.js",
                 "src/js/graphics/with-shadow.js",
                 "src/js/graphics/characters/exclamation.js",
+                "src/js/graphics/characters/body.js",
 
                 "src/js/input/keyboard.js",
 
@@ -45,6 +46,7 @@ compiler.run((tasks) => {
                 "src/js/entities/characters/character.js",
                 "src/js/entities/characters/player.js",
                 "src/js/entities/characters/medium-enemy.js",
+                "src/js/entities/characters/light-enemy.js",
 
                 "src/js/ai/character-controller.js",
                 
