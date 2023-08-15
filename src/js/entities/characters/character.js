@@ -7,6 +7,10 @@ class Character extends Entity {
 
         this.health = 1;
 
+        this.combo = 0;
+        this.lastComboChange = 0;
+        this.lastComboChangeReason = '';
+
         this.stamina = 1;
         this.lastStaminaLoss = 0;
 
@@ -64,6 +68,7 @@ class Character extends Entity {
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
 
+        // Collisions with other characters
         for (const character of this.scene.category('character')) {
             if (character === this) continue;
             if (dist(this, character) > this.collisionRadius) continue;
@@ -72,6 +77,7 @@ class Character extends Entity {
             this.y = character.y - sin(angle) * this.collisionRadius;
         }
 
+        // Attack
         if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding && !this.exhausted) {
             this.attackPrepareStart = this.age;
             this.attackPrepareEnd = this.age + this.timeToPrepareHeavyAttack;
@@ -85,17 +91,30 @@ class Character extends Entity {
             this.strike();
         }
 
+        // Shield
         this.shielding = this.controls.shield && !attackingOrPreparingAttack && !this.exhausted;
         if (this.shielding && !shieldingBefore) {
             this.shieldingStart = this.age;
         }
 
+        // Stamina regen
         if (this.age - this.lastStaminaLoss > 2) {
             this.stamina = min(1, this.stamina + elapsed * 0.3);
             if (this.stamina >= 1) {
                 this.exhausted = false;
             }
         }
+
+        // Combo reset
+        if (this.age - this.lastComboChange > 5) {
+            this.updateCombo(-99999, '');
+        }
+    }
+
+    updateCombo(value, reason) {
+        this.combo = max(0, this.combo + value);
+        this.lastComboChange = this.age;
+        this.lastComboChangeReason = reason.toUpperCase();
     }
 
     isWithinStrikeRadius(character) {
@@ -138,15 +157,13 @@ class Character extends Entity {
                 if (shieldingTime < 0.1) {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
+                    victim.updateCombo(1, nomangle('Perfect Parry!'));
                     this.loseStamina(1);
-
-                    const camera = firstItem(this.scene.category('camera'));
-                    // camera.zoom = 2;
-
-                    // this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 2, 0.2));
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(0.3);
+
+                    victim.updateCombo(1, nomangle('Parry'));
                 }
                 
                 const block = new ShieldBlock();
@@ -158,6 +175,8 @@ class Character extends Entity {
 
                 victim.x += cos(angle) * damage * 10;
                 victim.y += sin(angle) * damage * 10;
+
+                this.updateCombo(1, nomangle('Hit'));
             }
         }
     }
@@ -176,6 +195,7 @@ class Character extends Entity {
         this.lastDamage = this.age;
 
         this.loseStamina(amount * 0.3);
+        this.updateCombo(-99999, nomangle('Ouch!'));
 
         // Death
         if (this.health <= 0) this.remove();

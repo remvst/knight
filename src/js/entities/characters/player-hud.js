@@ -13,19 +13,70 @@ class PlayerHUD extends Entity {
 
         ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
 
-        ctx.translate(20, 20);
-        ctx.fillStyle = 'rgba(0,0,0,.5)';
-        ctx.fillRect(0, 0, 400, 20);
+        ctx.wrap(() => {
+            ctx.translate(20, 20);
+            
+            ctx.fillStyle = 'rgba(0,0,0,.5)';
+            ctx.fillRect(0, 0, 400, 20);
+    
+            ctx.fillStyle = '#900';
+            ctx.fillRect(0, 0, 400 * this.player.health, 20);
+    
+            ctx.translate(0, 20);
+    
+            ctx.fillStyle = 'rgba(0,0,0,.5)';
+            ctx.fillRect(0, 0, 400, 4);
+    
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, 400 * this.player.stamina, 4);
+        });
 
-        ctx.fillStyle = '#900';
-        ctx.fillRect(0, 0, 400 * this.player.health, 20);
+        if (this.player.age - this.player.lastComboChange < 2) {
+            ctx.wrap(() => {
+                ctx.translate(220, 80);
+                ctx.font = nomangle('bold 24pt Impact');
+                ctx.fillStyle = '#fff';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.textAlign = nomangle('center');
+                ctx.textBaseline = nomangle('middle');
 
-        ctx.translate(0, 22);
+                ctx.rotate(-PI / 32);
 
-        ctx.fillStyle = 'rgba(0,0,0,.5)';
-        ctx.fillRect(0, 0, 400, 8);
+                const ratio = min(1, (this.player.age - this.player.lastComboChange) / 0.1);
+                ctx.translate((1 - ratio) * 100, 0);
 
-        ctx.fillStyle = '#0ef';
-        ctx.fillRect(0, 0, 400 * this.player.stamina, 8);
+                ctx.wrap(() => {
+                    ctx.shadowColor = '#000';
+                    ctx.shadowOffsetY = 5;
+                    ctx.fillText(this.player.lastComboChangeReason, 0, 0);
+                });
+                ctx.strokeText(this.player.lastComboChangeReason, 0, 0);
+            });
+        }
+
+        if (this.player.combo > 0) {
+            ctx.wrap(() => {
+                ctx.translate(420, 80);
+                ctx.font = nomangle('bold 36pt Impact');
+                ctx.fillStyle = '#fff';
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 3;
+                ctx.textAlign = nomangle('right');
+                ctx.textBaseline = nomangle('middle');
+
+                const ratio = min(1, (this.player.age - this.player.lastComboChange) / 0.1);
+                ctx.scale(1 + 1 - ratio, 1 + 1 - ratio);
+
+                ctx.rotate(-PI / 32);
+
+                ctx.wrap(() => {
+                    ctx.shadowColor = '#000';
+                    ctx.shadowOffsetY = 5;
+                    ctx.fillText('X' + this.player.combo, 0, 0);
+                });
+                ctx.strokeText('X' + this.player.combo, 0, 0);
+            });
+        }
     }
 }

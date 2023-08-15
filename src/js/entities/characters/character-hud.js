@@ -21,12 +21,12 @@ class CharacterHUD extends Entity {
         ctx.fillStyle = '#900';
         ctx.fillRect(0, 0, 50 * this.character.health, 10);
 
-        ctx.translate(0, 11);
+        ctx.translate(0, 10);
 
         ctx.fillStyle = 'rgba(0,0,0,.5)';
-        ctx.fillRect(0, 0, 50, 4);
+        ctx.fillRect(0, 0, 50, 2);
 
-        ctx.fillStyle = '#0ef';
-        ctx.fillRect(0, 0, 50 * this.character.stamina, 4);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, 50 * this.character.stamina, 2);
     }
 }
