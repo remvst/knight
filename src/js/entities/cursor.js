@@ -4,7 +4,7 @@ class Cursor extends Entity {
         this.player = player;
     }
 
-    get z() { return Number.MIN_SAFE_INTEGER; }
+    get z() { return Number.MAX_SAFE_INTEGER; }
 
     render() {
         super.render();
