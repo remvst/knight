@@ -19,6 +19,9 @@ compiler.run((tasks) => {
         const sequence = [
             tasks.label('Building JS'),
             tasks.loadFiles([
+                "src/js/globals.js",
+                "src/js/math.js",
+                
                 "src/js/graphics/create-canvas.js",
                 "src/js/graphics/wrap.js",
                 "src/js/graphics/with-shadow.js",
@@ -44,8 +47,6 @@ compiler.run((tasks) => {
                 "src/js/util/rng.js",
                 "src/js/util/regen-entity.js",
             
-                "src/js/globals.js",
-                "src/js/math.js",
                 "src/js/scene.js",
                 "src/js/index.js",
             ]),

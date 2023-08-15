@@ -1,3 +1,24 @@
+exclamation = createCanvas(50, 50, (ctx, can) => {
+    ctx.fillStyle = '#fff';
+    ctx.translate(can.width / 2, can.width / 2);
+    for (let r = 0, i = 0 ; r < 1 ; r += 0.05, i++) {
+        const distance = i % 2 ? can.width / 2 : can.width / 3;
+        ctx.lineTo(
+            cos(r * TWO_PI) * distance,
+            sin(r * TWO_PI) * distance,
+        )
+    }
+    ctx.fill();
+
+    ctx.font = 'bold 18pt Arial';
+    ctx.fillStyle = '#f00';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('!!!', 0, 0);
+});
+
+// document.body.appendChild(exclamation)
+
 class MediumEnemy extends Character {
     constructor() {
         super();
@@ -6,6 +27,10 @@ class MediumEnemy extends Character {
         this.controller = new EnemyAI(this);
         this.controller.setEntity(this);
         this.controller.start();
+
+        this.timeToPrepareHeavyAttack = 1;
+        this.timeToStrike = 0.05;
+        this.timeToCooldown = 0.1;
     }
 
     render() {
@@ -15,6 +40,20 @@ class MediumEnemy extends Character {
         const renderAge = this.age * (inWater ? 0.5 : 1);
 
         ctx.translate(this.x, this.y);
+
+        // Attack radius indicator
+        ctx.wrap(() => {
+            const progress = (this.age - this.attackPrepareStart) / 0.2;
+            if (isBetween(0, progress, 1)) {
+                ctx.strokeStyle = '#f00';
+                ctx.globalAlpha = 1 - progress;
+                ctx.lineWidth = 20;
+                ctx.beginPath();
+                ctx.scale(progress, progress);
+                ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+                ctx.stroke();
+            }
+        })
 
         ctx.withShadow((color) => {
             if (inWater) {
@@ -148,5 +187,16 @@ class MediumEnemy extends Character {
                 });
             });
         });
+
+        // Exclamation mark
+        ctx.wrap(() => {
+            ctx.translate(0, -100);
+
+            if (this.attackPrepareEnd) {
+                const progress = min(1, 2 * (this.age - this.attackPrepareStart) / 0.25);
+                ctx.scale(progress, progress);
+                ctx.drawImage(exclamation, -exclamation.width / 2, -exclamation.height / 2);
+            }
+        })
     }
 }

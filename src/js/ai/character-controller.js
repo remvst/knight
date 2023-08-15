@@ -88,23 +88,23 @@ class WaitAI extends AI {
 class LightAttackAI extends AI {
     constructor() {
         super();
-        this.lastAttack = 0;
     }
 
     update(player) {
         this.entity.controls.force = 0;
-        this.entity.controls.attack = false;
 
-        if (!this.entity.isWithinStrikeRadius(player)) {
-            // Approach the player
-            this.entity.controls.force = 1;
-            this.entity.controls.angle = angleBetween(this.entity, player);
-        } else {
-            // Strike!
-            if (this.entity.age - this.lastAttack > 0.5) {
-                this.entity.controls.attack = true;    
-                this.lastAttack = this.entity.age;
+        if (!this.entity.attackPrepareEnd) {
+            if (!this.entity.isWithinStrikeRadius(player)) {
+                // Approach the player
+                this.entity.controls.force = 1;
+                this.entity.controls.angle = angleBetween(this.entity, player);
             } else {
+                // We're close, prepare the attack
+                this.entity.controls.attack = true;
+            }
+        } else {
+            if (this.entity.age - this.entity.attackPrepareStart > this.entity.timeToPrepareHeavyAttack / 2) {
+                // Attack was prepared, release!
                 this.entity.controls.attack = false;
                 this.resolve();
             }

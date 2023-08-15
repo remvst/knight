@@ -7,12 +7,6 @@ class Water extends Entity {
 
     get z() { return Number.MIN_SAFE_INTEGER; }
 
-    cycle(elapsed) {
-        for (const character of this.scene.category('character')) {
-            // console.log('contained?', this.contains(character));
-        }
-    }
-
     contains(point) {
         const xInSelf = point.x - this.x;
         const yInSelf = point.y - this.y;

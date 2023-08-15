@@ -7,6 +7,10 @@ class Character extends Entity {
 
         this.shielding = false;
 
+        this.timeToPrepareHeavyAttack = 1;
+        this.timeToStrike = 0.05;
+        this.timeToCooldown = 0.1;
+
         this.attackPrepareStart = 0;
         this.attackPrepareEnd = 0;
 
@@ -59,7 +63,7 @@ class Character extends Entity {
 
         if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding) {
             this.attackPrepareStart = this.age;
-            this.attackPrepareEnd = this.age + 1;
+            this.attackPrepareEnd = this.age + this.timeToPrepareHeavyAttack;
         }
 
         if (!this.controls.attack && this.attackPrepareEnd > 0) {
@@ -82,8 +86,8 @@ class Character extends Entity {
         if (this.attackEnd <= this.age) {
             const { inWater } = this;
             this.attackStart = this.age;
-            this.attackStrike = this.age + 0.05 * (inWater ? 2 : 1);
-            this.attackEnd = this.age + 0.1 * (inWater ? 2 : 1);
+            this.attackStrike = this.age + this.timeToStrike * (inWater ? 2 : 1);
+            this.attackEnd = this.age + this.timeToCooldown * (inWater ? 2 : 1);
 
             const power = this.age >= this.attackPrepareEnd ? 3 : 1;
             this.strikePowerRatio = power;
