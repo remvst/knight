@@ -114,29 +114,6 @@ class Player extends Character {
         // anim.y = this.y;
         // this.scene.add(anim);
     }
-
-    cycle(elapsed) {
-        super.cycle(elapsed);
-
-        if (this.controls.dash) {
-            if (!this.waitingForDashRelease) {
-                this.dash();
-            }
-        } else {
-            this.waitingForDashRelease = false;
-        }
-    }
-
-    dash() {
-        // const angle = angleBetween(this, this.controls.aim);
-        const { angle } = this.controls;
-        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 200, 0.3));
-        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 200, 0.3));
-
-        this.waitingForDashRelease = true;
-
-        this.loseStamina(0.2);
-    }
 }
 
 class PlayerController extends CharacterController {

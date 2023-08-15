@@ -68,6 +68,7 @@ class Character extends Entity {
 
         const attackingOrPreparingAttack = this.attackPrepareEnd || this.attackEnd > this.age;
         const speed = (this.shielding || this.attackPrepareEnd || this.inWater || this.exhausted ? 0.5 : 1) * this.baseSpeed;
+        const dashing = this.dashEnd > this.age;
         
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
@@ -84,7 +85,7 @@ class Character extends Entity {
         }
 
         // Attack
-        if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding && !this.exhausted) {
+        if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding && !this.exhausted && !dashing) {
             this.attackPrepareStart = this.age;
             this.attackPrepareEnd = this.age + this.timeToPrepareHeavyAttack;
         }
@@ -99,7 +100,7 @@ class Character extends Entity {
 
         // Shield
         this.shielding = this.controls.shield && !attackingOrPreparingAttack && !this.exhausted;
-        if (this.shielding && !shieldingBefore) {
+        if (this.shielding && !shieldingBefore && !dashing) {
             this.shieldingStart = this.age;
         }
 
@@ -115,6 +116,15 @@ class Character extends Entity {
         if (this.age - this.lastComboChange > 5) {
             this.updateCombo(-99999, '');
         }
+
+        // Dash
+        if (this.controls.dash) {
+            if (!this.waitingForDashRelease) {
+                this.dash();
+            }
+        } else {
+            this.waitingForDashRelease = false;
+        }
     }
 
     updateCombo(value, reason) {
@@ -122,12 +132,6 @@ class Character extends Entity {
         this.lastComboChange = this.age;
         this.lastComboChangeReason = reason.toUpperCase();
     }
-
-    // isWithinStrikeRadius(character) {
-    //     if (character === this) return false;
-    //     return abs(character.x - this.x) < this.strikeRadiusX && 
-    //         abs(character.y - this.y) < this.strikeRadiusY;
-    // }
 
     isStrikable(character) {
         if (character === this) return false;
@@ -262,5 +266,18 @@ class Character extends Entity {
             ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
             ctx.stroke();
         }
+    }
+
+    dash() {
+        const duration = 0.3;
+        const { angle } = this.controls;
+        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 200, duration));
+        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 200, duration));
+
+        this.waitingForDashRelease = true;
+        this.dashStart = this.age;
+        this.dashEnd = this.age + duration;
+
+        this.loseStamina(0.2);
     }
 }
