@@ -11,6 +11,7 @@ class Character extends Entity {
         this.lastStaminaLoss = 0;
 
         this.shielding = false;
+        this.shieldingStart = 0;
 
         this.timeToPrepareHeavyAttack = 1;
         this.timeToStrike = 0.05;
@@ -47,6 +48,7 @@ class Character extends Entity {
 
     cycle(elapsed) {
         const ageBefore = this.age;
+        const shieldingBefore = this.shielding;
 
         super.cycle(elapsed);
 
@@ -57,7 +59,7 @@ class Character extends Entity {
         }
 
         const attackingOrPreparingAttack = this.attackPrepareEnd || this.attackEnd > this.age;
-        const speed = this.shielding || this.attackPrepareEnd || this.inWater ? 100 : 200;
+        const speed = this.shielding || this.attackPrepareEnd || this.inWater || this.exhausted ? 100 : 200;
         
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
@@ -70,7 +72,7 @@ class Character extends Entity {
             this.y = character.y - sin(angle) * this.collisionRadius;
         }
 
-        if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding) {
+        if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding && !this.exhausted) {
             this.attackPrepareStart = this.age;
             this.attackPrepareEnd = this.age + this.timeToPrepareHeavyAttack;
         }
@@ -83,10 +85,16 @@ class Character extends Entity {
             this.strike();
         }
 
-        this.shielding = this.controls.shield && !attackingOrPreparingAttack;
+        this.shielding = this.controls.shield && !attackingOrPreparingAttack && !this.exhausted;
+        if (this.shielding && !shieldingBefore) {
+            this.shieldingStart = this.age;
+        }
 
-        if (this.age - this.lastStaminaLoss > 1) {
-            this.stamina = min(1, this.stamina + elapsed * 0.2);
+        if (this.age - this.lastStaminaLoss > 2) {
+            this.stamina = min(1, this.stamina + elapsed * 0.3);
+            if (this.stamina >= 1) {
+                this.exhausted = false;
+            }
         }
     }
 
@@ -107,7 +115,7 @@ class Character extends Entity {
 
             this.attackPrepareEnd = 0;
 
-            this.loseStamina(power * 0.25);
+            this.loseStamina(power * 0.15);
         }
     }
 
@@ -121,10 +129,25 @@ class Character extends Entity {
         if (victim) {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
             if (victim.shielding) {
-                victim.loseStamina(0.3);
+                victim.facing = sign(this.x - victim.x) || 1;
 
                 this.x -= cos(angle) * damage * 10;
                 this.y -= sin(angle) * damage * 10;
+
+                const shieldingTime = victim.age - victim.shieldingStart;
+                if (shieldingTime < 0.1) {
+                    // Perfect parry, victim gets stamina back, we lose ours
+                    victim.stamina = 1;
+                    this.loseStamina(1);
+                } else {
+                    // Regular parry, victim loses stamina
+                    victim.loseStamina(0.3);
+                }
+                
+                const block = new ShieldBlock();
+                block.x = victim.x + victim.facing * 20;
+                block.y = victim.y - 30;
+                this.scene.add(block);
             } else {
                 victim.damage(damage);
 
@@ -135,8 +158,12 @@ class Character extends Entity {
     }
 
     loseStamina(amount) {
-        this.stamina = max(0, this.stamina - amount * 0.2);
+        this.stamina = max(0, this.stamina - amount);
         this.lastStaminaLoss = this.age;
+
+        if (this.stamina <= 0) {
+            this.exhausted = true;
+        }
     }
 
     damage(amount) {
@@ -145,7 +172,8 @@ class Character extends Entity {
 
         this.loseStamina(amount * 0.3);
 
-        // TODO death
+        // Death
+        if (this.health <= 0) this.remove();
     }
 
     render() {

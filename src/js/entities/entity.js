@@ -24,4 +24,8 @@ class Entity {
             // ctx.fillRect(this.x - 5, this.y - 1, 10, 2);
         }
     }
+
+    remove() {
+        this.scene.remove(this);
+    }
 }

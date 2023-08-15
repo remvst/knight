@@ -63,8 +63,9 @@ class Player extends Character {
                 
                 ctx.fillStyle = color(this.getColor('#666'));
                 ctx.translate(12, -10);
-                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
+                if (this.exhausted) ctx.rotate(PI / 2);
                 if (this.shielding) ctx.rotate(-PI / 2);
+                if (this.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
 
                 if (this.age < this.attackEnd) {
                     if (this.age < this.attackStrike) {

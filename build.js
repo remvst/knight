@@ -21,10 +21,11 @@ compiler.run((tasks) => {
             tasks.loadFiles([
                 "src/js/globals.js",
                 "src/js/math.js",
-                
+
                 "src/js/graphics/create-canvas.js",
                 "src/js/graphics/wrap.js",
                 "src/js/graphics/with-shadow.js",
+                "src/js/graphics/characters/exclamation.js",
 
                 "src/js/input/keyboard.js",
 
@@ -35,6 +36,10 @@ compiler.run((tasks) => {
                 "src/js/entities/tree.js",
                 "src/js/entities/bush.js",
                 "src/js/entities/water.js",
+                "src/js/entities/shield-block.js",
+
+                "src/js/entities/characters/character-hud.js",
+                "src/js/entities/characters/player-hud.js",
 
                 "src/js/entities/characters/character.js",
                 "src/js/entities/characters/player.js",

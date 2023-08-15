@@ -28,10 +28,10 @@ class Tree extends Obstacle {
             const trunkHeight = this.rng.next(100, 250);
 
             if (!isShadow) {
-                for (const player of this.scene.category('player')) {
+                for (const character of this.scene.category('character')) {
                     if (
-                        isBetween(this.x - 50, player.x, this.x + 50) &&
-                        isBetween(this.y - trunkHeight - 50, player.y, this.y)
+                        isBetween(this.x - 50, character.x, this.x + 50) &&
+                        isBetween(this.y - trunkHeight - 50, character.y, this.y)
                     ) {
                         ctx.globalAlpha = 0.5;
                     }
