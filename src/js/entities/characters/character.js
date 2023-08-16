@@ -304,7 +304,6 @@ class Character extends Entity {
             this.scene.add(bit);
     
             const angle = angleBetween(this, this.controls.aim) + PI + rnd(-1, 1) * PI / 4;
-            // const angle = angleBetween(this, this.controls.aim);
             const distance = rnd(30, 60);
             this.scene.add(new Interpolator(bit, 'x', bit.x, bit.x + cos(angle) * distance, duration, easeOutQuint));
             this.scene.add(new Interpolator(bit, 'y', bit.y, bit.y + sin(angle) * distance, duration, easeOutQuint));

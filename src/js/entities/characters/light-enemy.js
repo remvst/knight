@@ -18,9 +18,25 @@ class LightEnemy extends Character {
             () => ctx.renderAttackIndicator(this),
             () => ctx.renderLegs(this),
             () => ctx.renderNakedChest(this),
-            () => ctx.renderStick(this),
+            () => ctx.renderArmAndStick(this),
             () => ctx.renderExhaustion(this, -70),
             () => ctx.renderExclamation(this),
+        ];
+
+        this.gibs = [
+            () => ctx.renderStick(),
+            () => {
+                ctx.slice(30, true, 0.5);
+                ctx.translate(0, 30);
+                ctx.renderLegs(this);
+                ctx.renderNakedChest(this);
+            },
+            () => {
+                ctx.slice(30, false, 0.5);
+                ctx.translate(0, 30);
+                ctx.renderLegs(this);
+                ctx.renderNakedChest(this);
+            },
         ];
 
         this.stateMachine = characterStateMachine({

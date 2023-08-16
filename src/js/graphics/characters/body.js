@@ -87,6 +87,11 @@ CanvasRenderingContext2D.prototype.renderNakedChest = function(entity) {
 };
 
 CanvasRenderingContext2D.prototype.renderStick = function(entity) {
+    this.fillStyle = this.resolveColor('#444');
+    this.fillRect(-3, 10, 6, -40);
+}
+
+CanvasRenderingContext2D.prototype.renderArmAndStick = function(entity) {
     if (!entity.health) return;
 
     const { renderAge } = entity;
@@ -100,12 +105,10 @@ CanvasRenderingContext2D.prototype.renderStick = function(entity) {
 
     this.fillRect(0, -3, 20, 6);
 
-    // Sword
+    // Stick
     this.wrap(() => {
         this.translate(18, -6);
-
-        this.fillStyle = this.resolveColor('#444');
-        this.fillRect(-3, 10, 6, -40);
+        this.renderStick();
     });
 }
 
