@@ -59,6 +59,8 @@ renderNakedChest = (entity, color) => {
 };
 
 renderStick = (entity, color) => {
+    if (!entity.health) return;
+
     const renderAge = entity.age * (entity.inWater ? 0.5 : 1);
 
     ctx.scale(entity.facing, 1);
@@ -81,6 +83,8 @@ renderStick = (entity, color) => {
 }
 
 renderSword = (entity, color) => {
+    if (!entity.health) return;
+
     const renderAge = entity.age * (entity.inWater ? 0.5 : 1);
 
     ctx.scale(entity.facing, 1);

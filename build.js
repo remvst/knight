@@ -69,6 +69,7 @@ compiler.run((tasks) => {
                 "src/js/entities/characters/player.js",
                 "src/js/entities/characters/medium-enemy.js",
                 "src/js/entities/characters/light-enemy.js",
+                "src/js/entities/characters/corpse.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

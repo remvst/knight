@@ -229,7 +229,7 @@ class Character extends Entity {
         this.updateCombo(-99999, nomangle('Ouch!'));
 
         // Death
-        if (this.health <= 0) this.remove();
+        if (this.health <= 0) this.die();
     }
 
     render() {
@@ -281,5 +281,23 @@ class Character extends Entity {
         this.dashEnd = this.age + duration;
 
         this.loseStamina(0.2);
+    }
+
+    die() {
+        this.scene.add(new Corpse(this));
+        this.remove();
+
+        for (let i = 0 ; i < 20 ; i++) {
+            const x = this.x - this.facing * 30 + rnd(-30, 30);
+            const y = this.y + rnd(-10, 10);
+
+            this.scene.add(new Particle(
+                '#eee',
+                [5, 10],
+                [x, x + rnd(-20, 20)],
+                [y, y + rnd(-20, 20)],
+                rnd(0.5, 1),
+            ));
+        }
     }
 }
