@@ -63,10 +63,10 @@ class PlayerHUD extends Entity {
 
                 ctx.wrap(() => {
                     ctx.shadowColor = '#000';
-                    ctx.shadowOffsetY = 5;
+                    ctx.shadowOffsetY = 8;
                     ctx.fillText('X' + this.player.combo, 0, 0);
                 });
-                ctx.strokeText('X' + this.player.combo, 0, 0);
+                // ctx.strokeText('X' + this.player.combo, 0, 0);
             });
         }
     }

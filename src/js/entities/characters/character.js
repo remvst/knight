@@ -160,6 +160,7 @@ class Character extends Entity {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
                     victim.updateCombo(1, nomangle('Perfect Parry!'));
+                    victim.displayLabel(nomangle('Perfect Parry!'));
                     this.loseStamina(1);
 
                     const animation = new PerfectParry();
@@ -181,7 +182,8 @@ class Character extends Entity {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(0.3);
 
-                    victim.updateCombo(1, nomangle('Parry'));
+                    // victim.updateCombo(1, nomangle('Parry'));
+                    victim.displayLabel(nomangle('Parry'));
                 
                     const animation = new ShieldBlock();
                     animation.x = victim.x;
@@ -195,6 +197,8 @@ class Character extends Entity {
                 victim.y += sin(angle) * damage * 25;
 
                 this.updateCombo(1, nomangle('Hit'));
+
+                victim.displayLabel('-' + ~~(damage * 100));
 
                 const impactX = victim.x + rnd(-20, 20);
                 const impactY = victim.y - 30 + rnd(-20, 20);
@@ -211,6 +215,15 @@ class Character extends Entity {
                 }
             }
         }
+    }
+
+    displayLabel(text) {
+        if (this.lastLabel) this.lastLabel.remove();
+
+        this.lastLabel = new Label(text);
+        this.lastLabel.x = this.x;
+        this.lastLabel.y = this.y - 90;
+        this.scene.add(this.lastLabel);
     }
 
     loseStamina(amount) {
