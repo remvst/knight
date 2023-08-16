@@ -18,8 +18,8 @@ class Player extends Character {
         this.renderSteps = [
             () => ctx.renderLegs(this),
             () => ctx.renderArmAndSword(this),
-            () => ctx.renderChest(this),
-            () => ctx.renderShield(this),
+            () => ctx.renderArmoredChest(this),
+            () => ctx.renderArmAndShield(this),
             () => ctx.renderExhaustion(this, -70),
         ];
 

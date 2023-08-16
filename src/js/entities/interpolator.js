@@ -6,6 +6,7 @@ class Interpolator extends Entity {
         fromValue,
         toValue,
         duration,
+        easing = (x) => x,
     ) {
         super();
         this.object = object;
@@ -13,6 +14,7 @@ class Interpolator extends Entity {
         this.fromValue = fromValue;
         this.toValue = toValue;
         this.duration = duration;
+        this.easing = easing;
     }
 
     cycle(elapsed) {
@@ -24,6 +26,6 @@ class Interpolator extends Entity {
             return;
         }
 
-        this.object[this.property] = progress * (this.toValue - this.fromValue) + this.fromValue;
+        this.object[this.property] = interpolate(this.fromValue, this.toValue, this.easing(progress));
     }
 }

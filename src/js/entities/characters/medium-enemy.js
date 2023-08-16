@@ -13,12 +13,22 @@ class MediumEnemy extends Character {
         this.renderSteps = [
             () => ctx.renderAttackIndicator(this),
             () => ctx.renderLegs(this),
-            () => ctx.renderChest(this),
             () => ctx.renderArmAndSword(this),
-            () => ctx.renderShield(this),
+            () => ctx.renderArmoredChest(this),
+            () => ctx.renderArmAndShield(this),
             () => ctx.renderExhaustion(this, -70),
             () => ctx.renderExclamation(this),
         ];
+
+        this.tools = [
+            () => ctx.renderSword(),
+            () => ctx.renderShield(),
+        ];
+
+        this.body = () => {
+            ctx.renderLegs(this);
+            ctx.renderArmoredChest(this);
+        };
 
         this.stateMachine = characterStateMachine({
             entity: this, 

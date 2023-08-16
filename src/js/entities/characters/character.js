@@ -290,8 +290,34 @@ class Character extends Entity {
     }
 
     die() {
-        // TODO
-        // this.scene.add(new Corpse(this));
+        function easeOutQuart(x) {
+            return 1 - Math.pow(1 - x, 4);
+            
+            }
+
+        const duration = 0.5;
+
+        const corpse = new Corpse(this.body);
+        corpse.x = this.x;
+        corpse.y = this.y;
+        this.scene.add(corpse);
+
+        this.scene.add(new Interpolator(corpse, 'rotation', 0, -this.facing * PI / 2 + rnd(-1, 1) * PI / 8, 1, easeOutQuart));
+
+        for (const step of this.tools) {
+            const bit = new Corpse(step);
+            bit.x = this.x;
+            bit.y = this.y;
+            this.scene.add(bit);
+    
+            const angle = random() * TWO_PI;
+            const distance = rnd(30, 60);
+            this.scene.add(new Interpolator(bit, 'x', bit.x, bit.x + cos(angle) * distance, duration, easeOutQuart));
+            this.scene.add(new Interpolator(bit, 'y', bit.y, bit.y + sin(angle) * distance, duration, easeOutQuart));
+            this.scene.add(new Interpolator(bit, 'rotation', 0, pick([-1, 1]) * rnd(PI / 4, PI), duration, easeOutQuart));
+        }
+
+
         this.remove();
 
         for (let i = 0 ; i < 20 ; i++) {
