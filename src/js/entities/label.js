@@ -17,7 +17,7 @@ class Label extends Entity {
         ctx.translate(this.x, interpolate(this.y + 20, this.y, this.age / 0.25));
         ctx.globalAlpha = interpolate(0, 1, this.age / 0.25);
 
-        ctx.font = nomangle('bold 18pt Arial');
+        ctx.font = nomangle('bold 14pt Arial');
         ctx.fillStyle = '#fff';
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 2;

@@ -132,16 +132,14 @@ class Character extends Entity {
             abs(character.y - this.y) < radiusY;
     }
 
-    attack() {
-        
-    }
-
     strike(damage) {
         const angle = angleBetween(this, this.controls.aim);
         const distance = 5;
 
         this.x += cos(angle) * distance;
         this.y += sin(angle) * distance;
+
+        this.loseStamina(0.1);
 
         const victim = Array
             .from(this.scene.category(this.targetTeam))
@@ -276,7 +274,7 @@ class Character extends Entity {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
-            ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+            // ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
         }
 
         // if (DEBUG) {
