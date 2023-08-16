@@ -124,7 +124,6 @@ characterStateMachine = ({
 
         get swordRaiseRatio() { 
             const start = -(this.counter + 1) * 0.4;
-            // const start = this.previous.swordRaiseRatio;;
             const end = 1;
 
             const ratio = min(1, this.age / 0.05); 
@@ -137,7 +136,7 @@ characterStateMachine = ({
             const anim = new AttackAnim(
                 entity, 
                 this.counter == PLAYER_HEAVY_ATTACK_INDEX ? '#ff0' : '#fff', 
-                this.swordRaiseRatio, 
+                min(this.previous.swordRaiseRatio, this.swordRaiseRatio), 
                 0,
             );
             anim.x = entity.x;
