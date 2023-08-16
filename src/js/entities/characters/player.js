@@ -30,6 +30,10 @@ class Player extends Character {
         });
     }
 
+    getColor(color) {
+        return this.age - this.lastDamage < 0.1 ? '#f00' : super.getColor(color);
+    }
+
     render() {
         ctx.wrap(() => {
             ctx.translate(this.x, this.y);

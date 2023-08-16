@@ -15,6 +15,8 @@ class Particle extends Entity {
         this.duration = duration;
     }
 
+    get z() { return Number.MAX_SAFE_INTEGER; }
+
     cycle(elapsed) {
         super.cycle(elapsed);
         if (this.age > this.duration) {
@@ -30,6 +32,7 @@ class Particle extends Entity {
     render() {
         const size = this.interp(this.valuesSize);
         ctx.translate(this.interp(this.valuesX) - size / 2, this.interp(this.valuesY) - size / 2);
+        ctx.rotate(PI / 4);
 
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.interp([1, 0]);

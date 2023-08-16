@@ -194,10 +194,24 @@ class Character extends Entity {
             } else {
                 victim.damage(damage);
 
-                victim.x += cos(angle) * damage * 10;
-                // victim.y += sin(angle) * damage * 10;
+                victim.x += cos(angle) * damage * 25;
+                victim.y += sin(angle) * damage * 25;
 
                 this.updateCombo(1, nomangle('Hit'));
+
+                const impactX = victim.x + rnd(-20, 20);
+                const impactY = victim.y - 30 + rnd(-20, 20);
+                const size = rnd(1, 3);
+
+                for (let i = 0 ; i < 20 ; i++) {
+                    this.scene.add(new Particle(
+                        '#900',
+                        [size, size + rnd(5, 10)],
+                        [impactX, impactX + rnd(-30, 30)],
+                        [impactY, impactY + rnd(-30, 30)],
+                        rnd(0.3, 0.6),
+                    ));
+                }
             }
         }
     }
