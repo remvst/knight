@@ -159,14 +159,13 @@ class Character extends Entity {
 
         if (victim) {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
-            if (victim.stateMachine.state.shieldRaiseRatio > 1) {
+            if (victim.stateMachine.state.shielded) {
                 victim.facing = sign(this.x - victim.x) || 1;
 
                 this.x -= cos(angle) * damage * 10;
                 this.y -= sin(angle) * damage * 10;
 
-                const shieldingTime = victim.age - victim.shieldingStart;
-                if (shieldingTime < 0.1) {
+                if (victim.stateMachine.state.perfectParry) {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
                     victim.updateCombo(1, nomangle('Perfect Parry!'));

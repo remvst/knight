@@ -67,19 +67,7 @@ renderStick = (entity, color) => {
     ctx.fillStyle = color(entity.getColor('#fec'));
     ctx.translate(12, -10);
     if (entity.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-
-    if (entity.age < entity.attackEnd) {
-        if (entity.age < entity.attackStrike) {
-            const progress = (entity.age - entity.attackStart) / (entity.attackStrike - entity.attackStart);
-            ctx.rotate(progress * PI / 2);
-        } else {
-            const progress = (entity.age - entity.attackStrike) / (entity.attackEnd - entity.attackStrike);
-            ctx.rotate((1 - progress) * PI / 2);
-        }
-    } else if (entity.attackPrepareEnd) {
-        const progress = min(1, (entity.age - entity.attackPrepareStart) / (entity.attackPrepareEnd - entity.attackPrepareStart));
-        ctx.rotate(progress * -PI / 2);
-    }
+    ctx.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
     ctx.fillRect(0, -3, 20, 6);
 
@@ -100,9 +88,7 @@ renderSword = (entity, color) => {
     
     ctx.fillStyle = color(entity.getColor('#666'));
     ctx.translate(12, -10);
-    // if (entity.exhausted) ctx.rotate(PI / 2);
     if (entity.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-
     ctx.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
     ctx.fillRect(0, -3, 20, 6);

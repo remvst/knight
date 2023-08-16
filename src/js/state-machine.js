@@ -21,6 +21,8 @@ class State {
     get shieldRaiseRatio() { return 0; }
     get speedRatio() { return 1; }
     get attackPreparationRatio() { return 0; }
+    get shielded() { return false; }
+    get perfectParry() { return false; }
 
     onEnter() {
 
@@ -34,11 +36,13 @@ class State {
 characterStateMachine = ({
     entity,
     chargeTime,
+    perfectParryTime,
 }) => {
     const { controls } = entity;
     const stateMachine = new StateMachine();
 
     chargeTime = chargeTime || 1;
+    perfectParryTime = perfectParryTime || 0;
     
     class Idle extends State {
         get speedRatio() { 
@@ -64,6 +68,8 @@ characterStateMachine = ({
 
         get shieldRaiseRatio() { return interpolate(0, 1, this.age / 0.1); }
         get swordRaiseRatio() { return interpolate(0, -1, this.age / 0.1); }
+        get shielded() { return true; }
+        get perfectParry() { return this.age < perfectParryTime; }
 
         cycle(elapsed) {
             super.cycle(elapsed);
@@ -78,8 +84,8 @@ characterStateMachine = ({
             return 0.5; 
         }
 
-        get shieldRaiseRatio() { return interpolate(1, 0, this.age / 0.1); }
-        get swordRaiseRatio() { return interpolate(-1, 0, this.age / 0.1); }
+        get shieldRaiseRatio() { return interpolate(this.previous.shieldRaiseRatio, 0, this.age / 0.1); }
+        get swordRaiseRatio() { return interpolate(this.previous.swordRaiseRatio, 0, this.age / 0.1); }
 
         cycle(elapsed) {
             super.cycle(elapsed);

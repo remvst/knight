@@ -8,10 +8,6 @@ class MediumEnemy extends Character {
         this.controller.setEntity(this);
         this.controller.start();
 
-        this.timeToPrepareHeavyAttack = 1;
-        this.timeToStrike = 0.05;
-        this.timeToCooldown = 0.1;
-
         this.baseSpeed = 70;
 
         this.renderSteps = [
@@ -23,5 +19,10 @@ class MediumEnemy extends Character {
             (color, shadow) => renderExhaustion(this, color, shadow, -70),
             (color, shadow) => renderExclamation(this, color, shadow),
         ];
+
+        this.stateMachine = characterStateMachine({
+            entity: this, 
+            chargeTime: 0.5,
+        });
     }
 }

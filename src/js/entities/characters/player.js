@@ -25,6 +25,8 @@ class Player extends Character {
 
         this.stateMachine = characterStateMachine({
             entity: this, 
+            chargeTime: PLAYER_HEAVY_CHARGE_TIME,
+            perfectParryTime: PLAYER_PERFECT_PARRY_TIME,
         });
     }
 

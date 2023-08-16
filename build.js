@@ -1,7 +1,20 @@
 const compiler = require('./js13k-compiler/src/compiler');
 
-const CONSTANTS = require('./config/constants');
 const MANGLE_SETTINGS = require('./config/mangle');
+
+const CONSTANTS = {
+    "true": 1,
+    "false": 0,
+    "const": "let",
+    "null": 0,
+
+    "CANVAS_WIDTH": 1280,
+    "CANVAS_HEIGHT": 720,
+
+    "PLAYER_HEAVY_ATTACK_INDEX": 3,
+    "PLAYER_HEAVY_CHARGE_TIME": 1,
+    "PLAYER_PERFECT_PARRY_TIME": 0.1,
+};
 
 function copy(obj) {
     return JSON.parse(JSON.stringify(obj));
