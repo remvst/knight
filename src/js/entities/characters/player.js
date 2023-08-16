@@ -44,16 +44,6 @@ class Player extends Character {
 
         super.render();
     }
-
-    strike(amount) {
-        const angle = angleBetween(this, this.controls.aim);
-        const distance = 5;
-
-        this.x += cos(angle) * distance;
-        this.y += sin(angle) * distance;
-
-        super.strike(amount);
-    }
 }
 
 class PlayerController extends CharacterController {

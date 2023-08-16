@@ -140,6 +140,12 @@ class Character extends Entity {
     }
 
     strike(damage) {
+        const angle = angleBetween(this, this.controls.aim);
+        const distance = 5;
+
+        this.x += cos(angle) * distance;
+        this.y += sin(angle) * distance;
+
         const victim = Array
             .from(this.scene.category(this.targetTeam))
             .filter(character => character !== this && this.isStrikable(character))
