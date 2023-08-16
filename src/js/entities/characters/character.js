@@ -120,7 +120,7 @@ class Character extends Entity {
 
         const angle = angleBetween(this, character);
         const aimAngle = angleBetween(this, this.controls.aim);
-        if (abs(normalize(aimAngle - angle)) > PI / 4) {
+        if (abs(normalize(aimAngle - angle)) > PI / 2) {
             return false;
         }
 
@@ -202,7 +202,7 @@ class Character extends Entity {
 
                 for (let i = 0 ; i < 20 ; i++) {
                     this.scene.add(new Particle(
-                        '#000',
+                        '#900',
                         [size, size + rnd(3, 6)],
                         [impactX, impactX + rnd(-30, 30)],
                         [impactY, impactY + rnd(-30, 30)],
@@ -310,7 +310,7 @@ class Character extends Entity {
             this.scene.add(new Interpolator(bit, 'rotation', 0, pick([-1, 1]) * rnd(PI / 4, PI), duration, easeOutQuint));
         }
 
-        for (let i = 0 ; i < 100 ; i++) {
+        for (let i = 0 ; i < 50 ; i++) {
             const angle = random() * TWO_PI;
             const dist = random() * 40;
 
@@ -319,7 +319,7 @@ class Character extends Entity {
 
             this.scene.add(new Particle(
                 '#fff',
-                [10, 20],
+                [5, 10],
                 [x, x + rnd(-20, 20)],
                 [y, y + rnd(-20, 20)],
                 rnd(0.5, 1),

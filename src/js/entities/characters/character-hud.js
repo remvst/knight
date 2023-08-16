@@ -16,6 +16,9 @@ class CharacterHUD extends Entity {
 
     render() {
         super.render();
+
+        if (this.character.health > 0.5 && this.character.age - this.character.lastDamage > 2) return;
+
         this.gauge.render(this.character.x - 25, this.character.y + 20, 50, 10);
     }
 }

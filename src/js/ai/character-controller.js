@@ -35,7 +35,7 @@ class EnemyAI extends AI {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        // this.currentAI.cycle(elapsed);
+        this.currentAI.cycle(elapsed);
     }
 
     update(player) {

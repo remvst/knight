@@ -23,6 +23,23 @@ class Player extends Character {
             () => ctx.renderExhaustion(this, -70),
         ];
 
+        this.gibs = [
+            () => ctx.renderSword(),
+            () => ctx.renderShield(),
+            () => {
+                ctx.slice(30, true, 0.5);
+                ctx.translate(0, 30);
+                ctx.renderLegs(this);
+                ctx.renderArmoredChest(this);
+            },
+            () => {
+                ctx.slice(30, false, 0.5);
+                ctx.translate(0, 30);
+                ctx.renderLegs(this);
+                ctx.renderArmoredChest(this);
+            },
+        ];
+
         this.stateMachine = characterStateMachine({
             entity: this, 
             chargeTime: PLAYER_HEAVY_CHARGE_TIME,
@@ -41,7 +58,7 @@ class Player extends Character {
             const aimAngle = angleBetween(this, this.controls.aim);
             ctx.fillStyle = 'rgba(0,0,0,.03)';
             ctx.beginPath();
-            ctx.ellipse(0, 0, this.strikeRadiusX * 4, this.strikeRadiusY * 4, 0, aimAngle - PI / 8, aimAngle + PI / 8);
+            ctx.ellipse(0, 0, this.strikeRadiusX * 4, this.strikeRadiusY * 4, 0, aimAngle - PI / 4, aimAngle + PI / 4);
             ctx.lineTo(0, 0);
             ctx.fill();
         });
