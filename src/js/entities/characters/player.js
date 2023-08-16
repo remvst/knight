@@ -16,11 +16,11 @@ class Player extends Character {
         this.strikeRadiusY = 60;
 
         this.renderSteps = [
-            (color) => renderLegs(this, color),
-            (color) => renderSword(this, color),
-            (color) => renderChest(this, color),
-            (color) => renderShield(this, color),
-            (color, shadow) => renderExhaustion(this, color, shadow, -70),
+            () => ctx.renderLegs(this),
+            () => ctx.renderArmAndSword(this),
+            () => ctx.renderChest(this),
+            () => ctx.renderShield(this),
+            () => ctx.renderExhaustion(this, -70),
         ];
 
         this.stateMachine = characterStateMachine({

@@ -17,17 +17,16 @@ class Tree extends Obstacle {
 
         ctx.translate(this.x, this.y);
         
-        ctx.withShadow((color, isShadow) => {
+        ctx.withShadow(() => {
             ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(4, 16)) * this.rng.next(PI / 32, PI / 64));
-
-            ctx.fillStyle = color('#a65');
+            ctx.fillStyle = ctx.resolveColor('#a65');
 
             this.rng.reset();
 
             const trunkWidth = this.rng.next(10, 20);
             const trunkHeight = this.rng.next(100, 250);
 
-            if (!isShadow) {
+            if (!ctx.isShadow) {
                 for (const character of this.scene.category('character')) {
                     if (
                         isBetween(this.x - 50, character.x, this.x + 50) &&
@@ -43,7 +42,7 @@ class Tree extends Obstacle {
             ctx.translate(0, -trunkHeight);
 
             ctx.beginPath();
-            ctx.fillStyle = color('#060');
+            ctx.fillStyle = ctx.resolveColor('#060');
 
             for (let i = 0 ; i < 5 ; i++) {
                 const angle = i / 5 * TWO_PI;
@@ -58,9 +57,9 @@ class Tree extends Obstacle {
                     ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(2, 8)) * PI / 32);
                     ctx.rect(-radius, -radius, radius * 2, radius * 2);
                 });
-
-                if (isShadow) ctx.rect(0, 0, trunkWidth, trunkHeight);
             }
+
+            if (ctx.isShadow) ctx.rect(0, 0, trunkWidth, trunkHeight);
 
             ctx.fill();
         });

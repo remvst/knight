@@ -34,8 +34,10 @@ class Particle extends Entity {
         ctx.translate(this.interp(this.valuesX) - size / 2, this.interp(this.valuesY) - size / 2);
         ctx.rotate(PI / 4);
 
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.interp([1, 0]);
-        ctx.fillRect(0, 0, size, size);
+        ctx.withShadow(() => {
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.interp([1, 0]);
+            ctx.fillRect(0, 0, size, size);
+        });
     }
 }

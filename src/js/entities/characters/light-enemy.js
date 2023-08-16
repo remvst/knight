@@ -15,12 +15,12 @@ class LightEnemy extends Character {
         this.baseSpeed = 100;
 
         this.renderSteps = [
-            (color, shadow) => renderAttackIndicator(this, color, shadow),
-            (color) => renderLegs(this, color),
-            (color) => renderNakedChest(this, color),
-            (color) => renderStick(this, color),
-            (color, shadow) => renderExhaustion(this, color, shadow, -70),
-            (color, shadow) => renderExclamation(this, color, shadow),
+            () => ctx.renderAttackIndicator(this),
+            () => ctx.renderLegs(this),
+            () => ctx.renderNakedChest(this),
+            () => ctx.renderStick(this),
+            () => ctx.renderExhaustion(this, -70),
+            () => ctx.renderExclamation(this),
         ];
 
         this.stateMachine = characterStateMachine({

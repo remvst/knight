@@ -232,14 +232,18 @@ class Character extends Entity {
         if (this.health <= 0) this.die();
     }
 
+    get renderAge() {
+        return this.age * (this.inWater ? 0.5 : 1);
+    }
+
     render() {
         super.render();
 
-        const { inWater } = this;
+        const { inWater, renderAge } = this;
 
         ctx.translate(this.x, this.y);
 
-        ctx.withShadow((color, shadow) => {
+        ctx.withShadow(() => {
             if (inWater) {
                 ctx.beginPath();
                 ctx.rect(-100, -100, 200, 100);
@@ -248,8 +252,10 @@ class Character extends Entity {
                 ctx.translate(0, 10);
             }
 
+            ctx.scale(this.facing, 1);
+
             for (const step of this.renderSteps) {
-                ctx.wrap(() => step(color, shadow));
+                ctx.wrap(() => step(renderAge));
             }
         });
 
@@ -284,7 +290,8 @@ class Character extends Entity {
     }
 
     die() {
-        this.scene.add(new Corpse(this));
+        // TODO
+        // this.scene.add(new Corpse(this));
         this.remove();
 
         for (let i = 0 ; i < 20 ; i++) {
