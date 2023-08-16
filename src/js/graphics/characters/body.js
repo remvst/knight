@@ -66,8 +66,6 @@ renderStick = (entity, color) => {
     
     ctx.fillStyle = color(entity.getColor('#fec'));
     ctx.translate(12, -10);
-    if (entity.exhausted) ctx.rotate(PI / 2);
-    if (entity.shielding) ctx.rotate(-PI / 2);
     if (entity.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
 
     if (entity.age < entity.attackEnd) {
@@ -102,22 +100,10 @@ renderSword = (entity, color) => {
     
     ctx.fillStyle = color(entity.getColor('#666'));
     ctx.translate(12, -10);
-    if (entity.exhausted) ctx.rotate(PI / 2);
-    if (entity.shielding) ctx.rotate(-PI / 2);
+    // if (entity.exhausted) ctx.rotate(PI / 2);
     if (entity.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
 
-    if (entity.age < entity.attackEnd) {
-        if (entity.age < entity.attackStrike) {
-            const progress = (entity.age - entity.attackStart) / (entity.attackStrike - entity.attackStart);
-            ctx.rotate(progress * PI / 2);
-        } else {
-            const progress = (entity.age - entity.attackStrike) / (entity.attackEnd - entity.attackStrike);
-            ctx.rotate((1 - progress) * PI / 2);
-        }
-    } else if (entity.attackPrepareEnd) {
-        const progress = min(1, (entity.age - entity.attackPrepareStart) / (entity.attackPrepareEnd - entity.attackPrepareStart));
-        ctx.rotate(progress * -PI / 2);
-    }
+    ctx.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
     ctx.fillRect(0, -3, 20, 6);
 
@@ -149,9 +135,10 @@ renderShield = (entity, color) => {
     ctx.fillStyle = color(entity.getColor('#666'));
     ctx.translate(-10, -8);
     if (entity.controls.force) ctx.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-    if (!entity.shielding) ctx.rotate(Math.PI / 3);
+    ctx.rotate(Math.PI / 3);
+    ctx.rotate(entity.stateMachine.state.shieldRaiseRatio * -PI / 3);
 
-    const armLength = entity.shielding ? 25 : 10;
+    const armLength = 10 + 15 * entity.stateMachine.state.shieldRaiseRatio;
     ctx.fillRect(0, -3, armLength, 6);
 
     // Shield
@@ -178,7 +165,7 @@ renderShield = (entity, color) => {
 };
 
 renderExhaustion = (entity, color, shadow, y) => {
-    if (entity.exhausted) {
+    if (entity.stateMachine.state.exhausted) {
         ctx.wrap(() => {
             ctx.translate(0, y);
             ctx.fillStyle = color('#ff0');
@@ -191,14 +178,16 @@ renderExhaustion = (entity, color, shadow, y) => {
 };
 
 renderAttackIndicator = (entity, color, shadow) => {
-    const progress = (entity.age - entity.attackPrepareStart) / 0.2;
-    if (isBetween(0, progress, 1) && !shadow) {
-        ctx.strokeStyle = '#f00';
-        ctx.globalAlpha = 1 - progress;
-        ctx.lineWidth = 20;
+    const progress = (entity.stateMachine.state.attackPreparationRatio);
+    if (progress > 0 && !shadow) {
+        ctx.strokeStyle = 'rgba(255,0,0,1)';
+        ctx.fillStyle = 'rgba(255,0,0,.5)';
+        ctx.globalAlpha = 0.5 * (1 - progress);
+        ctx.lineWidth = 10;
         ctx.beginPath();
-        ctx.scale(progress, progress);
+        ctx.scale(1 - progress, 1 - progress);
         ctx.ellipse(0, 0, entity.strikeRadiusX, entity.strikeRadiusY, 0, 0, TWO_PI);
+        ctx.fill();
         ctx.stroke();
     }
 };
@@ -206,8 +195,8 @@ renderAttackIndicator = (entity, color, shadow) => {
 renderExclamation = (entity, color, shadow) => {
     ctx.translate(0, -100 + pick([-2, 2]));
 
-    if (entity.attackPrepareEnd && !shadow) {
-        const progress = min(1, 2 * (entity.age - entity.attackPrepareStart) / 0.25);
+    if (entity.stateMachine.state.attackPreparationRatio > 0 && !shadow) {
+        const progress = min(1, 2 * entity.stateMachine.state.age / 0.25);
         ctx.scale(progress, progress);
         ctx.drawImage(exclamation, -exclamation.width / 2, -exclamation.height / 2);
     }

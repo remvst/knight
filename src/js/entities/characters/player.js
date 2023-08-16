@@ -12,10 +12,6 @@ class Player extends Character {
         this.timeToStrike = 0.05;
         this.timeToCooldown = 0.1;
 
-        this.attackMagnetRadiusX = this.strikeRadiusX * 3;
-        this.attackMagnetRadiusY = this.strikeRadiusY * 3;
-
-
         this.strikeRadiusX = 120;
         this.strikeRadiusY = 60;
 
@@ -26,6 +22,10 @@ class Player extends Character {
             (color) => renderShield(this, color),
             (color, shadow) => renderExhaustion(this, color, shadow, -70),
         ];
+
+        this.stateMachine = characterStateMachine({
+            entity: this, 
+        });
     }
 
     render() {
@@ -38,7 +38,17 @@ class Player extends Character {
             ctx.ellipse(0, 0, this.strikeRadiusX * 4, this.strikeRadiusY * 4, 0, aimAngle - PI / 8, aimAngle + PI / 8);
             ctx.lineTo(0, 0);
             ctx.fill();
-        })
+        });
+        
+        // ctx.wrap(() => {
+        //     ctx.translate(this.x, this.y - 30);
+        //     ctx.scale(this.facing, 1);
+        //     ctx.fillStyle = '#f00';
+        //     ctx.beginPath();
+        //     ctx.arc(0, 0, 20, 0, PI / 4, false);
+        //     ctx.arc(0, 0, 40, PI / 4, 0, true);
+        //     ctx.fill();
+        // });
 
         super.render();
 
@@ -54,8 +64,8 @@ class Player extends Character {
         // }
     }
 
-    strike() {
-        super.strike();
+    strike(damage) {
+        super.strike(damage);
 
         // TODO if heavy attack, animation
         // const anim = new PerfectParry();
@@ -84,5 +94,35 @@ class PlayerController extends CharacterController {
         this.entity.controls.dash = DOWN[32];
 
         if (x) this.entity.facing = x;
+    }
+}
+
+class AttackAnim extends Entity {
+    constructor(character, color, fromAngle, toAngle) {
+        super();
+        this.character = character;
+        this.color = color;
+        this.fromAngle = fromAngle;
+        this.toAngle = toAngle;
+    }
+
+    cycle(elapsed) {
+        super.cycle(elapsed);
+        if (this.age > 0.2) this.remove();
+    }
+
+    render() {
+        super.render();
+
+        ctx.globalAlpha = 1 - this.age / 0.2;
+
+        ctx.translate(this.x, this.y - 30);
+        ctx.scale(this.character.facing, 1);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 40;
+        ctx.beginPath();
+        ctx.arc(0, 0, 40, this.fromAngle * PI / 2, this.toAngle * PI / 2, false);
+        // ctx.arc(0, 0, 40, this.toAngle * PI / 4, 0, true);
+        ctx.stroke();
     }
 }

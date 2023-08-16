@@ -21,6 +21,7 @@ compiler.run((tasks) => {
             tasks.loadFiles([
                 "src/js/globals.js",
                 "src/js/math.js",
+                "src/js/state-machine.js",
 
                 "src/js/graphics/create-canvas.js",
                 "src/js/graphics/wrap.js",

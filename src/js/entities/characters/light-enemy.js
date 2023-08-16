@@ -22,5 +22,10 @@ class LightEnemy extends Character {
             (color, shadow) => renderExhaustion(this, color, shadow, -70),
             (color, shadow) => renderExclamation(this, color, shadow),
         ];
+
+        this.stateMachine = characterStateMachine({
+            entity: this, 
+            chargeTime: 0.5,
+        });
     }
 }

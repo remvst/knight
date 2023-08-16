@@ -75,21 +75,23 @@ class LightAttackAI extends AI {
     }
 
     update(player) {
-        this.entity.controls.force = 0;
+        const { controls } = this.entity;
 
-        if (!this.entity.attackPrepareEnd) {
+        controls.force = 0;
+
+        if (!controls.attack) {
             if (!this.entity.isStrikable(player)) {
                 // Approach the player
-                this.entity.controls.force = 1;
-                this.entity.controls.angle = angleBetween(this.entity, player);
+                controls.force = 1;
+                controls.angle = angleBetween(this.entity, player);
             } else {
                 // We're close, prepare the attack
-                this.entity.controls.attack = true;
+                controls.attack = true;
             }
         } else {
-            if (this.entity.age - this.entity.attackPrepareStart > this.entity.timeToPrepareHeavyAttack / 2) {
+            if (this.entity.stateMachine.state.attackPreparationRatio >= 1) {
                 // Attack was prepared, release!
-                this.entity.controls.attack = false;
+                controls.attack = false;
                 this.resolve();
             }
         }

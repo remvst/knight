@@ -16,21 +16,6 @@ class Character extends Entity {
 
         this.baseSpeed = 200;
 
-        this.shielding = false;
-        this.shieldingStart = 0;
-
-        this.timeToPrepareHeavyAttack = 1;
-        this.timeToStrike = 0.05;
-        this.timeToCooldown = 0.1;
-
-        this.attackPrepareStart = 0;
-        this.attackPrepareEnd = 0;
-
-        this.strikePowerRatio = 1;
-        this.attackStart = 0;
-        this.attackStrike = 0;
-        this.attackEnd = 0;
-
         this.strikeRadiusX = 80;
         this.strikeRadiusY = 40;
 
@@ -51,6 +36,10 @@ class Character extends Entity {
             'aim': {'x': 0, 'y': 0},
             'dash': false,
         };
+
+        this.stateMachine = characterStateMachine({
+            entity: this, 
+        });
     }
 
     getColor(color) {
@@ -58,10 +47,9 @@ class Character extends Entity {
     }
 
     cycle(elapsed) {
-        const ageBefore = this.age;
-        const shieldingBefore = this.shielding;
-
         super.cycle(elapsed);
+
+        this.stateMachine.cycle(elapsed);
 
         this.controller.cycle(elapsed);
 
@@ -69,8 +57,7 @@ class Character extends Entity {
             this.loseStamina(elapsed * 0.2);
         }
 
-        const attackingOrPreparingAttack = this.attackPrepareEnd || this.attackEnd > this.age;
-        const speed = (this.shielding || this.attackPrepareEnd || this.inWater || this.exhausted ? 0.5 : 1) * this.baseSpeed;
+        const speed = this.stateMachine.state.speedRatio * this.baseSpeed;
         const dashing = this.dashEnd > this.age;
         
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
@@ -85,26 +72,6 @@ class Character extends Entity {
             const angle = angleBetween(this, character);
             this.x = character.x - cos(angle) * this.collisionRadius;
             this.y = character.y - sin(angle) * this.collisionRadius;
-        }
-
-        // Attack
-        if (this.controls.attack && !attackingOrPreparingAttack && !this.shielding && !this.exhausted && !dashing) {
-            this.attackPrepareStart = this.age;
-            this.attackPrepareEnd = this.age + this.timeToPrepareHeavyAttack;
-        }
-
-        if (!this.controls.attack && this.attackPrepareEnd > 0) {
-            this.attack();
-        }
-
-        if (ageBefore <= this.attackStrike && this.age >= this.attackStrike) {
-            this.strike();
-        }
-
-        // Shield
-        this.shielding = this.controls.shield && !attackingOrPreparingAttack && !this.exhausted;
-        if (this.shielding && !shieldingBefore && !dashing) {
-            this.shieldingStart = this.age;
         }
 
         // Stamina regen
@@ -184,16 +151,15 @@ class Character extends Entity {
         }
     }
 
-    strike() {
-        const victims = Array
+    strike(damage) {
+        const victim = Array
             .from(this.scene.category(this.targetTeam))
-            .filter(character => character !== this && this.isStrikable(character));
+            .filter(character => character !== this && this.isStrikable(character))
+            .reduce((acc, other) => !acc || dist(this, other) < dist(this, acc) ? other : acc, null);
 
-        const damage = 0.15 * this.strikePowerRatio;
-
-        for (const victim of victims) {
+        if (victim) {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
-            if (victim.shielding) {
+            if (victim.stateMachine.state.shieldRaiseRatio > 1) {
                 victim.facing = sign(this.x - victim.x) || 1;
 
                 this.x -= cos(angle) * damage * 10;
@@ -236,22 +202,16 @@ class Character extends Entity {
                 victim.damage(damage);
 
                 victim.x += cos(angle) * damage * 10;
-                victim.y += sin(angle) * damage * 10;
+                // victim.y += sin(angle) * damage * 10;
 
                 this.updateCombo(1, nomangle('Hit'));
             }
-
-            break;
         }
     }
 
     loseStamina(amount) {
         this.stamina = max(0, this.stamina - amount);
         this.lastStaminaLoss = this.age;
-
-        if (this.stamina <= 0) {
-            this.exhausted = true;
-        }
     }
 
     damage(amount) {
@@ -286,6 +246,14 @@ class Character extends Entity {
             }
         });
 
+        if (DEBUG) {
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = '12pt Courier';
+            ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+        }
+
         // if (DEBUG) {
         //     ctx.lineWidth = 1;
         //     ctx.strokeStyle = '#f00';
@@ -298,8 +266,8 @@ class Character extends Entity {
     dash() {
         const duration = 0.2;
         const { angle } = this.controls;
-        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 200, duration));
-        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 200, duration));
+        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 150, duration));
+        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 150, duration));
 
         this.waitingForDashRelease = true;
         this.dashStart = this.age;

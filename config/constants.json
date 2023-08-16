@@ -5,5 +5,7 @@
     "null": 0,
 
     "CANVAS_WIDTH": 1280,
-    "CANVAS_HEIGHT": 720
+    "CANVAS_HEIGHT": 720,
+
+    "PLAYER_HEAVY_ATTACK_INDEX": 3
 }

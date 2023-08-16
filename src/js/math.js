@@ -7,6 +7,7 @@ normalize = x => moduloWithNegative(x, PI);
 angleBetween = (a, b) => atan2(b.y - a.y, b.x - a.x);
 roundToNearest = (x, precision) => round(x / precision) * precision;
 pick = a => a[~~(random() * a.length)];
+interpolate = (from, to, ratio) => between(0, ratio, 1) * (to - from) + from;
 
 // Modulo centered around zero: the result will be between -y and +y
 moduloWithNegative = (x, y) => {
