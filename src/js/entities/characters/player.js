@@ -35,45 +35,24 @@ class Player extends Character {
             ctx.translate(this.x, this.y);
 
             const aimAngle = angleBetween(this, this.controls.aim);
-            ctx.fillStyle = 'rgba(0,0,0,.05)';
+            ctx.fillStyle = 'rgba(0,0,0,.03)';
             ctx.beginPath();
             ctx.ellipse(0, 0, this.strikeRadiusX * 4, this.strikeRadiusY * 4, 0, aimAngle - PI / 8, aimAngle + PI / 8);
             ctx.lineTo(0, 0);
             ctx.fill();
         });
-        
-        // ctx.wrap(() => {
-        //     ctx.translate(this.x, this.y - 30);
-        //     ctx.scale(this.facing, 1);
-        //     ctx.fillStyle = '#f00';
-        //     ctx.beginPath();
-        //     ctx.arc(0, 0, 20, 0, PI / 4, false);
-        //     ctx.arc(0, 0, 40, PI / 4, 0, true);
-        //     ctx.fill();
-        // });
 
         super.render();
-
-        // if (DEBUG) {
-        //     ctx.fillStyle = '#000';
-
-        //     ctx.translate(this.controls.aim.x - this.x, this.controls.aim.y - this.y);
-
-        //     ctx.rotate(PI / 4);
-        //     ctx.fillRect(-15, -5, 30, 10);
-        //     ctx.rotate(PI / 2);
-        //     ctx.fillRect(-15, -5, 30, 10);
-        // }
     }
 
-    strike(damage) {
-        super.strike(damage);
+    strike(amount) {
+        const angle = angleBetween(this, this.controls.aim);
+        const distance = 5;
 
-        // TODO if heavy attack, animation
-        // const anim = new PerfectParry();
-        // anim.x = this.x;
-        // anim.y = this.y;
-        // this.scene.add(anim);
+        this.x += cos(angle) * distance;
+        this.y += sin(angle) * distance;
+
+        super.strike(amount);
     }
 }
 

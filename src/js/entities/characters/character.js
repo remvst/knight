@@ -136,19 +136,7 @@ class Character extends Entity {
     }
 
     attack() {
-        if (this.attackEnd <= this.age) {
-            const { inWater } = this;
-            this.attackStart = this.age;
-            this.attackStrike = this.age + this.timeToStrike * (inWater ? 2 : 1);
-            this.attackEnd = this.age + this.timeToCooldown * (inWater ? 2 : 1);
-
-            const power = this.age >= this.attackPrepareEnd ? 3 : 1;
-            this.strikePowerRatio = power;
-
-            this.attackPrepareEnd = 0;
-
-            // this.loseStamina(power * 0.05);
-        }
+        
     }
 
     strike(damage) {
