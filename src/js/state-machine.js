@@ -133,7 +133,7 @@ characterStateMachine = ({
         onEnter() {
             entity.strike((this.counter + 1) * 0.15);
 
-            const anim = new AttackAnim(
+            const anim = new SwingEffect(
                 entity, 
                 this.counter == PLAYER_HEAVY_ATTACK_INDEX ? '#ff0' : '#fff', 
                 min(this.previous.swordRaiseRatio, this.swordRaiseRatio), 

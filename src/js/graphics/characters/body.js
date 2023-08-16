@@ -166,8 +166,8 @@ renderExhaustion = (entity, color, shadow, y) => {
 renderAttackIndicator = (entity, color, shadow) => {
     const progress = (entity.stateMachine.state.attackPreparationRatio);
     if (progress > 0 && !shadow) {
-        ctx.strokeStyle = 'rgba(255,0,0,1)';
-        ctx.fillStyle = 'rgba(255,0,0,.5)';
+        ctx.strokeStyle = 'rgba(255,255,0,1)';
+        ctx.fillStyle = 'rgba(255,255,0,.5)';
         ctx.globalAlpha = 0.5 * (1 - progress);
         ctx.lineWidth = 10;
         ctx.beginPath();
