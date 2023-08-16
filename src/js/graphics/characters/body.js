@@ -169,7 +169,7 @@ CanvasRenderingContext2D.prototype.renderExhaustion = function(entity, y) {
 CanvasRenderingContext2D.prototype.renderAttackIndicator = function(entity) {
     if (!entity.health) return;
 
-    const progress = (entity.stateMachine.state.attackPreparationRatio);
+    const progress = entity.stateMachine.state.attackPreparationRatio;
     if (progress > 0 && !this.isShadow) {
         this.strokeStyle = 'rgba(255,0,0,1)';
         this.fillStyle = 'rgba(255,0,0,.5)';

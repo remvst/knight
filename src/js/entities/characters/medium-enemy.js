@@ -20,15 +20,22 @@ class MediumEnemy extends Character {
             () => ctx.renderExclamation(this),
         ];
 
-        this.tools = [
+        this.gibs = [
             () => ctx.renderSword(),
             () => ctx.renderShield(),
+            () => {
+                ctx.slice(30, true, 0.5);
+                ctx.translate(0, 30);
+                ctx.renderLegs(this);
+                ctx.renderArmoredChest(this);
+            },
+            () => {
+                ctx.slice(30, false, 0.5);
+                ctx.translate(0, 30);
+                ctx.renderLegs(this);
+                ctx.renderArmoredChest(this);
+            },
         ];
-
-        this.body = () => {
-            ctx.renderLegs(this);
-            ctx.renderArmoredChest(this);
-        };
 
         this.stateMachine = characterStateMachine({
             entity: this, 

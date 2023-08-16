@@ -77,9 +77,6 @@ class Character extends Entity {
         // Stamina regen
         if (this.age - this.lastStaminaLoss > 2) {
             this.stamina = min(1, this.stamina + elapsed * 0.3);
-            if (this.stamina >= 1) {
-                this.exhausted = false;
-            }
         }
 
         // Combo reset
@@ -201,15 +198,15 @@ class Character extends Entity {
 
                 const impactX = victim.x + rnd(-20, 20);
                 const impactY = victim.y - 30 + rnd(-20, 20);
-                const size = rnd(1, 3);
+                const size = rnd(1, 2);
 
                 for (let i = 0 ; i < 20 ; i++) {
                     this.scene.add(new Particle(
-                        '#900',
-                        [size, size + rnd(5, 10)],
+                        '#000',
+                        [size, size + rnd(3, 6)],
                         [impactX, impactX + rnd(-30, 30)],
                         [impactY, impactY + rnd(-30, 30)],
-                        rnd(0.3, 0.6),
+                        rnd(0.2, 0.4),
                     ));
                 }
             }
@@ -242,6 +239,8 @@ class Character extends Entity {
         const { inWater, renderAge } = this;
 
         ctx.translate(this.x, this.y);
+
+        ctx.resolveColor = x => this.getColor(x);
 
         ctx.withShadow(() => {
             if (inWater) {
@@ -277,6 +276,8 @@ class Character extends Entity {
     }
 
     dash() {
+        if (this.stateMachine.state.exhausted) return;
+        
         const duration = 0.2;
         const { angle } = this.controls;
         this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 150, duration));
@@ -290,47 +291,42 @@ class Character extends Entity {
     }
 
     die() {
-        function easeOutQuart(x) {
-            return 1 - Math.pow(1 - x, 4);
-            
-            }
+        function easeOutQuint(x) {
+            return 1 - Math.pow(1 - x, 5);
+        }
 
-        const duration = 0.5;
+        const duration = 1;
 
-        const corpse = new Corpse(this.body);
-        corpse.x = this.x;
-        corpse.y = this.y;
-        this.scene.add(corpse);
-
-        this.scene.add(new Interpolator(corpse, 'rotation', 0, -this.facing * PI / 2 + rnd(-1, 1) * PI / 8, 1, easeOutQuart));
-
-        for (const step of this.tools) {
+        for (const step of this.gibs) {
             const bit = new Corpse(step);
             bit.x = this.x;
             bit.y = this.y;
             this.scene.add(bit);
     
-            const angle = random() * TWO_PI;
+            const angle = angleBetween(this, this.controls.aim) + PI + rnd(-1, 1) * PI / 4;
+            // const angle = angleBetween(this, this.controls.aim);
             const distance = rnd(30, 60);
-            this.scene.add(new Interpolator(bit, 'x', bit.x, bit.x + cos(angle) * distance, duration, easeOutQuart));
-            this.scene.add(new Interpolator(bit, 'y', bit.y, bit.y + sin(angle) * distance, duration, easeOutQuart));
-            this.scene.add(new Interpolator(bit, 'rotation', 0, pick([-1, 1]) * rnd(PI / 4, PI), duration, easeOutQuart));
+            this.scene.add(new Interpolator(bit, 'x', bit.x, bit.x + cos(angle) * distance, duration, easeOutQuint));
+            this.scene.add(new Interpolator(bit, 'y', bit.y, bit.y + sin(angle) * distance, duration, easeOutQuint));
+            this.scene.add(new Interpolator(bit, 'rotation', 0, pick([-1, 1]) * rnd(PI / 4, PI), duration, easeOutQuint));
         }
 
+        for (let i = 0 ; i < 100 ; i++) {
+            const angle = random() * TWO_PI;
+            const dist = random() * 40;
 
-        this.remove();
-
-        for (let i = 0 ; i < 20 ; i++) {
-            const x = this.x - this.facing * 30 + rnd(-30, 30);
-            const y = this.y + rnd(-10, 10);
+            const x = this.x + cos(angle) * dist;
+            const y = this.y - 30 + sin(angle) * dist;
 
             this.scene.add(new Particle(
-                '#eee',
-                [5, 10],
+                '#fff',
+                [10, 20],
                 [x, x + rnd(-20, 20)],
                 [y, y + rnd(-20, 20)],
                 rnd(0.5, 1),
             ));
         }
+
+        this.remove();
     }
 }
