@@ -63,13 +63,10 @@ class Scene {
         ctx.lineWidth = 70;
 
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-
-        for (let x = 0 ; x < 10000 ; x += 300) {
+        for (let x = roundToNearest(camera.x - CANVAS_WIDTH * 2, 300) ; x < camera.x + CANVAS_WIDTH ; x += 300) {
             const y = this.pathCurve(x);
             ctx.lineTo(x, y);
         }
-
         ctx.stroke();
 
         const ordered = Array.from(this.entities).sort((a, b) => a.z - b.z);
