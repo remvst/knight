@@ -18,7 +18,10 @@ class CharacterHUD extends Entity {
         super.render();
 
         if (this.character.health > 0.5 && this.character.age - this.character.lastDamage > 2) return;
+ 
+        ctx.shadowColor = '#000';
+        ctx.shadowBlur = 3;
 
-        this.gauge.render(this.character.x - 25, this.character.y + 20, 50, 10);
+        this.gauge.render(this.character.x - 50, this.character.y + 20, 100, 15);
     }
 }

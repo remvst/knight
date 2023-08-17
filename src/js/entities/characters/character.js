@@ -24,7 +24,7 @@ class Character extends Entity {
 
         this.collisionRadius = 30;
 
-        this.lastDamage = 0;
+        this.lastDamage = -9;
 
         this.dashStart = 0;
         this.dashEnd = 0;
