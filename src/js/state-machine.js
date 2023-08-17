@@ -1,7 +1,7 @@
 class StateMachine {
     transitionToState(state) {
         state.stateMachine = this;
-        state.previous = this.state;
+        state.previous = this.state || new State();
         state.onEnter();
         this.state = state;
     }
@@ -45,6 +45,9 @@ characterStateMachine = ({
     perfectParryTime = perfectParryTime || 0;
     
     class Idle extends State {
+        get swordRaiseRatio() { return interpolate(this.previous.swordRaiseRatio, 0, this.age / 0.1); }
+        get shieldRaiseRatio() { return interpolate(this.previous.shieldRaiseRatio, 0, this.age / 0.1); }
+
         get speedRatio() { 
             return entity.inWater ? 0.5 : 1; 
         }
@@ -57,6 +60,8 @@ characterStateMachine = ({
                 this.stateMachine.transitionToState(new Shielding());
             } else if (controls.attack) {
                 this.stateMachine.transitionToState(new Charging());
+            } else if (controls.dash) {
+                this.stateMachine.transitionToState(new Dashing());
             }
         }
     }
@@ -74,23 +79,35 @@ characterStateMachine = ({
         cycle(elapsed) {
             super.cycle(elapsed);
             if (!controls.shield) {
-                this.stateMachine.transitionToState(new Unshielding());
+                stateMachine.transitionToState(new Idle());
             }
         }
     }
 
-    class Unshielding extends State {
-        get speedRatio() { 
-            return 0.5; 
+    class Dashing extends State {
+        onEnter() {
+            entity.dash(entity.controls.angle, 150, 0.2);
+            entity.loseStamina(0.2);
         }
-
-        get shieldRaiseRatio() { return interpolate(this.previous.shieldRaiseRatio, 0, this.age / 0.1); }
-        get swordRaiseRatio() { return interpolate(this.previous.swordRaiseRatio, 0, this.age / 0.1); }
 
         cycle(elapsed) {
             super.cycle(elapsed);
+
+            for (let i = 0 ; i < 3 ; i++) {
+                const x = entity.x + rnd(-5, 5);
+                const y = entity.y + rnd(-5, 5);
+    
+                entity.scene.add(new Particle(
+                    '#eee',
+                    [5, 10],
+                    [x, x + rnd(-20, 20)],
+                    [y, y + rnd(-20, 20)],
+                    rnd(0.5, 1),
+                ));
+            }
+
             if (this.age > 0.2) {
-                this.stateMachine.transitionToState(new Idle());
+                stateMachine.transitionToState(new Idle());
             }
         }
     }
@@ -111,7 +128,7 @@ characterStateMachine = ({
 
             if (!controls.attack) {
                 const counter = this.age >= 1 ? PLAYER_HEAVY_ATTACK_INDEX : 0;
-                this.stateMachine.transitionToState(new Strike(counter));
+                stateMachine.transitionToState(new Strike(counter));
             }
         }
     }
@@ -123,15 +140,11 @@ characterStateMachine = ({
         }
 
         get swordRaiseRatio() { 
-            const start = -(this.counter + 1) * 0.4;
-            const end = 1;
-
-            const ratio = min(1, this.age / 0.05); 
-            return ratio * (end - start) + start;
+            return interpolate(-(this.counter + 1) * 0.4, 1, this.age / 0.05);
         }
 
         onEnter() {
-            entity.strike((this.counter + 1) * 0.15);
+            const target = entity.lunge();
 
             const anim = new SwingEffect(
                 entity, 
@@ -139,8 +152,8 @@ characterStateMachine = ({
                 min(this.previous.swordRaiseRatio, this.swordRaiseRatio), 
                 0,
             );
-            anim.x = entity.x;
-            anim.y = entity.y;
+            anim.x = target.x;
+            anim.y = target.y;
             entity.scene.add(anim);
         }
 
@@ -148,10 +161,12 @@ characterStateMachine = ({
             super.cycle(elapsed);
 
             if (this.age > 0.1) {
+                entity.strike((this.counter + 1) * 0.15);
+
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
-                    this.stateMachine.transitionToState(new LightRecover(this.counter));
+                    stateMachine.transitionToState(new LightRecover(this.counter));
                 } else {
-                    this.stateMachine.transitionToState(new HeavyRecover());
+                    stateMachine.transitionToState(new HeavyRecover());
                 }
             }
         }
@@ -179,11 +194,11 @@ characterStateMachine = ({
             }
 
             if (this.age > 0.3) {
-                this.stateMachine.transitionToState(new Idle());
+                stateMachine.transitionToState(new Idle());
             } else if (controls.attack && this.readyToAttack) {
-                this.stateMachine.transitionToState(new Strike(this.counter + 1));
+                stateMachine.transitionToState(new Strike(this.counter + 1));
             } else if (controls.shield) {
-                this.stateMachine.transitionToState(new Shielding());
+                stateMachine.transitionToState(new Shielding());
             }
         }
     }
@@ -202,7 +217,7 @@ characterStateMachine = ({
             super.cycle(elapsed);
 
             if (this.age > 0.5) {
-                this.stateMachine.transitionToState(new Idle());
+                stateMachine.transitionToState(new Idle());
             }
         }
     }
@@ -224,7 +239,7 @@ characterStateMachine = ({
             super.cycle(elapsed);
 
             if (entity.stamina >= 1) {
-                this.stateMachine.transitionToState(new Idle());
+                stateMachine.transitionToState(new Idle());
             }
         }
     }

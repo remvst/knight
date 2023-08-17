@@ -18,7 +18,14 @@ scene.add(player);
 scene.add(new PlayerHUD(player));
 scene.add(new Cursor(player));
 
-for (let i = 0 ; i < 0 ; i++) {
+// for (let r = 0 ; r < 1 ; r += 0.1) {
+//     const enemy = new MediumEnemy();
+//     enemy.x = cos(r * TWO_PI) * 200;
+//     enemy.y = sin(r * TWO_PI) * 200;
+//     scene.add(enemy);
+// }
+
+for (let i = 0 ; i < 10 ; i++) {
     const enemy = new LightEnemy();
     enemy.x = rnd(-600, 600);
     enemy.y = rnd(-600, 600);
@@ -27,7 +34,7 @@ for (let i = 0 ; i < 0 ; i++) {
     scene.add(new CharacterHUD(enemy));
 }
 
-for (let i = 0 ; i < 5 ; i++) {
+for (let i = 0 ; i < 10 ; i++) {
     const enemy = new MediumEnemy();
     enemy.x = rnd(-600, 600);
     enemy.y = rnd(-600, 600);

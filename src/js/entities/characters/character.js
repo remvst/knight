@@ -19,6 +19,9 @@ class Character extends Entity {
         this.strikeRadiusX = 80;
         this.strikeRadiusY = 40;
 
+        this.magnetRadiusX = 0;
+        this.magnetRadiusY = 0;
+
         this.collisionRadius = 30;
 
         this.lastDamage = 0;
@@ -58,7 +61,6 @@ class Character extends Entity {
         }
 
         const speed = this.stateMachine.state.speedRatio * this.baseSpeed;
-        const dashing = this.dashEnd > this.age;
         
         this.x += cos(this.controls.angle) * this.controls.force * speed * elapsed;
         this.y += sin(this.controls.angle) * this.controls.force * speed * elapsed;
@@ -83,30 +85,6 @@ class Character extends Entity {
         if (this.age - this.lastComboChange > 5) {
             this.updateCombo(-99999, '');
         }
-
-        // Dash
-        if (this.controls.dash) {
-            if (!this.waitingForDashRelease && !dashing) {
-                this.dash();
-            }
-        } else {
-            this.waitingForDashRelease = false;
-        }
-
-        if (dashing) {
-            for (let i = 0 ; i < 3 ; i++) {
-                const x = this.x + rnd(-5, 5);
-                const y = this.y + rnd(-5, 5);
-    
-                this.scene.add(new Particle(
-                    '#eee',
-                    [5, 10],
-                    [x, x + rnd(-20, 20)],
-                    [y, y + rnd(-20, 20)],
-                    rnd(0.5, 1),
-                ));
-            }
-        }
     }
 
     updateCombo(value, reason) {
@@ -115,7 +93,7 @@ class Character extends Entity {
         this.lastComboChangeReason = reason.toUpperCase();
     }
 
-    isStrikable(character) {
+    isStrikable(character, radiusX, radiusY) {
         if (character === this) return false;
 
         const angle = angleBetween(this, character);
@@ -124,7 +102,7 @@ class Character extends Entity {
             return false;
         }
 
-        return this.isWithinRadii(character, this.strikeRadiusX, this.strikeRadiusY);
+        return this.isWithinRadii(character, radiusX, radiusY);
     }
 
     isWithinRadii(character, radiusX, radiusY) {
@@ -132,20 +110,59 @@ class Character extends Entity {
             abs(character.y - this.y) < radiusY;
     }
 
-    strike(damage) {
-        const angle = angleBetween(this, this.controls.aim);
-        const distance = 5;
+    strikability(victim, radiusX, radiusY, fov) {
+        if (victim === this) return 0;
 
-        this.x += cos(angle) * distance;
-        this.y += sin(angle) * distance;
+        const angleToVictim = angleBetween(this, victim);
+        const aimAngle = angleBetween(this, this.controls.aim);
+        const angleScore = 1 - abs(normalize(angleToVictim - aimAngle)) / (fov / 2);
 
-        this.loseStamina(0.1);
+        const dX = abs(this.x - victim.x);
+        const adjustedDY = abs(this.y - victim.y) / (radiusY / radiusX);
 
-        const victim = Array
+        const adjustedDistance = hypot(dX, adjustedDY);
+
+        const distanceScore = 1 - adjustedDistance / radiusX;
+        if (distanceScore < 0 || angleScore < 0) return 0;
+
+        return (distanceScore + angleScore) / 2;
+    }
+
+    pickVictim(radiusX, radiusY, fov) {
+        return Array
             .from(this.scene.category(this.targetTeam))
-            .filter(character => character !== this && this.isStrikable(character))
-            .reduce((acc, other) => !acc || dist(this, other) < dist(this, acc) ? other : acc, null);
+            .reduce((acc, other) => {
+                const strikabilityOther = this.strikability(other, radiusX, radiusX, fov);
+                if (strikabilityOther <= 0) return acc;
+                if (!acc) return other;
 
+                return strikabilityOther > this.strikability(acc, radiusX, radiusY, fov) 
+                    ? other 
+                    : acc;
+            }, null);
+    }
+
+    lunge() {
+        const victim = this.pickVictim(this.magnetRadiusX, this.magnetRadiusY, PI / 2);
+        if (!victim) {
+            return this.dash(
+                angleBetween(this, this.controls.aim), 
+                40, 
+                0.1,
+            );
+        } else {
+            return this.dash(
+                angleBetween(this, victim), 
+                max(0, dist(this, victim) - this.strikeRadiusX / 2), 
+                0.1,
+            );
+        }
+    }
+
+    strike(damage) {
+        // this.loseStamina(0.1);
+
+        const victim = this.pickVictim(this.strikeRadiusX, this.strikeRadiusY, PI);
         if (victim) {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
             if (victim.stateMachine.state.shielded) {
@@ -168,11 +185,7 @@ class Character extends Entity {
 
                     for (const parryVictim of this.scene.category(victim.targetTeam)) {
                         if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX, victim.strikeRadiusY)) {
-                            const angle = atan2(parryVictim.y - victim.y, parryVictim.x - victim.x);
-
-                            this.scene.add(new Interpolator(parryVictim, 'x', parryVictim.x, parryVictim.x + cos(angle) * 100, 0.2));
-                            this.scene.add(new Interpolator(parryVictim, 'y', parryVictim.y, parryVictim.y + sin(angle) * 100, 0.2));
-
+                            parryVictim.dash(angleBetween(victim, parryVictim), 100, 0.2);
                             parryVictim.loseStamina(1);
                         }
                     }
@@ -190,13 +203,9 @@ class Character extends Entity {
                 }
             } else {
                 victim.damage(damage);
-
-                victim.x += cos(angle) * damage * 25;
-                victim.y += sin(angle) * damage * 25;
+                victim.dash(angle, damage * 25, 0.1);
 
                 this.updateCombo(1, nomangle('Hit'));
-
-                victim.displayLabel('-' + ~~(damage * 100));
 
                 const impactX = victim.x + rnd(-20, 20);
                 const impactY = victim.y - 30 + rnd(-20, 20);
@@ -235,6 +244,7 @@ class Character extends Entity {
 
         this.loseStamina(amount * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
+        this.displayLabel('-' + ~~(amount * 100));
 
         // Death
         if (this.health <= 0) this.die();
@@ -250,6 +260,21 @@ class Character extends Entity {
         const { inWater, renderAge } = this;
 
         ctx.translate(this.x, this.y);
+
+        if (DEBUG) {
+            // ctx.wrap(() => {
+            //     ctx.lineWidth = 10;
+            //     ctx.strokeStyle = '#f00';
+            //     ctx.globalAlpha = 0.1;
+            //     ctx.beginPath();
+            //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+            //     ctx.stroke();
+
+            //     ctx.beginPath();
+            //     ctx.ellipse(0, 0, this.magnetRadiusX, this.magnetRadiusY, 0, 0, TWO_PI);
+            //     ctx.stroke();
+            // });
+        }
 
         ctx.resolveColor = x => this.getColor(x);
 
@@ -274,31 +299,18 @@ class Character extends Entity {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
-            // ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+            ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
         }
-
-        // if (DEBUG) {
-        //     ctx.lineWidth = 1;
-        //     ctx.strokeStyle = '#f00';
-        //     ctx.beginPath();
-        //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-        //     ctx.stroke();
-        // }
     }
 
-    dash() {
-        if (this.stateMachine.state.exhausted) return;
-        
-        const duration = 0.2;
-        const { angle } = this.controls;
-        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * 150, duration));
-        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * 150, duration));
-
-        this.waitingForDashRelease = true;
-        this.dashStart = this.age;
-        this.dashEnd = this.age + duration;
-
-        this.loseStamina(0.2);
+    dash(angle, distance, duration) {
+        const target = {
+            x: this.x + cos(angle) * distance, 
+            y: this.y + sin(angle) * distance, 
+        };
+        this.scene.add(new Interpolator(this, 'x', this.x, target.x, duration));
+        this.scene.add(new Interpolator(this, 'y', this.y, target.y, duration));
+        return target;
     }
 
     die() {
@@ -336,6 +348,8 @@ class Character extends Entity {
                 rnd(0.5, 1),
             ));
         }
+
+        this.displayLabel(nomangle('Slain!'));
 
         this.remove();
     }
