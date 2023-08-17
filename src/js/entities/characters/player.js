@@ -73,18 +73,18 @@ class Player extends Character {
             //         }
             //     }
             // });
-            ctx.wrap(() => {
-                for (const victim of this.scene.category(this.targetTeam)) {
-                    const strikability = this.strikability(victim, this.magnetRadiusX, this.magnetRadiusY, PI / 2);
-                    if (!strikability) continue;
-                    ctx.lineWidth = strikability * 30;
-                    ctx.strokeStyle = '#ff0';
-                    ctx.beginPath();
-                    ctx.moveTo(this.x, this.y);
-                    ctx.lineTo(victim.x, victim.y);
-                    ctx.stroke();
-                }
-            });
+            // ctx.wrap(() => {
+            //     for (const victim of this.scene.category(this.targetTeam)) {
+            //         const strikability = this.strikability(victim, this.magnetRadiusX, this.magnetRadiusY, PI / 2);
+            //         if (!strikability) continue;
+            //         ctx.lineWidth = strikability * 30;
+            //         ctx.strokeStyle = '#ff0';
+            //         ctx.beginPath();
+            //         ctx.moveTo(this.x, this.y);
+            //         ctx.lineTo(victim.x, victim.y);
+            //         ctx.stroke();
+            //     }
+            // });
         }
 
         super.render();

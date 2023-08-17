@@ -85,28 +85,22 @@ characterStateMachine = ({
     }
 
     class Dashing extends State {
+
+        get swordRaiseRatio() { 
+            return interpolate(this.previous.swordRaiseRatio, -1, this.age / (PLAYER_DASH_DURATION / 2)); 
+        }
+
         onEnter() {
-            entity.dash(entity.controls.angle, 150, 0.2);
+            this.dashAngle = entity.controls.angle;
+
+            entity.dash(entity.controls.angle, PLAYER_DASH_DISTANCE, PLAYER_DASH_DURATION);
             entity.loseStamina(0.2);
         }
 
         cycle(elapsed) {
             super.cycle(elapsed);
 
-            for (let i = 0 ; i < 3 ; i++) {
-                const x = entity.x + rnd(-5, 5);
-                const y = entity.y + rnd(-5, 5);
-    
-                entity.scene.add(new Particle(
-                    '#eee',
-                    [5, 10],
-                    [x, x + rnd(-20, 20)],
-                    [y, y + rnd(-20, 20)],
-                    rnd(0.5, 1),
-                ));
-            }
-
-            if (this.age > 0.2) {
+            if (this.age > PLAYER_DASH_DURATION) {
                 stateMachine.transitionToState(new Idle());
             }
         }

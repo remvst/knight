@@ -287,7 +287,17 @@ class Character extends Entity {
                 ctx.translate(0, 10);
             }
 
-            ctx.scale(this.facing, 1);
+            let { facing } = this;
+            const { dashAngle } = this.stateMachine.state;
+            if (dashAngle !== undefined) {
+                facing = sign(cos(dashAngle));
+    
+                ctx.translate(0, -30);
+                ctx.rotate(this.stateMachine.state.age / PLAYER_DASH_DURATION * facing * TWO_PI);
+                ctx.translate(0, 30);
+            }
+
+            ctx.scale(facing, 1);
 
             for (const step of this.renderSteps) {
                 ctx.wrap(() => step(renderAge));
@@ -299,7 +309,7 @@ class Character extends Entity {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
-            ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+            // ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
         }
     }
 
