@@ -13,10 +13,12 @@ class Gauge {
 
     render(x, y, width, height) {
         ctx.translate(x, y);
-        
+
         // Background
         ctx.fillStyle = 'rgba(0,0,0,.5)';
         ctx.fillRect(0, 0, width, height);
+
+        ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
 
         // Health change
         ctx.fillStyle = '#fff';

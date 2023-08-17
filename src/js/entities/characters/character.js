@@ -276,7 +276,8 @@ class Character extends Entity {
             // });
         }
 
-        ctx.resolveColor = x => this.getColor(x);
+        const orig = ctx.resolveColor || (x => x);
+        ctx.resolveColor = x => this.getColor(orig(x));
 
         ctx.withShadow(() => {
             if (inWater) {
