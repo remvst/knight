@@ -111,7 +111,7 @@ class Character extends Entity {
     }
 
     strikability(victim, radiusX, radiusY, fov) {
-        if (victim === this) return 0;
+        if (victim === this || !radiusX || !radiusY) return 0;
 
         const angleToVictim = angleBetween(this, victim);
         const aimAngle = angleBetween(this, this.controls.aim);

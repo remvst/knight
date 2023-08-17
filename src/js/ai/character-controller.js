@@ -35,7 +35,7 @@ class EnemyAI extends AI {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        // this.currentAI.cycle(elapsed);
+        this.currentAI.cycle(elapsed);
     }
 
     update(player) {
@@ -80,7 +80,7 @@ class LightAttackAI extends AI {
         controls.force = 0;
 
         if (!controls.attack) {
-            if (!this.entity.isStrikable(player)) {
+            if (!this.entity.isStrikable(player, this.entity.strikeRadiusX, this.entity.strikeRadiusY / 2, PI / 2)) {
                 // Approach the player
                 controls.force = 1;
                 controls.angle = angleBetween(this.entity, player);
