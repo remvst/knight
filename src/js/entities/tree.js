@@ -2,66 +2,97 @@ class Tree extends Obstacle {
 
     constructor() {
         super();
+
         this.rng = new RNG();
 
+        this.trunkWidth = this.rng.next(10, 20);
+        this.trunkHeight = this.rng.next(100, 250);
+
         this.radius = 20;
+        this.alpha = 1;
     }
 
     cycle(elapsed) {
         super.cycle(elapsed);
         regenEntity(this, CANVAS_WIDTH / 2 + 200);
+
+        this.rng.reset();
+
+        let targetAlpha = 1;
+        for (const character of this.scene.category('player')) {
+            if (
+                isBetween(this.x - 100, character.x, this.x + 100) &&
+                isBetween(this.y - this.trunkHeight - 50, character.y, this.y)
+            ) {
+                targetAlpha = 0.2;
+                break;
+            }
+        }
+
+        this.alpha += between(-elapsed * 2, targetAlpha - this.alpha, elapsed * 2);
     }
 
     render() {
         super.render();
 
         ctx.translate(this.x, this.y);
+
+        this.rng.reset();
         
         ctx.withShadow(() => {
-            ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(4, 16)) * this.rng.next(PI / 32, PI / 64));
-            ctx.fillStyle = ctx.resolveColor('#a65');
+            ctx.wrap(() => {
+                ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(4, 16)) * this.rng.next(PI / 32, PI / 64));
+                ctx.fillStyle = ctx.resolveColor('#a65');
 
-            this.rng.reset();
-
-            const trunkWidth = this.rng.next(10, 20);
-            const trunkHeight = this.rng.next(100, 250);
-
-            if (!ctx.isShadow) {
-                for (const character of this.scene.category('character')) {
-                    if (
-                        isBetween(this.x - 50, character.x, this.x + 50) &&
-                        isBetween(this.y - trunkHeight - 50, character.y, this.y)
-                    ) {
-                        ctx.globalAlpha = 0.5;
-                    }
+                if (!ctx.isShadow) {
+                    ctx.globalAlpha = this.alpha;
                 }
 
-                ctx.fillRect(-trunkWidth / 2, 0, trunkWidth, -trunkHeight);
+                if (!ctx.isShadow) ctx.fillRect(-this.trunkWidth / 2, 0, this.trunkWidth, -this.trunkHeight);
+
+                ctx.translate(0, -this.trunkHeight);
+
+                ctx.beginPath();
+                ctx.fillStyle = ctx.resolveColor('#060');
+
+                for (let i = 0 ; i < 5 ; i++) {
+                    const angle = i / 5 * TWO_PI;
+                    const dist = this.rng.next(20, 50);
+                    const x =  cos(angle) * dist;
+                    const y = sin(angle) * dist * 0.5;
+                    const radius = this.rng.next(20, 40);
+
+                    ctx.wrap(() => {
+                        ctx.translate(x, y);
+                        ctx.rotate(PI / 4);
+                        ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(2, 8)) * PI / 32);
+                        ctx.rect(-radius, -radius, radius * 2, radius * 2);
+                    });
+                }
+
+                if (ctx.isShadow) ctx.rect(0, 0, this.trunkWidth, this.trunkHeight);
+
+                ctx.fill();
+            });
+
+            ctx.clip();
+
+            if (!ctx.isShadow) {
+                for (const character of this.scene.category('enemy')) {
+                    if (
+                        isBetween(this.x - 100, character.x, this.x + 100) &&
+                        isBetween(this.y - this.trunkHeight - 50, character.y, this.y)
+                    ) {
+                        ctx.resolveColor = () => character instanceof Player ? '#888' : '#400';
+                        ctx.wrap(() => {
+                            ctx.translate(character.x - this.x, character.y - this.y);
+                            ctx.scale(character.facing, 1);
+                            ctx.globalAlpha = this.alpha;
+                            character.renderBody();
+                        });
+                    }
+                }
             }
-
-            ctx.translate(0, -trunkHeight);
-
-            ctx.beginPath();
-            ctx.fillStyle = ctx.resolveColor('#060');
-
-            for (let i = 0 ; i < 5 ; i++) {
-                const angle = i / 5 * TWO_PI;
-                const dist = this.rng.next(20, 50);
-                const x =  cos(angle) * dist;
-                const y = sin(angle) * dist * 0.5;
-                const radius = this.rng.next(20, 40);
-
-                ctx.wrap(() => {
-                    ctx.translate(x, y);
-                    ctx.rotate(PI / 4);
-                    ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(2, 8)) * PI / 32);
-                    ctx.rect(-radius, -radius, radius * 2, radius * 2);
-                });
-            }
-
-            if (ctx.isShadow) ctx.rect(0, 0, trunkWidth, trunkHeight);
-
-            ctx.fill();
         });
     }
 }
