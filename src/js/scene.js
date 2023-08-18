@@ -18,6 +18,8 @@ class Scene {
                 this.categories.get(category).add(entity);
             }
         }
+
+        return entity;
     }
 
     category(category) {

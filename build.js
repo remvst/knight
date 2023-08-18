@@ -81,6 +81,8 @@ compiler.run((tasks) => {
 
                 "src/js/entities/characters/corpse.js",
                 
+                "src/js/level/level.js",
+                
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",
                 "src/js/util/rng.js",
