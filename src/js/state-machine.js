@@ -37,6 +37,7 @@ characterStateMachine = ({
     entity,
     chargeTime,
     perfectParryTime,
+    releaseAttackBetweenStrikes,
 }) => {
     const { controls } = entity;
     const stateMachine = new StateMachine();
@@ -80,6 +81,8 @@ characterStateMachine = ({
             super.cycle(elapsed);
             if (!controls.shield) {
                 stateMachine.transitionToState(new Idle());
+            } else if (entity.stamina === 0) {
+                this.stateMachine.transitionToState(new Exhausted());
             }
         }
     }
@@ -107,6 +110,11 @@ characterStateMachine = ({
     }
 
     class Charging extends State {
+        constructor(counter = 0) {
+            super();
+            this.counter = counter;
+        }
+
         get speedRatio() { 
             return 0.5; 
         }
@@ -123,7 +131,7 @@ characterStateMachine = ({
             super.cycle(elapsed);
 
             if (!controls.attack) {
-                const counter = this.age >= 1 ? PLAYER_HEAVY_ATTACK_INDEX : 0;
+                const counter = this.age >= 1 ? PLAYER_HEAVY_ATTACK_INDEX : this.counter;
                 stateMachine.transitionToState(new Strike(counter));
             }
         }
@@ -185,14 +193,14 @@ characterStateMachine = ({
         cycle(elapsed) {
             super.cycle(elapsed);
 
-            if (!controls.attack) {
+            if (!controls.attack || !releaseAttackBetweenStrikes) {
                 this.readyToAttack = true;
             }
 
             if (this.age > 0.3) {
                 stateMachine.transitionToState(new Idle());
             } else if (controls.attack && this.readyToAttack) {
-                stateMachine.transitionToState(new Strike(this.counter + 1));
+                stateMachine.transitionToState(new Charging(this.counter + 1));
             } else if (controls.shield) {
                 stateMachine.transitionToState(new Shielding());
             }

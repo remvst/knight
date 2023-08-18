@@ -35,11 +35,12 @@ class TankEnemy extends Character {
 
 class TankAI extends EnemyAI {
     async doStart() {
-        console.log('haha doStart', this.entity);
         while (true) {
             for (let i = 3 ; i > 0 ; i--) {
-                await this.startAI(new LightAttackAI());
+                await this.startAI(new Attack(0.5));
             }
+
+            await this.startAI(new WaitAI(0.5));
 
             await this.race([
                 new RetreatAI(),
@@ -47,9 +48,7 @@ class TankAI extends EnemyAI {
                 new HoldShield(),
             ]);
 
-            console.log('okie');
-
-            await this.startAI(new WaitAI(2));
+            await this.startAI(new WaitAI(1));
         }
     }
 }

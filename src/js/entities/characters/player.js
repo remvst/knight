@@ -17,6 +17,7 @@ class Player extends Character {
             entity: this, 
             chargeTime: PLAYER_HEAVY_CHARGE_TIME,
             perfectParryTime: PLAYER_PERFECT_PARRY_TIME,
+            releaseAttackBetweenStrikes: true,
         });
     }
 

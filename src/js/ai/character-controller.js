@@ -15,8 +15,6 @@ class AI extends CharacterController {
         const player = firstItem(this.entity.scene.category('player'));
         if (player) {
             this.update(player);
-        } else {
-            this.entity.controls.attack = false;
         }
     }
 
@@ -96,7 +94,12 @@ class WaitAI extends AI {
     }
 }
 
-class LightAttackAI extends AI {
+class Attack extends AI {
+    constructor(chargeRatio) {
+        super();
+        this.chargeRatio = chargeRatio; 
+    }
+
     update(player) {
         const { controls } = this.entity;
 
@@ -112,7 +115,7 @@ class LightAttackAI extends AI {
                 controls.attack = true;
             }
         } else {
-            if (this.entity.stateMachine.state.attackPreparationRatio >= 1) {
+            if (this.entity.stateMachine.state.attackPreparationRatio >= this.chargeRatio) {
                 // Attack was prepared, release!
                 controls.attack = false;
                 this.resolve();

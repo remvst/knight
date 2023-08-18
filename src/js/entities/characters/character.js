@@ -193,7 +193,7 @@ class Character extends Entity {
                     }
                 } else {
                     // Regular parry, victim loses stamina
-                    victim.loseStamina(0.3);
+                    victim.loseStamina(0.18);
 
                     // victim.updateCombo(1, nomangle('Parry'));
                     victim.displayLabel(nomangle('Parry'));
@@ -241,10 +241,10 @@ class Character extends Entity {
     }
 
     damage(amount) {
-        this.health = max(0, this.health - amount);
+        // this.health = max(0, this.health - amount);
         this.lastDamage = this.age;
 
-        this.loseStamina(amount * 0.3);
+        if (!this.exhausted) this.loseStamina(amount * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
         this.displayLabel('-' + ~~(amount * 100));
 
@@ -306,11 +306,14 @@ class Character extends Entity {
         });
 
         if (DEBUG) {
-            ctx.fillStyle = '#fff';
+            ctx.fillStyle = this.controls.attack ? '#f00' : '#fff';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 4;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
-            // ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+            ctx.strokeText(this.stateMachine.state.constructor.name, 0, 20);
+            ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
         }
     }
 
