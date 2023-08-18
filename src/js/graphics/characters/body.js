@@ -186,20 +186,22 @@ CanvasRenderingContext2D.prototype.renderExhaustion = function(entity, y) {
 };
 
 CanvasRenderingContext2D.prototype.renderAttackIndicator = function(entity) {
-    if (!entity.health) return;
+    this.wrap(() => {
+        if (!entity.health) return;
 
-    const progress = entity.stateMachine.state.attackPreparationRatio;
-    if (progress > 0 && !this.isShadow) {
-        this.strokeStyle = 'rgba(255,0,0,1)';
-        this.fillStyle = 'rgba(255,0,0,.5)';
-        this.globalAlpha = 0.5 * (1 - progress);
-        this.lineWidth = 10;
-        this.beginPath();
-        this.scale(1 - progress, 1 - progress);
-        this.ellipse(0, 0, entity.strikeRadiusX, entity.strikeRadiusY, 0, 0, TWO_PI);
-        this.fill();
-        this.stroke();
-    }
+        const progress = entity.stateMachine.state.attackPreparationRatio;
+        if (progress > 0 && !this.isShadow) {
+            this.strokeStyle = 'rgba(255,0,0,1)';
+            this.fillStyle = 'rgba(255,0,0,.5)';
+            this.globalAlpha = 0.5 * (1 - progress);
+            this.lineWidth = 10;
+            this.beginPath();
+            this.scale(1 - progress, 1 - progress);
+            this.ellipse(0, 0, entity.strikeRadiusX, entity.strikeRadiusY, 0, 0, TWO_PI);
+            this.fill();
+            this.stroke();
+        }
+    });
 };
 
 CanvasRenderingContext2D.prototype.renderExclamation = function(entity) {

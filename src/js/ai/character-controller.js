@@ -17,6 +17,8 @@ class AI extends CharacterController {
         const player = firstItem(this.entity.scene.category('player'));
         if (player) {
             this.update(player);
+        } else {
+            this.entity.controls.attack = false;
         }
     }
 }

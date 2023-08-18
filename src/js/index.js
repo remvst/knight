@@ -25,7 +25,22 @@ scene.add(new Cursor(player));
 //     scene.add(enemy);
 // }
 
-for (let i = 0 ; i < 1 ; i++) {
+let y = 0;
+for (const type of [
+    StickEnemy,
+    SwordEnemy,
+    SwordAndShieldEnemy,
+    TankEnemy,
+]) {
+    const enemy = new type();
+    enemy.x = 200;
+    enemy.y = y;
+    scene.add(enemy);
+
+    y += 100;
+}
+
+for (let i = 0 ; i < 0 ; i++) {
     const enemy = new TankEnemy();
     enemy.x = rnd(-600, 600);
     enemy.y = rnd(-600, 600);
