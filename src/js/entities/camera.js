@@ -7,9 +7,13 @@ class Camera extends Entity {
 
     cycle(elapsed) {
         super.cycle(elapsed);
+
         for (const player of this.scene.category('player')) {
-            this.x += (player.x - this.x) * 0.05;
-            this.y += (player.y - this.y) * 0.05;
+            const distance = dist(this, player);
+            const angle = angleBetween(this, player);
+            const speed = distance * 3;
+            this.x += speed * elapsed * cos(angle);
+            this.y += speed * elapsed * sin(angle);
         }
     }
 }
