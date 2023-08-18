@@ -102,32 +102,36 @@ class Wait extends AI {
     }
 }
 
+class ReachPlayer extends AI {
+    update(player) {
+        const { controls } = this.entity;
+
+        controls.force = 0;
+
+        if (!this.entity.isStrikable(player, this.entity.strikeRadiusX, this.entity.strikeRadiusY, PI / 2)) {
+            controls.force = 1;
+            controls.angle = angleBetween(this.entity, player);
+        } else {
+            this.resolve();
+        }
+    }
+}
+
 class Attack extends AI {
     constructor(chargeRatio) {
         super();
         this.chargeRatio = chargeRatio; 
     }
 
-    update(player) {
+    update() {
         const { controls } = this.entity;
 
-        controls.force = 0;
+        controls.attack = true;
 
-        if (!this.entity.controls.attack) {
-            if (!this.entity.isStrikable(player, this.entity.strikeRadiusX, this.entity.strikeRadiusY / 2, PI / 2)) {
-                // Approach the player
-                controls.force = 1;
-                controls.angle = angleBetween(this.entity, player);
-            } else {
-                // We're close, prepare the attack
-                controls.attack = true;
-            }
-        } else {
-            if (this.entity.stateMachine.state.attackPreparationRatio >= this.chargeRatio) {
-                // Attack was prepared, release!
-                controls.attack = false;
-                this.resolve();
-            }
+        if (this.entity.stateMachine.state.attackPreparationRatio >= this.chargeRatio) {
+            // Attack was prepared, release!
+            controls.attack = false;
+            this.resolve();
         }
     }
 }

@@ -36,6 +36,7 @@ class TankEnemy extends Character {
 class TankAI extends EnemyAI {
     async doStart() {
         while (true) {
+            await this.startAI(new ReachPlayer(0.5));
             for (let i = 3 ; i > 0 ; i--) {
                 await this.startAI(new Attack(0.5));
             }
