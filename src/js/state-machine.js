@@ -44,8 +44,17 @@ characterStateMachine = ({
 
     chargeTime = chargeTime || 1;
     perfectParryTime = perfectParryTime || 0;
+
+    class MaybeExhaustedState extends State {
+        cycle(elapsed) {
+            super.cycle(elapsed);
+            if (entity.stamina === 0) {
+                this.stateMachine.transitionToState(new Exhausted());
+            }
+        }
+    }
     
-    class Idle extends State {
+    class Idle extends MaybeExhaustedState {
         get swordRaiseRatio() { return interpolate(this.previous.swordRaiseRatio, 0, this.age / 0.1); }
         get shieldRaiseRatio() { return interpolate(this.previous.shieldRaiseRatio, 0, this.age / 0.1); }
 
@@ -55,9 +64,7 @@ characterStateMachine = ({
 
         cycle(elapsed) {
             super.cycle(elapsed);
-            if (entity.stamina === 0) {
-                this.stateMachine.transitionToState(new Exhausted());
-            } else if (controls.shield) {
+            if (controls.shield) {
                 this.stateMachine.transitionToState(new Shielding());
             } else if (controls.attack) {
                 this.stateMachine.transitionToState(new Charging());
@@ -67,7 +74,7 @@ characterStateMachine = ({
         }
     }
 
-    class Shielding extends State {
+    class Shielding extends MaybeExhaustedState {
         get speedRatio() { 
             return 0.5; 
         }
@@ -81,8 +88,6 @@ characterStateMachine = ({
             super.cycle(elapsed);
             if (!controls.shield) {
                 stateMachine.transitionToState(new Idle());
-            } else if (entity.stamina === 0) {
-                this.stateMachine.transitionToState(new Exhausted());
             }
         }
     }
@@ -109,7 +114,7 @@ characterStateMachine = ({
         }
     }
 
-    class Charging extends State {
+    class Charging extends MaybeExhaustedState {
         constructor(counter = 0) {
             super();
             this.counter = counter;
@@ -137,7 +142,7 @@ characterStateMachine = ({
         }
     }
 
-    class Strike extends State {
+    class Strike extends MaybeExhaustedState {
         constructor(counter = 0) {
             super();
             this.counter = counter;
@@ -176,7 +181,7 @@ characterStateMachine = ({
         }
     }
 
-    class LightRecover extends State {
+    class LightRecover extends MaybeExhaustedState {
         constructor(counter) {
             super();
             this.counter = counter;
@@ -207,7 +212,7 @@ characterStateMachine = ({
         }
     }
 
-    class HeavyRecover extends State {
+    class HeavyRecover extends MaybeExhaustedState {
 
         get swordRaiseRatio() { 
             const start = 1;
