@@ -8,10 +8,7 @@ class AI extends CharacterController {
 
     start(entity) {
         super.start(entity);
-        return new Promise((resolve) => this.resolve = () => {
-            this.resolve = () => {};
-            resolve();
-        });
+        return new Promise((resolve) => this.doResolve = resolve);
     }
 
     cycle() {
@@ -25,6 +22,12 @@ class AI extends CharacterController {
 
     update(player) {
 
+    }
+
+    resolve() {
+        const { doResolve } = this;
+        this.doResolve = null;
+        if (doResolve) doResolve();
     }
 }
 
@@ -62,13 +65,13 @@ class EnemyAI extends AI {
     }
 
     async race(ais) {
-        for (const ai of ais) {
-            this.ais.add(ai);
-        }
         await Promise.race(ais.map(ai => {
+            this.ais.add(ai);
             return ai.start(this.entity);
         }));
+
         for (const ai of ais) {
+            ai.resolve(); // Allow the AI to clean up
             this.ais.delete(ai);
         }
     }
@@ -142,7 +145,7 @@ class RetreatAI extends AI {
     }
 }
 
-class ShieldAI extends AI {
+class HoldShield extends AI {
     update() {
         this.entity.controls.shield = true;
     }
@@ -152,26 +155,3 @@ class ShieldAI extends AI {
         super.resolve();
     }
 }
-
-// class TimeoutAI extends AI {
-//     constructor(other, timeout) {
-//         super();
-//         this.other = other;
-//         this.timeout = timeout;
-//     }
-
-//     start() {
-//         this.endTime = this.entity.age + this.duration;
-
-//         return Promise.race([
-//             this.other.start(),
-//             super.start(),
-//         ]);
-//     }
-
-//     update() {
-//         if (this.entity.age > this.endTime) {
-//             this.resolve();
-//         }
-//     }
-// }

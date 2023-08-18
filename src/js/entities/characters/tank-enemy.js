@@ -44,6 +44,7 @@ class TankAI extends EnemyAI {
             await this.race([
                 new RetreatAI(),
                 new WaitAI(2),
+                new HoldShield(),
             ]);
 
             console.log('okie');
