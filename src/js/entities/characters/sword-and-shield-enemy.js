@@ -1,4 +1,4 @@
-class LightEnemy extends Character {
+class SwordAndShieldEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
@@ -8,34 +8,32 @@ class LightEnemy extends Character {
         this.controller.setEntity(this);
         this.controller.start();
 
-        this.timeToPrepareHeavyAttack = 1;
-        this.timeToStrike = 0.05;
-        this.timeToCooldown = 0.1;
-
-        this.baseSpeed = 100;
+        this.baseSpeed = 70;
 
         this.renderSteps = [
             () => ctx.renderAttackIndicator(this),
             () => ctx.renderLegs(this),
-            () => ctx.renderNakedChest(this),
-            () => ctx.renderArmAndStick(this),
+            () => ctx.renderArmAndSword(this),
+            () => ctx.renderArmoredChest(this),
+            () => ctx.renderArmAndShield(this),
             () => ctx.renderExhaustion(this, -70),
             () => ctx.renderExclamation(this),
         ];
 
         this.gibs = [
-            () => ctx.renderStick(),
+            () => ctx.renderSword(),
+            () => ctx.renderShield(),
             () => {
                 ctx.slice(30, true, 0.5);
                 ctx.translate(0, 30);
                 ctx.renderLegs(this);
-                ctx.renderNakedChest(this);
+                ctx.renderArmoredChest(this);
             },
             () => {
                 ctx.slice(30, false, 0.5);
                 ctx.translate(0, 30);
                 ctx.renderLegs(this);
-                ctx.renderNakedChest(this);
+                ctx.renderArmoredChest(this);
             },
         ];
 

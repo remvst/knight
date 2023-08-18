@@ -1,4 +1,4 @@
-class MediumEnemy extends Character {
+class SwordEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
@@ -15,14 +15,12 @@ class MediumEnemy extends Character {
             () => ctx.renderLegs(this),
             () => ctx.renderArmAndSword(this),
             () => ctx.renderArmoredChest(this),
-            () => ctx.renderArmAndShield(this),
             () => ctx.renderExhaustion(this, -70),
             () => ctx.renderExclamation(this),
         ];
 
         this.gibs = [
             () => ctx.renderSword(),
-            () => ctx.renderShield(),
             () => {
                 ctx.slice(30, true, 0.5);
                 ctx.translate(0, 30);
