@@ -10,15 +10,6 @@ class SwordEnemy extends Character {
 
         this.baseSpeed = 70;
 
-        this.renderSteps = [
-            () => ctx.renderAttackIndicator(this),
-            () => ctx.renderLegs(this),
-            () => ctx.renderArmAndSword(this),
-            () => ctx.renderArmoredChest(this),
-            () => ctx.renderExhaustion(this, -70),
-            () => ctx.renderExclamation(this),
-        ];
-
         this.gibs = [
             () => ctx.renderSword(),
             () => {
@@ -39,5 +30,14 @@ class SwordEnemy extends Character {
             entity: this, 
             chargeTime: 0.5,
         });
+    }
+
+    renderBody() {
+        ctx.renderAttackIndicator(this);
+        ctx.renderLegs(this);
+        ctx.renderArmAndSword(this);
+        ctx.renderArmoredChest(this);
+        ctx.renderExhaustion(this, -70);
+        ctx.renderExclamation(this);
     }
 }

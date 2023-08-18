@@ -11,14 +11,6 @@ class Player extends Character {
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;
 
-        this.renderSteps = [
-            () => ctx.renderLegs(this),
-            () => ctx.renderArmAndSword(this),
-            () => ctx.renderArmoredChest(this),
-            () => ctx.renderArmAndShield(this),
-            () => ctx.renderExhaustion(this, -70),
-        ];
-
         this.gibs = [
             () => ctx.renderSword(),
             () => ctx.renderShield(),
@@ -84,6 +76,14 @@ class Player extends Character {
         }
 
         super.render();
+    }
+
+    renderBody() {
+        ctx.renderLegs(this);
+        ctx.renderArmAndSword(this);
+        ctx.renderArmoredChest(this);
+        ctx.renderArmAndShield(this);
+        ctx.renderExhaustion(this, -70);
     }
 }
 

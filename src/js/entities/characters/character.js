@@ -300,9 +300,7 @@ class Character extends Entity {
 
             ctx.scale(facing, 1);
 
-            for (const step of this.renderSteps) {
-                ctx.wrap(() => step(renderAge));
-            }
+            ctx.wrap(() => this.renderBody(renderAge));
         });
 
         if (DEBUG) {

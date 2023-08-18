@@ -26,7 +26,7 @@ scene.add(new Cursor(player));
 // }
 
 for (let i = 0 ; i < 1 ; i++) {
-    const enemy = new SwordEnemy();
+    const enemy = new TankEnemy();
     enemy.x = rnd(-600, 600);
     enemy.y = rnd(-600, 600);
     scene.add(enemy);

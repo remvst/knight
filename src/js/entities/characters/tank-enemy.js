@@ -1,4 +1,4 @@
-class SwordAndShieldEnemy extends Character {
+class TankEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
