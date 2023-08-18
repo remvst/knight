@@ -1,4 +1,4 @@
-class SwordEnemy extends Character {
+class SwordAndArmorEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
@@ -23,8 +23,8 @@ class SwordEnemy extends Character {
     renderBody() {
         ctx.renderAttackIndicator(this);
         ctx.renderLegs(this, COLOR_LEGS);
-        ctx.renderArm(this, COLOR_SKIN, () => ctx.renderSword());
-        ctx.renderChest(this, COLOR_SKIN, CHEST_WIDTH_NAKED);
+        ctx.renderArm(this, COLOR_LEGS, () => ctx.renderSword());
+        ctx.renderChest(this, COLOR_ARMOR, CHEST_WIDTH_ARMORED);
         ctx.renderHead(this, COLOR_SKIN);
         ctx.renderExhaustion(this, -70);
         ctx.renderExclamation(this);

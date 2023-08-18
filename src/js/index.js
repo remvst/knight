@@ -31,6 +31,7 @@ for (const type of [
     StickAndShirtEnemy,
     SwordEnemy,
     SwordAndShieldEnemy,
+    SwordAndArmorEnemy,
     TankEnemy,
 ]) {
     const enemy = new type();
