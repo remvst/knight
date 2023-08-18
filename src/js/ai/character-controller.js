@@ -21,23 +21,28 @@ class AI extends CharacterController {
             this.entity.controls.attack = false;
         }
     }
+
+    update(player) {
+
+    }
 }
 
 class EnemyAI extends AI {
     async start() {
-        while (true) {
-            for (let i = rnd(1, 3) ; i > 0 ; i--) {
-                await this.startAI(new LightAttackAI());
-                await this.startAI(new WaitAI(1));
-            }
-            await this.startAI(new RetreatAI());
-            await this.startAI(new WaitAI(2));
-        }
+        await this.startAI(new AI());
+        // while (true) {
+        //     for (let i = rnd(1, 3) ; i > 0 ; i--) {
+        //         await this.startAI(new LightAttackAI());
+        //         await this.startAI(new WaitAI(1));
+        //     }
+        //     await this.startAI(new RetreatAI());
+        //     await this.startAI(new WaitAI(2));
+        // }
     }
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        // this.currentAI.cycle(elapsed);
+        this.currentAI.cycle(elapsed);
     }
 
     update(player) {
