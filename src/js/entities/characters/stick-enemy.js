@@ -12,18 +12,6 @@ class StickEnemy extends Character {
 
         this.gibs = [
             () => ctx.renderStick(),
-            () => {
-                ctx.slice(30, true, 0.5);
-                ctx.translate(0, 30);
-                ctx.renderLegs(this);
-                ctx.renderNakedChest(this);
-            },
-            () => {
-                ctx.slice(30, false, 0.5);
-                ctx.translate(0, 30);
-                ctx.renderLegs(this);
-                ctx.renderNakedChest(this);
-            },
         ];
 
         this.stateMachine = characterStateMachine({
@@ -34,9 +22,10 @@ class StickEnemy extends Character {
 
     renderBody() {
         ctx.renderAttackIndicator(this);
-        ctx.renderLegs(this);
-        ctx.renderNakedChest(this);
-        ctx.renderArmAndStick(this);
+        ctx.renderLegs(this, COLOR_LEGS);
+        ctx.renderArm(this, COLOR_SKIN, () => ctx.renderStick(this));
+        ctx.renderChest(this, COLOR_SKIN, CHEST_WIDTH_NAKED);
+        ctx.renderHead(this, COLOR_SKIN);
         ctx.renderExhaustion(this, -70);
         ctx.renderExclamation(this);
     }

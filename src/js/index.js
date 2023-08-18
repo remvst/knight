@@ -28,6 +28,7 @@ scene.add(new Cursor(player));
 let y = 0;
 for (const type of [
     StickEnemy,
+    StickAndShirtEnemy,
     SwordEnemy,
     SwordAndShieldEnemy,
     TankEnemy,
@@ -36,6 +37,8 @@ for (const type of [
     enemy.x = 200;
     enemy.y = y;
     scene.add(enemy);
+
+    scene.add(new CharacterHUD(enemy));
 
     y += 100;
 }

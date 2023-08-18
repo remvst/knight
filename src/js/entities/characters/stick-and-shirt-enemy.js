@@ -1,4 +1,4 @@
-class TankEnemy extends Character {
+class StickAndShirtEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
@@ -8,11 +8,10 @@ class TankEnemy extends Character {
         this.controller.setEntity(this);
         this.controller.start();
 
-        this.baseSpeed = 70;
+        this.baseSpeed = 100;
 
         this.gibs = [
-            () => ctx.renderSword(),
-            () => ctx.renderShield(),
+            () => ctx.renderStick(),
         ];
 
         this.stateMachine = characterStateMachine({
@@ -24,10 +23,9 @@ class TankEnemy extends Character {
     renderBody() {
         ctx.renderAttackIndicator(this);
         ctx.renderLegs(this, COLOR_LEGS);
-        ctx.renderArm(this, COLOR_LEGS, () => ctx.renderSword());
-        ctx.renderChest(this, '#444');
-        ctx.renderHead(this, '#666', '#000');
-        ctx.renderArmAndShield(this);
+        ctx.renderArm(this, COLOR_SKIN, () => ctx.renderStick(this));
+        ctx.renderChest(this, COLOR_SHIRT, CHEST_WIDTH_ARMORED);
+        ctx.renderHead(this, COLOR_SKIN);
         ctx.renderExhaustion(this, -70);
         ctx.renderExclamation(this);
     }

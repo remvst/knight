@@ -329,7 +329,20 @@ class Character extends Entity {
 
         const duration = 1;
 
-        for (const step of this.gibs) {
+        const gibs = this.gibs.concat(
+            () => {
+                ctx.slice(30, true, 0.5);
+                ctx.translate(0, 30);
+                this.renderBody();
+            },
+            () => {
+                ctx.slice(30, false, 0.5);
+                ctx.translate(0, 30);
+                this.renderBody();
+            },
+        );
+
+        for (const step of gibs) {
             const bit = new Corpse(step);
             bit.x = this.x;
             bit.y = this.y;

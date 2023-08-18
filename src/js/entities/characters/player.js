@@ -14,18 +14,6 @@ class Player extends Character {
         this.gibs = [
             () => ctx.renderSword(),
             () => ctx.renderShield(),
-            () => {
-                ctx.slice(30, true, 0.5);
-                ctx.translate(0, 30);
-                ctx.renderLegs(this);
-                ctx.renderArmoredChest(this);
-            },
-            () => {
-                ctx.slice(30, false, 0.5);
-                ctx.translate(0, 30);
-                ctx.renderLegs(this);
-                ctx.renderArmoredChest(this);
-            },
         ];
 
         this.stateMachine = characterStateMachine({
@@ -79,9 +67,10 @@ class Player extends Character {
     }
 
     renderBody() {
-        ctx.renderLegs(this);
-        ctx.renderArmAndSword(this);
-        ctx.renderArmoredChest(this);
+        ctx.renderLegs(this, COLOR_LEGS);
+        ctx.renderArm(this, COLOR_LEGS, () => ctx.renderSword());
+        ctx.renderChest(this, COLOR_ARMOR, CHEST_WIDTH_ARMORED);
+        ctx.renderHead(this, COLOR_SKIN);
         ctx.renderArmAndShield(this);
         ctx.renderExhaustion(this, -70);
     }

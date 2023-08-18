@@ -1,3 +1,12 @@
+CHEST_WIDTH_ARMORED = 25;
+CHEST_WIDTH_NAKED = 22;
+
+COLOR_SKIN = '#fec';
+COLOR_SHIRT = '#753';
+COLOR_LEGS = '#666';
+COLOR_ARMORED_ARM = '#666';
+COLOR_ARMOR = '#ccc';
+
 CanvasRenderingContext2D.prototype.renderSword = function() {
     this.wrap(() => {
         this.fillStyle = this.resolveColor('#444');
@@ -34,7 +43,7 @@ CanvasRenderingContext2D.prototype.renderShield = function() {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderLegs = function(entity) {
+CanvasRenderingContext2D.prototype.renderLegs = function(entity, color) {
     this.wrap(() => {
         const { age } = entity;
 
@@ -42,7 +51,7 @@ CanvasRenderingContext2D.prototype.renderLegs = function(entity) {
         this.wrap(() => {
             this.translate(0, -32);
 
-            this.fillStyle = this.resolveColor('#666');
+            this.fillStyle = this.resolveColor(color);
             this.translate(-6, 15);
             if (entity.controls.force) this.rotate(-sin(age * TWO_PI * 4) * PI / 16);
             this.fillRect(-4, 0, 8, 20);
@@ -52,7 +61,7 @@ CanvasRenderingContext2D.prototype.renderLegs = function(entity) {
         this.wrap(() => {
             this.translate(0, -32);
 
-            this.fillStyle = this.resolveColor('#666');
+            this.fillStyle = this.resolveColor(color);
             this.translate(6, 15);
             if (entity.controls.force) this.rotate(sin(age * TWO_PI * 4) * PI / 16);
             this.fillRect(-4, 0, 8, 20);
@@ -60,48 +69,38 @@ CanvasRenderingContext2D.prototype.renderLegs = function(entity) {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderArmoredChest = function(entity) {
+CanvasRenderingContext2D.prototype.renderChest = function(entity, color, width = 25) {
     this.wrap(() => {
         const { renderAge } = entity;
 
         this.translate(0, -32);
 
-        this.fillStyle = this.resolveColor('#ccc');
+        this.fillStyle = this.resolveColor(color);
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
-        this.fillRect(-12, -15, 25, 30);
-
-        // Head
-        this.fillStyle = this.resolveColor('#fec');
-        this.translate(0, -22);
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-        this.fillRect(-6, -7, 12, 15);
+        this.fillRect(-width / 2, -15, width, 30);
     });
-};
+}
 
-CanvasRenderingContext2D.prototype.renderNakedChest = function(entity) {
+CanvasRenderingContext2D.prototype.renderHead = function(entity, color, slitColor = null) {
     this.wrap(() => {
         const { renderAge } = entity;
 
-        this.translate(0, -32);
-
-        this.fillStyle = this.resolveColor('#753');
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
-        this.fillRect(-12, -15, 25, 30);
-
-        // Head
-        this.fillStyle = this.resolveColor('#fec');
-        this.translate(0, -22);
+        this.fillStyle = this.resolveColor(color);
+        this.translate(0, -54);
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
         this.fillRect(-6, -7, 12, 15);
-    });
-};
 
-CanvasRenderingContext2D.prototype.renderStick = function(entity) {
+        this.fillStyle = this.resolveColor(slitColor);
+        if (slitColor) this.fillRect(4, -5, -6, 4);
+    });
+}
+
+CanvasRenderingContext2D.prototype.renderStick = function() {
     this.fillStyle = this.resolveColor('#444');
     this.fillRect(-3, 10, 6, -40);
 }
 
-CanvasRenderingContext2D.prototype.renderArmAndStick = function(entity) {
+CanvasRenderingContext2D.prototype.renderArm = function(entity, color, renderTool) {
     this.wrap(() => {
         if (!entity.health) return;
 
@@ -109,41 +108,15 @@ CanvasRenderingContext2D.prototype.renderArmAndStick = function(entity) {
 
         this.translate(0, -32);
         
-        this.fillStyle = this.resolveColor('#fec');
+        this.fillStyle = this.resolveColor(color);
         this.translate(12, -10);
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
         this.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
         this.fillRect(0, -3, 20, 6);
 
-        // Stick
-        this.wrap(() => {
-            this.translate(18, -6);
-            this.renderStick();
-        });
-    });
-}
-
-CanvasRenderingContext2D.prototype.renderArmAndSword = function(entity) {
-    this.wrap(() => {
-        if (!entity.health) return;
-
-        const { renderAge } = entity;
-
-        this.translate(0, -32);
-        
-        this.fillStyle = this.resolveColor('#666');
-        this.translate(12, -10);
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-        this.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
-
-        this.fillRect(0, -3, 20, 6);
-
-        // Sword
-        this.wrap(() => {
-            this.translate(18, -6);
-            this.renderSword();
-        });
+        this.translate(18, -6);
+        renderTool();
     });
 }
 
