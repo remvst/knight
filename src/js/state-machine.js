@@ -38,18 +38,24 @@ characterStateMachine = ({
     chargeTime,
     perfectParryTime,
     releaseAttackBetweenStrikes,
+    staggerTime,
 }) => {
     const { controls } = entity;
     const stateMachine = new StateMachine();
 
     chargeTime = chargeTime || 1;
     perfectParryTime = perfectParryTime || 0;
+    staggerTime = staggerTime || 0;
 
     class MaybeExhaustedState extends State {
         cycle(elapsed) {
             super.cycle(elapsed);
             if (entity.stamina === 0) {
                 this.stateMachine.transitionToState(new Exhausted());
+            }
+            if (entity.age - entity.lastDamage < staggerTime) {
+                // console.log('aw yis')
+                this.stateMachine.transitionToState(new Staggered());
             }
         }
     }
@@ -253,9 +259,25 @@ characterStateMachine = ({
         }
     }
 
-    stateMachine.transitionToState(new Idle());
+    class Staggered extends State {
+        get swordRaiseRatio() { 
+            return this.previous.swordRaiseRatio; 
+        }
+        
+        get speedRatio() { 
+            return 0.5; 
+        }
 
-    
+        cycle(elapsed) {
+            super.cycle(elapsed);
+
+            if (this.age >= staggerTime) {
+                stateMachine.transitionToState(new Idle());
+            }
+        }
+    }
+
+    stateMachine.transitionToState(new Idle());
 
     return stateMachine;
 }

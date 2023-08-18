@@ -5,6 +5,8 @@ class Player extends Character {
 
         this.targetTeam = 'enemy';
 
+        this.baseSpeed = 250;
+
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;
 
@@ -18,6 +20,7 @@ class Player extends Character {
             chargeTime: PLAYER_HEAVY_CHARGE_TIME,
             perfectParryTime: PLAYER_PERFECT_PARRY_TIME,
             releaseAttackBetweenStrikes: true,
+            staggerTime: 0.2,
         });
     }
 
@@ -79,6 +82,10 @@ class Player extends Character {
 }
 
 class PlayerController extends CharacterController {
+    get description() {
+        return 'Player';
+    }
+
     cycle() {
         let x = 0, y = 0;
         if (DOWN[37] || DOWN[65]) x = -1;

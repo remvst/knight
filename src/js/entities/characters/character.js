@@ -176,8 +176,8 @@ class Character extends Entity {
                 if (victim.stateMachine.state.perfectParry) {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
-                    victim.updateCombo(1, nomangle('Perfect Parry!'));
-                    victim.displayLabel(nomangle('Perfect Parry!'));
+                    victim.updateCombo(1, nomangle('Perfect Block!'));
+                    victim.displayLabel(nomangle('Perfect Block!'));
                     this.loseStamina(1);
 
                     const animation = new PerfectParry();
@@ -196,7 +196,7 @@ class Character extends Entity {
                     victim.loseStamina(0.18);
 
                     // victim.updateCombo(1, nomangle('Parry'));
-                    victim.displayLabel(nomangle('Parry'));
+                    victim.displayLabel(nomangle('Blocked!'));
                 
                     const animation = new ShieldBlock();
                     animation.x = victim.x;
@@ -306,20 +306,18 @@ class Character extends Entity {
         });
 
         if (DEBUG) {
-            ctx.fillStyle = this.controls.attack ? '#f00' : '#fff';
+            ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 3;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
 
-            ctx.fillStyle = this.controls.attack ? '#f00' : '#fff';
-            ctx.strokeText(this.stateMachine.state.constructor.name, 0, 20);
-            ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+            ctx.strokeText(this.stateMachine.state.constructor.name, 0, -90);
+            ctx.fillText(this.stateMachine.state.constructor.name, 0, -90);
 
-            ctx.fillStyle = '#fff';
-            ctx.strokeText(this.controller.description, 0, 40);
-            ctx.fillText(this.controller.description, 0, 40);
+            ctx.strokeText(this.controller.description, 0, -110);
+            ctx.fillText(this.controller.description, 0, -110);
         }
     }
 
