@@ -9,6 +9,11 @@ roundToNearest = (x, precision) => round(x / precision) * precision;
 pick = a => a[~~(random() * a.length)];
 interpolate = (from, to, ratio) => between(0, ratio, 1) * (to - from) + from;
 
+// Easing
+linear = x => x;
+easeOutQuint = x => 1 - Math.pow(1 - x, 5);
+
+
 // Modulo centered around zero: the result will be between -y and +y
 moduloWithNegative = (x, y) => {
     x = x % (y * 2);

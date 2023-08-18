@@ -25,6 +25,10 @@ scene.add(new Cursor(player));
 //     scene.add(enemy);
 // }
 
+const fade = new Fade();
+scene.add(fade);
+scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear, removeObjectWhenDone));
+
 let y = 0;
 for (const type of [
     StickEnemy,
