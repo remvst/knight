@@ -115,7 +115,9 @@ characterStateMachine = ({
             return this.age / chargeTime;
         }
 
-        get swordRaiseRatio() { return -min(1, this.age / chargeTime); }
+        get swordRaiseRatio() { 
+            return interpolate(this.previous.swordRaiseRatio, -1, this.attackPreparationRatio); 
+        }
 
         cycle(elapsed) {
             super.cycle(elapsed);

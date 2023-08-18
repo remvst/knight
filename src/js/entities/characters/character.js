@@ -26,10 +26,8 @@ class Character extends Entity {
 
         this.lastDamage = -9;
 
-        this.dashStart = 0;
-        this.dashEnd = 0;
-
-        this.controller = null; // TODO remove
+        this.controller = this.ai;
+        this.controller.start(this);
 
         this.controls = {
             'force': 0,
@@ -43,6 +41,10 @@ class Character extends Entity {
         this.stateMachine = characterStateMachine({
             entity: this, 
         });
+    }
+
+    get ai() {
+        return new AI();
     }
 
     getColor(color) {

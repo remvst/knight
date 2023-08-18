@@ -4,10 +4,6 @@ class TankEnemy extends Character {
         this.categories.push('enemy');
         this.targetTeam = 'player';
 
-        this.controller = new EnemyAI(this);
-        this.controller.setEntity(this);
-        this.controller.start();
-
         this.baseSpeed = 70;
 
         this.gibs = [
@@ -21,6 +17,10 @@ class TankEnemy extends Character {
         });
     }
 
+    get ai() {
+        return new TankAI(this);
+    }
+
     renderBody() {
         ctx.renderAttackIndicator(this);
         ctx.renderLegs(this, COLOR_LEGS);
@@ -30,5 +30,25 @@ class TankEnemy extends Character {
         ctx.renderArmAndShield(this);
         ctx.renderExhaustion(this, -70);
         ctx.renderExclamation(this);
+    }
+}
+
+class TankAI extends EnemyAI {
+    async doStart() {
+        console.log('haha doStart', this.entity);
+        while (true) {
+            for (let i = 3 ; i > 0 ; i--) {
+                await this.startAI(new LightAttackAI());
+            }
+
+            await this.race([
+                new RetreatAI(),
+                new WaitAI(2),
+            ]);
+
+            console.log('okie');
+
+            await this.startAI(new WaitAI(2));
+        }
     }
 }

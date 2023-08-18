@@ -1,14 +1,15 @@
 class CharacterController {
-    setEntity(entity) {
+    start(entity) {
         this.entity = entity;
     }
 }
 
 class AI extends CharacterController {
 
-    start() {
+    start(entity) {
+        super.start(entity);
         return new Promise((resolve) => this.resolve = () => {
-            this.resolve = null;
+            this.resolve = () => {};
             resolve();
         });
     }
@@ -28,21 +29,27 @@ class AI extends CharacterController {
 }
 
 class EnemyAI extends AI {
-    async start() {
-        await this.startAI(new AI());
-        // while (true) {
-        //     for (let i = rnd(1, 3) ; i > 0 ; i--) {
-        //         await this.startAI(new LightAttackAI());
-        //         await this.startAI(new WaitAI(1));
-        //     }
-        //     await this.startAI(new RetreatAI());
-        //     await this.startAI(new WaitAI(2));
-        // }
+
+    constructor() {
+        super();
+        this.ais = new Set();
     }
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        this.currentAI.cycle(elapsed);
+
+        for (const ai of this.ais.values()) {
+            ai.cycle(elapsed);
+        }
+    }
+
+    async start(entity) {
+        super.start(entity);
+        await this.doStart(entity);
+    }
+
+    async doStart() {
+        // implement in subclasses
     }
 
     update(player) {
@@ -51,9 +58,19 @@ class EnemyAI extends AI {
     }
 
     startAI(ai) {
-        ai.setEntity(this.entity);
-        this.currentAI = ai;
-        return this.currentAI.start();
+        return this.race([ai]);
+    }
+
+    async race(ais) {
+        for (const ai of ais) {
+            this.ais.add(ai);
+        }
+        await Promise.race(ais.map(ai => {
+            return ai.start(this.entity);
+        }));
+        for (const ai of ais) {
+            this.ais.delete(ai);
+        }
     }
 }
 
@@ -64,9 +81,9 @@ class WaitAI extends AI {
         this.duration = duration;
     }
 
-    start() {
-        this.endTime = this.entity.age + this.duration;
-        return super.start();
+    start(entity) {
+        this.endTime = entity.age + this.duration;
+        return super.start(entity);
     }
 
     update() {
@@ -77,16 +94,12 @@ class WaitAI extends AI {
 }
 
 class LightAttackAI extends AI {
-    constructor() {
-        super();
-    }
-
     update(player) {
         const { controls } = this.entity;
 
         controls.force = 0;
 
-        if (!controls.attack) {
+        if (!this.entity.controls.attack) {
             if (!this.entity.isStrikable(player, this.entity.strikeRadiusX, this.entity.strikeRadiusY / 2, PI / 2)) {
                 // Approach the player
                 controls.force = 1;
@@ -106,15 +119,15 @@ class LightAttackAI extends AI {
 }
 
 class RetreatAI extends AI {
-    constructor() {
+    constructor(distance = 200) {
         super();
-        this.lastAttack = 0;
+        this.distance = distance;
     }
 
     update(player) {
         this.entity.controls.force = 0;
 
-        if (dist(player, this.entity) < 200) {
+        if (dist(player, this.entity) < this.distance) {
             // Get away from the player
             this.entity.controls.force = 1;
             this.entity.controls.angle = angleBetween(player, this.entity);
@@ -122,4 +135,43 @@ class RetreatAI extends AI {
             this.resolve();
         }
     }
+
+    resolve() {
+        this.entity.controls.force = 0;
+        super.resolve();
+    }
 }
+
+class ShieldAI extends AI {
+    update() {
+        this.entity.controls.shield = true;
+    }
+
+    resolve() {
+        this.entity.controls.shield = false;
+        super.resolve();
+    }
+}
+
+// class TimeoutAI extends AI {
+//     constructor(other, timeout) {
+//         super();
+//         this.other = other;
+//         this.timeout = timeout;
+//     }
+
+//     start() {
+//         this.endTime = this.entity.age + this.duration;
+
+//         return Promise.race([
+//             this.other.start(),
+//             super.start(),
+//         ]);
+//     }
+
+//     update() {
+//         if (this.entity.age > this.endTime) {
+//             this.resolve();
+//         }
+//     }
+// }

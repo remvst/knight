@@ -4,9 +4,6 @@ class StickEnemy extends Character {
         this.categories.push('enemy');
         this.targetTeam = 'player';
 
-        this.controller = new EnemyAI(this);
-        this.controller.setEntity(this);
-        this.controller.start();
 
         this.baseSpeed = 100;
 

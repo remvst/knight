@@ -5,9 +5,6 @@ class Player extends Character {
 
         this.targetTeam = 'enemy';
 
-        this.controller = new PlayerController();
-        this.controller.setEntity(this);
-
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;
 
@@ -21,6 +18,10 @@ class Player extends Character {
             chargeTime: PLAYER_HEAVY_CHARGE_TIME,
             perfectParryTime: PLAYER_PERFECT_PARRY_TIME,
         });
+    }
+
+    get ai() {
+        return new PlayerController();
     }
 
     getColor(color) {
