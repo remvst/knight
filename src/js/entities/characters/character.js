@@ -312,8 +312,14 @@ class Character extends Entity {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
+
+            ctx.fillStyle = this.controls.attack ? '#f00' : '#fff';
             ctx.strokeText(this.stateMachine.state.constructor.name, 0, 20);
             ctx.fillText(this.stateMachine.state.constructor.name, 0, 20);
+
+            ctx.fillStyle = '#fff';
+            ctx.strokeText(this.controller.description, 0, 40);
+            ctx.fillText(this.controller.description, 0, 40);
         }
     }
 

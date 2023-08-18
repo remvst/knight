@@ -2,6 +2,10 @@ class CharacterController {
     start(entity) {
         this.entity = entity;
     }
+
+    get description() {
+        return this.constructor.name;
+    }
 }
 
 class AI extends CharacterController {
@@ -44,6 +48,10 @@ class EnemyAI extends AI {
         }
     }
 
+    get description() {
+        return Array.from(this.ais).map(ai => ai.description).join('+');
+    }
+
     async start(entity) {
         super.start(entity);
         await this.doStart(entity);
@@ -75,7 +83,7 @@ class EnemyAI extends AI {
     }
 }
 
-class WaitAI extends AI {
+class Wait extends AI {
 
     constructor(duration) {
         super();

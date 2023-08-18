@@ -40,15 +40,15 @@ class TankAI extends EnemyAI {
                 await this.startAI(new Attack(0.5));
             }
 
-            await this.startAI(new WaitAI(0.5));
+            await this.startAI(new Wait(0.5));
 
             await this.race([
                 new RetreatAI(),
-                new WaitAI(2),
+                new Wait(2),
                 new HoldShield(),
             ]);
 
-            await this.startAI(new WaitAI(1));
+            await this.startAI(new Wait(1));
         }
     }
 }
