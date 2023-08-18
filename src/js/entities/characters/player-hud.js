@@ -25,35 +25,9 @@ class PlayerHUD extends Entity {
 
         ctx.wrap(() => this.gauge.render(40, 30, 400, 30));
 
-        // ctx.wrap(() => {
-        //     ctx.translate(40, 45);
-
-        //     ctx.fillStyle = '#000';
-        //     ctx.strokeStyle = '#fff';
-        //     ctx.lineWidth = 4;
-        //     ctx.beginPath();
-        //     ctx.arc(0, 0, 30, 0, TWO_PI);
-        //     ctx.fill();
-
-        //     ctx.wrap(() => {
-        //         ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
-
-        //         ctx.clip();
-        //         ctx.resolveColor = () => '#fff';
-        //         ctx.scale(0.6, 0.6);
-        //         ctx.scale(this.player.facing, 1);
-        //         ctx.translate(-this.player.x, -this.player.y + 30);
-        //         this.player.render();
-        //     });
-
-        //     ctx.beginPath();
-        //     ctx.arc(0, 0, 30, 0, TWO_PI);
-        //     ctx.stroke();
-        // });
-
         if (this.player.combo > 0) {
             ctx.wrap(() => {
-                ctx.translate(440, 80);
+                ctx.translate(420, 80);
 
                 ctx.fillStyle = '#fff';
                 ctx.strokeStyle = '#000';

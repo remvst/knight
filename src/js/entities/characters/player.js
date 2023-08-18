@@ -8,10 +8,6 @@ class Player extends Character {
         this.controller = new PlayerController();
         this.controller.setEntity(this);
 
-        this.timeToPrepareHeavyAttack = 1;
-        this.timeToStrike = 0.05;
-        this.timeToCooldown = 0.1;
-
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;
 

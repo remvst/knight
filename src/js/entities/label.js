@@ -24,12 +24,10 @@ class Label extends Entity {
         ctx.textAlign = nomangle('center');
         ctx.textBaseline = nomangle('middle');
 
-        ctx.wrap(() => {
-            ctx.shadowColor = '#000';
-            ctx.shadowOffsetY = 3;
-            ctx.fillText(this.text, 0, 0);
-        });
-        // ctx.fillText(this.text, 0, 0);
-        // ctx.strokeText(this.text, 0, 0);
+        ctx.shadowColor = '#000';
+        ctx.shadowOffsetX = ctx.shadowOffsetY = 1;
+
+        ctx.strokeText(this.text, 0, 0);
+        ctx.fillText(this.text, 0, 0);
     }
 }
