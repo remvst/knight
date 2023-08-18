@@ -35,6 +35,7 @@ class Scene {
     }
 
     cycle(elapsed) {
+        if (DEBUG && DOWN[70]) elapsed *= 3;
         if (DEBUG && DOWN[71]) elapsed *= 0.1;
         for (const entity of this.entities) {
             entity.cycle(elapsed);
