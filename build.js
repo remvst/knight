@@ -52,17 +52,19 @@ compiler.run((tasks) => {
 
                 "src/js/entities/entity.js",
                 "src/js/entities/camera.js",
-                "src/js/entities/grass.js",
-                "src/js/entities/obstacle.js",
-                "src/js/entities/tree.js",
-                "src/js/entities/bush.js",
-                "src/js/entities/water.js",
-                "src/js/entities/shield-block.js",
                 "src/js/entities/interpolator.js",
-                "src/js/entities/perfect-parry.js",
                 "src/js/entities/cursor.js",
-                "src/js/entities/particle.js",
-                "src/js/entities/swing-effect.js",
+
+                "src/js/entities/animations/shield-block.js",
+                "src/js/entities/animations/perfect-parry.js",
+                "src/js/entities/animations/particle.js",
+                "src/js/entities/animations/swing-effect.js",
+                
+                "src/js/entities/props/grass.js",
+                "src/js/entities/props/obstacle.js",
+                "src/js/entities/props/tree.js",
+                "src/js/entities/props/bush.js",
+                "src/js/entities/props/water.js",
 
                 "src/js/entities/ui/label.js",
                 "src/js/entities/ui/fade.js",
