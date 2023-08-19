@@ -34,7 +34,7 @@ class IntroLevel extends Level {
             const msg = this.scene.add(new Instruction());
 
             // Movement tutorial
-            msg.text = nomangle('Use arrow keys or WASD to move');
+            msg.text = nomangle('Use [ARROW KEYS] or [WASD] to move');
             await this.waitFor(() => distP(player.x, player.y, 0, 0) > 50);
             await this.scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
             logo.remove();
@@ -45,7 +45,7 @@ class IntroLevel extends Level {
             // Roll tutorial
             await this.repeat(
                 msg,
-                nomangle('Press SPACE to roll'),
+                nomangle('Press [SPACE] to roll'),
                 async () => {
                     await this.waitFor(() => player.stateMachine.state.dashAngle !== undefined);
                     await this.waitFor(() => player.stateMachine.state.dashAngle === undefined);
@@ -61,7 +61,7 @@ class IntroLevel extends Level {
 
             await this.repeat(
                 msg,
-                nomangle('CLICK to strike the dummy'),
+                nomangle('[LEFT CLICK] to strike the dummy'),
                 async () => {
                     const initial = dummy.damageCount;
                     await this.waitFor(() => dummy.damageCount > initial);
@@ -72,7 +72,7 @@ class IntroLevel extends Level {
             // Charge tutorial
             await this.repeat(
                 msg,
-                nomangle('Hold CLICK to charge a heavy attack'),
+                nomangle('Hold [LEFT CLICK] to charge a heavy attack'),
                 async () => {
                     await this.waitFor(() => player.stateMachine.state.attackPreparationRatio >= 1);
 
@@ -92,7 +92,7 @@ class IntroLevel extends Level {
 
             await this.repeat(
                 msg,
-                nomangle('Hold SHIFT to block attacks'),
+                nomangle('Hold [RIGHT CLICK] or [SHIFT] to block attacks'),
                 async () => {
                     const initial = player.parryCount;
                     await this.waitFor(() => player.parryCount > initial);

@@ -97,7 +97,7 @@ class PlayerController extends CharacterController {
 
         if (x || y) this.entity.controls.angle = atan2(y, x);
         this.entity.controls.force = x || y ? 1 : 0;
-        this.entity.controls.shield = DOWN[16];
+        this.entity.controls.shield = DOWN[16] || MOUSE_RIGHT_DOWN;
         this.entity.controls.attack = MOUSE_DOWN;
         this.entity.controls.aim.x = MOUSE_POSITION.x + camera.x - CANVAS_WIDTH / 2;
         this.entity.controls.aim.y = MOUSE_POSITION.y + camera.y - CANVAS_HEIGHT / 2;
