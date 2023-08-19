@@ -24,6 +24,7 @@ const CONSTANTS = {
     "LAYER_CHARACTER_HUD": aboveLayer++,
     "LAYER_PARTICLE": aboveLayer++,
     "LAYER_ANIMATIONS": aboveLayer++,
+    "LAYER_WEATHER": aboveLayer++,
     "LAYER_PLAYER_HUD": aboveLayer++,
     "LAYER_FADE": aboveLayer++,
     "LAYER_INSTRUCTIONS": aboveLayer++,
@@ -71,6 +72,7 @@ compiler.run((tasks) => {
                 "src/js/entities/animations/perfect-parry.js",
                 "src/js/entities/animations/particle.js",
                 "src/js/entities/animations/swing-effect.js",
+                "src/js/entities/animations/rain.js",
                 
                 "src/js/entities/props/grass.js",
                 "src/js/entities/props/obstacle.js",

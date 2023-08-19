@@ -8,6 +8,8 @@ class Level {
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Cursor(player));
 
+        this.scene.add(new Rain());
+
         // const fade = this.scene.add(new Fade());
         // this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear))
         //     .await()
