@@ -84,6 +84,8 @@ compiler.run((tasks) => {
 
                 "src/js/entities/characters/corpse.js",
 
+                "src/js/sound/ZzFXMicro.js",
+
                 "src/js/level/level.js",
                 "src/js/level/intro-level.js",
                 "src/js/level/gameplay-level.js",
