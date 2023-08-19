@@ -176,7 +176,7 @@ characterStateMachine = ({
             super.cycle(elapsed);
 
             if (this.age > 0.1) {
-                entity.strike((this.counter + 1) * 0.15);
+                entity.strike(0.15 + this.counter * 0.08);
 
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
                     stateMachine.transitionToState(new LightRecover(this.counter));

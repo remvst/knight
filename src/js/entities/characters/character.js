@@ -25,6 +25,8 @@ class Character extends Entity {
         this.collisionRadius = 30;
 
         this.lastDamage = -9;
+        this.damageRatio = 1;
+        this.damageCount = 0;
 
         this.controller = this.ai;
         this.controller.start(this);
@@ -243,10 +245,13 @@ class Character extends Entity {
     }
 
     damage(amount) {
-        this.health = max(0, this.health - amount);
-        this.lastDamage = this.age;
+        const adjusted = amount * this.damageRatio;
 
-        if (!this.exhausted) this.loseStamina(amount * 0.3);
+        this.health = max(0, this.health - adjusted);
+        this.lastDamage = this.age;
+        this.damageCount++;
+
+        if (!this.exhausted) this.loseStamina(adjusted * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
         this.displayLabel('-' + ~~(amount * 100));
 

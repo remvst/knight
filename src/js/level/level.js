@@ -103,4 +103,10 @@ class Level {
             this.onCycle.add(checker);
         })
     }
+
+    async delay(timeout) {
+        const entity = this.scene.add(new Entity());
+        await this.waitFor(() => entity.age > timeout);
+        entity.remove();
+    }
 }

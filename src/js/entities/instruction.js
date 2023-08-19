@@ -3,6 +3,8 @@ class Instruction extends Entity {
     get z() { return Number.MAX_SAFE_INTEGER; }
 
     render() {
+        if (!this.text) return;
+
         const camera = firstItem(this.scene.category('camera'));
         ctx.translate(camera.x, camera.y);
         ctx.scale(1 / camera.zoom, 1 / camera.zoom);
