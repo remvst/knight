@@ -28,3 +28,7 @@ make
 ## Ideas
 
 - flowers
+
+# License
+
+Feel free to read the code but don't use for commercial purposes. The game is the result of a lot hard work and I wish to maintain all rights to it.
