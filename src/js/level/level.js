@@ -2,14 +2,16 @@ class Level {
     constructor() {
         this.scene = new Scene();
 
+        this.onCycle = new Set();
+
         const player = this.scene.add(new Player());
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Cursor(player));
 
-        const fade = this.scene.add(new Fade());
-        this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear))
-            .await()
-            .then(() => fade.remove());
+        // const fade = this.scene.add(new Fade());
+        // this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear))
+        //     .await()
+        //     .then(() => fade.remove());
 
         for (let i = 0 ; i < 0 ; i++) {
             const enemy = new TankEnemy();
@@ -84,5 +86,21 @@ class Level {
                 this.respawning = false;
             })();
         }
+
+        for (const onCycle of this.onCycle) {
+            onCycle();
+        }
+    }
+
+    async waitFor(condition) {
+        return new Promise((resolve) => {
+            const checker = () => {
+                if (condition()) {
+                    this.onCycle.delete(checker);
+                    resolve();
+                }
+            };
+            this.onCycle.add(checker);
+        })
     }
 }

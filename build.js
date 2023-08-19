@@ -65,6 +65,8 @@ compiler.run((tasks) => {
                 "src/js/entities/swing-effect.js",
                 "src/js/entities/label.js",
                 "src/js/entities/fade.js",
+                "src/js/entities/logo.js",
+                "src/js/entities/instruction.js",
 
                 "src/js/entities/characters/character-hud.js",
                 "src/js/entities/characters/player-hud.js",
