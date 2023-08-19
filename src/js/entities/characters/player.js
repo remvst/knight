@@ -99,9 +99,12 @@ class PlayerController extends CharacterController {
         this.entity.controls.force = x || y ? 1 : 0;
         this.entity.controls.shield = DOWN[16] || MOUSE_RIGHT_DOWN;
         this.entity.controls.attack = MOUSE_DOWN;
-        this.entity.controls.aim.x = MOUSE_POSITION.x + camera.x - CANVAS_WIDTH / 2;
-        this.entity.controls.aim.y = MOUSE_POSITION.y + camera.y - CANVAS_HEIGHT / 2;
         this.entity.controls.dash = DOWN[32];
+
+        const mouseRelX = (MOUSE_POSITION.x - CANVAS_WIDTH / 2) / (CANVAS_WIDTH / 2);
+        const mouseRelY = (MOUSE_POSITION.y - CANVAS_HEIGHT / 2) / (CANVAS_HEIGHT / 2);
+        this.entity.controls.aim.x = camera.x + mouseRelX * CANVAS_WIDTH / 2 / camera.zoom;
+        this.entity.controls.aim.y = camera.y + mouseRelY * CANVAS_HEIGHT / 2 / camera.zoom;
 
         if (x) this.entity.facing = x;
     }
