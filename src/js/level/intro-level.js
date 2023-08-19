@@ -3,7 +3,7 @@ class IntroLevel extends Level {
         super();
 
         const camera = firstItem(this.scene.category('camera'));
-        camera.zoom = 2;
+        // camera.zoom = 2;
 
         const player = firstItem(this.scene.category('player'));
         player.damageRatio = 0;

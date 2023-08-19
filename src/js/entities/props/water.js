@@ -18,11 +18,39 @@ class Water extends Entity {
     }
 
     render() {
+        this.rng.reset();
+
         ctx.wrap(() => {
             ctx.fillStyle = '#08a';
             ctx.translate(this.x, this.y);
             ctx.rotate(this.rotation);
-            ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.beginPath();
+            ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.fill();
+            ctx.clip();
+
+            // Ripples
+            ctx.rotate(-this.rotation);
+            ctx.scale(1, 0.5);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 4;
+
+            for (let i = 3; i-- ; ) {
+                const duration = 2;
+                const relativeAge = (this.age + this.rng.next(0, 20)) / duration;
+                const ratio = min(1, relativeAge % (duration / 2));
+
+                ctx.globalAlpha = (1 - ratio) / 2;
+                ctx.beginPath();
+                ctx.arc(
+                    ((this.rng.next(0, this.width) + ~~relativeAge * this.width * 0.7) % this.width) - this.width / 2,
+                    ((this.rng.next(0, this.height) + ~~relativeAge * this.height * 0.7) % this.height) - this.width / 2,
+                    ratio * 40,
+                    0,
+                    TWO_PI,
+                );
+                ctx.stroke();
+            }
         });
     }
 }

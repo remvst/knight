@@ -20,6 +20,7 @@ make
 - keep players within tutorial area
 - enemy AIs / settings
 - gameplay level
+- SFX
 - mobile controls
 - gamepad controls
 - rain effect

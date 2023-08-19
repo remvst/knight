@@ -1,10 +1,5 @@
 class Bush extends Entity {
 
-    constructor() {
-        super();
-        this.rng = new RNG();
-    }
-
     cycle(elapsed) {
         super.cycle(elapsed);
         regenEntity(this, CANVAS_WIDTH / 2 + 50);

@@ -2,6 +2,8 @@ class Entity {
     constructor() {
         this.x = this.y = this.rotation = this.age = 0;   
         this.categories = [];
+
+        this.rng = new RNG();
     }
 
     get z() { return this.y; }

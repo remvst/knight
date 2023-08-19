@@ -3,8 +3,6 @@ class Tree extends Obstacle {
     constructor() {
         super();
 
-        this.rng = new RNG();
-
         this.trunkWidth = this.rng.next(10, 20);
         this.trunkHeight = this.rng.next(100, 250);
 
