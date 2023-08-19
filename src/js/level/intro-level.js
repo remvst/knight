@@ -47,9 +47,8 @@ class IntroLevel extends Level {
                 msg,
                 nomangle('Press SPACE to roll'),
                 async () => {
-                    await this.waitFor(() => player.stateMachine.state.dashAngle);
-                    await this.waitFor(() => !player.stateMachine.state.dashAngle);
-                    console.log('did a roll');
+                    await this.waitFor(() => player.stateMachine.state.dashAngle !== undefined);
+                    await this.waitFor(() => player.stateMachine.state.dashAngle === undefined);
                 },
                 3,
             );
@@ -87,7 +86,7 @@ class IntroLevel extends Level {
             // TODO add an enemy to shield against
 
             const enemy = this.scene.add(new StickEnemy());
-            enemy.x = camera.x + CANVAS_WIDTH / 2 + 20;
+            enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.damageRatio = 0;
             enemy.setController(new AttackAI());
 
@@ -100,9 +99,6 @@ class IntroLevel extends Level {
                 },
                 3,
             );
-
-            enemy.poof();
-            enemy.remove();
 
             msg.text = '';
             await this.delay(1);

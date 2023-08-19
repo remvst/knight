@@ -324,11 +324,11 @@ class Character extends Entity {
             ctx.textBaseline = 'middle';
             ctx.font = '12pt Courier';
 
-            ctx.strokeText(this.stateMachine.state.constructor.name, 0, -90);
-            ctx.fillText(this.stateMachine.state.constructor.name, 0, -90);
+            // ctx.strokeText(this.stateMachine.state.constructor.name, 0, -90);
+            // ctx.fillText(this.stateMachine.state.constructor.name, 0, -90);
 
-            ctx.strokeText(this.controller.description, 0, -110);
-            ctx.fillText(this.controller.description, 0, -110);
+            // ctx.strokeText(this.controller.description, 0, -110);
+            // ctx.fillText(this.controller.description, 0, -110);
         }
     }
 
