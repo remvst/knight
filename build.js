@@ -1,7 +1,5 @@
 const compiler = require('./js13k-compiler/src/compiler');
 
-const MANGLE_SETTINGS = require('./config/mangle');
-
 const CONSTANTS = {
     "true": 1,
     "false": 0,
@@ -108,7 +106,83 @@ compiler.run((tasks) => {
         ];
 
         if (mangle) {
-            sequence.push(tasks.mangle(MANGLE_SETTINGS));
+            sequence.push(tasks.mangle({
+                "skip": [
+                    "arguments",
+                    "callee",
+                    "flat",
+                    "left",
+                    "px",
+                    "pt",
+                    "movementX",
+                    "movementY",
+                    "imageSmoothingEnabled",
+                    "cursor",
+                    "flatMap",
+                    "monetization",
+                    "yield",
+                    "await",
+                    "async"
+                ],
+                "force": [
+                    "a",
+                    "b",
+                    "c",
+                    "d",
+                    "e",
+                    "f",
+                    "g",
+                    "h",
+                    "i",
+                    "j",
+                    "k",
+                    "l",
+                    "m",
+                    "n",
+                    "o",
+                    "p",
+                    "q",
+                    "r",
+                    "s",
+                    "t",
+                    "u",
+                    "v",
+                    "w",
+                    "x",
+                    "y",
+                    "z",
+                    "alpha",
+                    "background",
+                    "direction",
+                    "ended",
+                    "key",
+                    "left",
+                    "level",
+                    "maxDistance",
+                    "remove",
+                    "right",
+                    "speed",
+                    "start",
+                    "item",
+                    "center",
+                    "wrap",
+                    "angle",
+                    "target",
+                    "path",
+                    "step",
+                    "color",
+                    "expand",
+                    "label",
+                    "action",
+                    "normalize",
+                    "duration",
+                    "message",
+                    "name",
+                    "ratio",
+                    "size",
+                    "index",
+                ]
+            }));
         }
 
         if (uglify) {
