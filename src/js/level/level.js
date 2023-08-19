@@ -6,35 +6,10 @@ class Level {
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Cursor(player));
 
-        // for (let r = 0 ; r < 1 ; r += 0.1) {
-        //     const enemy = new SwordAndShieldEnemy();
-        //     enemy.x = cos(r * TWO_PI) * 200;
-        //     enemy.y = sin(r * TWO_PI) * 200;
-        //     this.scene.add(enemy);
-        // }
-
         const fade = this.scene.add(new Fade());
         this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear))
             .await()
             .then(() => fade.remove());
-
-        let y = 0;
-        for (const type of [
-            StickEnemy,
-            StickAndShirtEnemy,
-            SwordEnemy,
-            SwordAndShieldEnemy,
-            SwordAndArmorEnemy,
-            TankEnemy,
-        ]) {
-            const enemy = this.scene.add(new type());;
-            enemy.x = 200;
-            enemy.y = y;
-
-            this.scene.add(new CharacterHUD(enemy));
-
-            y += 100;
-        }
 
         for (let i = 0 ; i < 0 ; i++) {
             const enemy = new TankEnemy();

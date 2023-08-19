@@ -78,10 +78,13 @@ compiler.run((tasks) => {
                 "src/js/entities/characters/sword-enemy.js",
                 "src/js/entities/characters/sword-and-armor-enemy.js",
                 "src/js/entities/characters/tank-enemy.js",
+                "src/js/entities/characters/dummy-enemy.js",
 
                 "src/js/entities/characters/corpse.js",
-                
+
                 "src/js/level/level.js",
+                "src/js/level/intro-level.js",
+                "src/js/level/gameplay-level.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

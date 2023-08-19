@@ -6,6 +6,7 @@ COLOR_SHIRT = '#753';
 COLOR_LEGS = '#666';
 COLOR_ARMORED_ARM = '#666';
 COLOR_ARMOR = '#ccc';
+COLOR_WOOD = 'brown';
 
 CanvasRenderingContext2D.prototype.renderSword = function() {
     this.wrap(() => {

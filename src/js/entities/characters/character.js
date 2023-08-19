@@ -29,6 +29,8 @@ class Character extends Entity {
         this.controller = this.ai;
         this.controller.start(this);
 
+        this.gibs = [];
+
         this.controls = {
             'force': 0,
             'angle': 0,
@@ -241,7 +243,7 @@ class Character extends Entity {
     }
 
     damage(amount) {
-        // this.health = max(0, this.health - amount);
+        this.health = max(0, this.health - amount);
         this.lastDamage = this.age;
 
         if (!this.exhausted) this.loseStamina(amount * 0.3);
