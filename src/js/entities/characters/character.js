@@ -27,9 +27,9 @@ class Character extends Entity {
         this.lastDamage = -9;
         this.damageRatio = 1;
         this.damageCount = 0;
+        this.parryCount = 0;
 
-        this.controller = this.ai;
-        this.controller.start(this);
+        this.setController(this.ai);
 
         this.gibs = [];
 
@@ -45,6 +45,11 @@ class Character extends Entity {
         this.stateMachine = characterStateMachine({
             entity: this, 
         });
+    }
+
+    setController(controller) {
+        this.controller = controller;
+        this.controller.start(this);
     }
 
     get ai() {
@@ -173,6 +178,7 @@ class Character extends Entity {
             const angle = atan2(victim.y - this.y, victim.x - this.x);
             if (victim.stateMachine.state.shielded) {
                 victim.facing = sign(this.x - victim.x) || 1;
+                victim.parryCount++;
 
                 this.x -= cos(angle) * damage * 10;
                 this.y -= sin(angle) * damage * 10;
@@ -184,10 +190,9 @@ class Character extends Entity {
                     victim.displayLabel(nomangle('Perfect Block!'));
                     this.loseStamina(1);
 
-                    const animation = new PerfectParry();
+                    const animation = this.scene.add(new PerfectParry());
                     animation.x = victim.x;
                     animation.y = victim.y - 30;
-                    this.scene.add(animation);
 
                     for (const parryVictim of this.scene.category(victim.targetTeam)) {
                         if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX, victim.strikeRadiusY)) {
@@ -202,10 +207,9 @@ class Character extends Entity {
                     // victim.updateCombo(1, nomangle('Parry'));
                     victim.displayLabel(nomangle('Blocked!'));
                 
-                    const animation = new ShieldBlock();
+                    const animation = this.scene.add(new ShieldBlock());
                     animation.x = victim.x;
                     animation.y = victim.y - 30;
-                    this.scene.add(animation);
                 }
             } else {
                 victim.damage(damage);
@@ -367,7 +371,15 @@ class Character extends Entity {
             this.scene.add(new Interpolator(bit, 'rotation', 0, pick([-1, 1]) * rnd(PI / 4, PI), duration, easeOutQuint));
         }
 
-        for (let i = 0 ; i < 50 ; i++) {
+        this.poof();
+
+        this.displayLabel(nomangle('Slain!'));
+
+        this.remove();
+    }
+
+    poof() {
+        for (let i = 0 ; i < 80 ; i++) {
             const angle = random() * TWO_PI;
             const dist = random() * 40;
 
@@ -382,9 +394,5 @@ class Character extends Entity {
                 rnd(0.5, 1),
             ));
         }
-
-        this.displayLabel(nomangle('Slain!'));
-
-        this.remove();
     }
 }

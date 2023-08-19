@@ -6,11 +6,21 @@ class IntroLevel extends Level {
         camera.zoom = 2;
 
         const player = firstItem(this.scene.category('player'));
+        player.damageRatio = 0;
 
         camera.cycle(99);
 
-        const dummy = this.scene.add(new DummyEnemy());
-        dummy.x = 200;
+        // TODO maybe remove this and use an already existing AI?
+        class AttackAI extends EnemyAI {
+            async doStart() {
+                while (true) {
+                    await this.startAI(new ReachPlayer());
+                    await this.startAI(new Attack(1));
+                    await this.startAI(new RetreatAI(200));
+                    await this.startAI(new Wait(1));
+                }
+            }
+        }
 
         (async () => {
             const fade = this.scene.add(new Fade());
@@ -32,7 +42,24 @@ class IntroLevel extends Level {
             msg.text = '';
             await this.delay(1);
 
+            // Roll tutorial
+            await this.repeat(
+                msg,
+                nomangle('Press SPACE to roll'),
+                async () => {
+                    await this.waitFor(() => player.stateMachine.state.dashAngle);
+                    await this.waitFor(() => !player.stateMachine.state.dashAngle);
+                    console.log('did a roll');
+                },
+                3,
+            );
+
             // Attack tutorial
+            const dummy = this.scene.add(new DummyEnemy());
+            dummy.x = player.x + 200;
+            dummy.y = player.y;
+            dummy.poof();
+
             await this.repeat(
                 msg,
                 nomangle('CLICK to strike the dummy'),
@@ -58,32 +85,30 @@ class IntroLevel extends Level {
 
             // Shield tutorial 
             // TODO add an enemy to shield against
+
+            const enemy = this.scene.add(new StickEnemy());
+            enemy.x = camera.x + CANVAS_WIDTH / 2 + 20;
+            enemy.damageRatio = 0;
+            enemy.setController(new AttackAI());
+
             await this.repeat(
                 msg,
-                nomangle('Hold SHIFT to raise your shield'),
+                nomangle('Hold SHIFT to block attacks'),
                 async () => {
-                    await this.waitFor(() => !player.stateMachine.state.shielded);
-                    await this.waitFor(() => player.stateMachine.state.shielded && player.stateMachine.state.age > 0.2);
+                    const initial = player.parryCount;
+                    await this.waitFor(() => player.parryCount > initial);
                 },
                 3,
             );
 
-            // Roll tutorial
-            await this.repeat(
-                msg,
-                nomangle('Press SPACE to roll'),
-                async () => {
-                    await this.waitFor(() => player.stateMachine.state.dashAngle);
-                    await this.waitFor(() => !player.stateMachine.state.dashAngle);
-                },
-                3,
-            );
+            enemy.poof();
+            enemy.remove();
 
             msg.text = '';
             await this.delay(1);
 
+            msg.text = nomangle('You are ready for your glorious quest');
             await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
-            msg.text = nomangle('Tutorial DONE!');
         })();
     }
 
