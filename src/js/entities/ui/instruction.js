@@ -1,6 +1,8 @@
 class Instruction extends Entity {
 
-    get z() { return Number.MAX_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_INSTRUCTIONS; 
+    }
 
     render() {
         if (!this.text) return;

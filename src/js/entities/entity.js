@@ -6,7 +6,9 @@ class Entity {
         this.rng = new RNG();
     }
 
-    get z() { return this.y; }
+    get z() { 
+        return this.y; 
+    }
 
     get inWater() {
         for (const water of this.scene.category('water')) {

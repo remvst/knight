@@ -5,7 +5,9 @@ class Water extends Entity {
         this.width = this.height = 0;
     }
 
-    get z() { return Number.MIN_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_WATER; 
+    }
 
     contains(point) {
         const xInSelf = point.x - this.x;
@@ -45,7 +47,7 @@ class Water extends Entity {
                 ctx.arc(
                     ((this.rng.next(0, this.width) + ~~relativeAge * this.width * 0.7) % this.width) - this.width / 2,
                     ((this.rng.next(0, this.height) + ~~relativeAge * this.height * 0.7) % this.height) - this.width / 2,
-                    ratio * 40,
+                    ratio * this.rng.next(20, 60),
                     0,
                     TWO_PI,
                 );

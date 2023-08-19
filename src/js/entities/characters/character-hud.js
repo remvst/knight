@@ -6,7 +6,9 @@ class CharacterHUD extends Entity {
         this.gauge = new Gauge(this.character);
     }
 
-    get z() { return Number.MAX_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_CHARACTER_HUD; 
+    }
 
     cycle(elapsed) {
         super.cycle(elapsed);

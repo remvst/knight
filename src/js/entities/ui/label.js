@@ -4,7 +4,9 @@ class Label extends Entity {
         this.text = text.toUpperCase();
     }
 
-    get z() { return Number.MAX_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_PLAYER_HUD; 
+    }
 
     cycle(elapsed) {
         super.cycle(elapsed);

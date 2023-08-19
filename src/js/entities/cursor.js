@@ -4,7 +4,9 @@ class Cursor extends Entity {
         this.player = player;
     }
 
-    get z() { return Number.MAX_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_PLAYER_HUD;
+    }
 
     render() {
         super.render();

@@ -4,7 +4,9 @@ class Fade extends Entity {
         this.alpha = 1;
     }
 
-    get z() { return Number.MAX_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_FADE;
+    }
 
     render() {
         super.render();

@@ -1,5 +1,8 @@
 const compiler = require('./js13k-compiler/src/compiler');
 
+let belowLayer = -999999;
+let aboveLayer = 999999;
+
 const CONSTANTS = {
     "true": 1,
     "false": 0,
@@ -14,6 +17,17 @@ const CONSTANTS = {
     "PLAYER_PERFECT_PARRY_TIME": 0.1,
     "PLAYER_DASH_DURATION": 0.3,
     "PLAYER_DASH_DISTANCE": 200,
+
+    "LAYER_CORPSE": belowLayer--,
+    "LAYER_WATER": belowLayer--,
+
+    "LAYER_CHARACTER_HUD": aboveLayer++,
+    "LAYER_PARTICLE": aboveLayer++,
+    "LAYER_ANIMATIONS": aboveLayer++,
+    "LAYER_PLAYER_HUD": aboveLayer++,
+    "LAYER_FADE": aboveLayer++,
+    "LAYER_INSTRUCTIONS": aboveLayer++,
+    "LAYER_LOGO": aboveLayer++,
 };
 
 function copy(obj) {

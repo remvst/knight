@@ -5,7 +5,9 @@ class Corpse extends Entity {
         this.sliceType = sliceType;
     }
 
-    get z() { return Number.MIN_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_CORPSE; 
+    }
 
     cycle(elapsed) {
         super.cycle(elapsed);

@@ -1,6 +1,8 @@
 class PerfectParry extends Entity {
 
-    get z() { return Number.MIN_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_ANIMATIONS; 
+    }
 
     cycle(elapsed) {
         super.cycle(elapsed);

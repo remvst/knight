@@ -15,7 +15,9 @@ class Particle extends Entity {
         this.duration = duration;
     }
 
-    get z() { return Number.MAX_SAFE_INTEGER; }
+    get z() { 
+        return LAYER_PARTICLE; 
+    }
 
     cycle(elapsed) {
         super.cycle(elapsed);
