@@ -1,5 +1,19 @@
 # Path To Glory
 
+My entry for 2023's JS13K competition.
+
+## Installation
+
+```sh
+make install
+```
+
+## Build
+
+```sh
+make
+```
+
 ## TODO
 
 - story
