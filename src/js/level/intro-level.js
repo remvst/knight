@@ -122,6 +122,7 @@ class IntroLevel extends Level {
             );
 
             // Shield tutorial 
+            const StickEnemy = createEnemyType({ stick: true, });
             const enemy = this.scene.add(new StickEnemy());
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
@@ -154,7 +155,6 @@ class IntroLevel extends Level {
                 nomangle('The Kingdom of Syldavia is being invaded by the Northern Empire.'),
                 nomangle('The Syldavian army is outnumbered and outmatched.'),
                 nomangle('One lone soldier decides to take on the king himself.'),
-                nomangle('This is his story.'),
             ]));
 
             await this.scene.delay(18);

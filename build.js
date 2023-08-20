@@ -95,13 +95,7 @@ compiler.run((tasks) => {
 
                 "src/js/entities/characters/character.js",
                 "src/js/entities/characters/player.js",
-
-                "src/js/entities/characters/stick-enemy.js",
-                "src/js/entities/characters/stick-and-shirt-enemy.js",
-                "src/js/entities/characters/sword-and-shield-enemy.js",
-                "src/js/entities/characters/sword-enemy.js",
-                "src/js/entities/characters/sword-and-armor-enemy.js",
-                "src/js/entities/characters/tank-enemy.js",
+                "src/js/entities/characters/enemy.js",
                 "src/js/entities/characters/dummy-enemy.js",
 
                 "src/js/entities/characters/corpse.js",

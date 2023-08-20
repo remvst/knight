@@ -140,13 +140,13 @@ CanvasRenderingContext2D.prototype.renderArm = function(entity, color, renderToo
     });
 }
 
-CanvasRenderingContext2D.prototype.renderArmAndShield = function(entity) {
+CanvasRenderingContext2D.prototype.renderArmAndShield = function(entity, armColor) {
     this.wrap(() => {
         const { renderAge } = entity;
 
         this.translate(0, -32);
 
-        this.fillStyle = this.resolveColor('#666');
+        this.fillStyle = this.resolveColor(armColor);
         this.translate(-10, -8);
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
         this.rotate(Math.PI / 3);
