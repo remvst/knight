@@ -29,13 +29,13 @@ class Interpolator extends Entity {
         super.cycle(elapsed);
 
         const progress = this.age / this.duration;
+
+        this.object[this.property] = interpolate(this.fromValue, this.toValue, this.easing(progress));
+
         if (progress > 1) {
             this.remove();
             if (this.resolve) this.resolve();
-            return;
         }
-
-        this.object[this.property] = interpolate(this.fromValue, this.toValue, this.easing(progress));
     }
 }
 
