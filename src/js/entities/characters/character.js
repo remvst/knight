@@ -259,7 +259,6 @@ class Character extends Entity {
     loseStamina(amount) {
         this.stamina = max(0, this.stamina - amount);
         this.lastStaminaLoss = this.age;
-        console.log('lose stam', this.constructor.name);
     }
 
     damage(amount) {

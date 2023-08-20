@@ -83,5 +83,24 @@ class GameplayLevel extends Level {
             await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
             fade.remove();
         })();
+
+        // Game over
+        (async () => {
+            await this.scene.waitFor(() => player.health <= 0);
+            await this.scene.delay(1);
+
+            const fade = this.scene.add(new Fade());
+            await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
+
+            const expo = this.scene.add(new Exposition([
+                nomangle('His first attempt was not successful.'),
+                nomangle('However he never gave up.'),
+            ]));
+
+            await this.scene.delay(5);
+            await this.scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
+
+            level = new GameplayLevel();
+        })();
     }
 }
