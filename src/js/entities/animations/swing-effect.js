@@ -5,6 +5,11 @@ class SwingEffect extends Entity {
         this.color = color;
         this.fromAngle = fromAngle;
         this.toAngle = toAngle;
+        this.toAngle = 1;
+    }
+
+    get z() {
+        return LAYER_ANIMATIONS;
     }
 
     cycle(elapsed) {
@@ -15,13 +20,27 @@ class SwingEffect extends Entity {
     doRender() {
         ctx.globalAlpha = 1 - this.age / 0.2;
 
-        ctx.translate(this.x, this.y - 30);
+        ctx.translate(this.character.x, this.character.y);
         ctx.scale(this.character.facing, 1);
+        ctx.translate(11, -42);
+
         ctx.strokeStyle = this.color;
         ctx.lineWidth = 40;
         ctx.beginPath();
-        ctx.arc(0, 0, 40, this.fromAngle * PI / 2, this.toAngle * PI / 2, false);
-        // ctx.arc(0, 0, 40, this.toAngle * PI / 4, 0, true);
+
+        for (let r = 0 ; r < 1 ; r += 0.05) {
+            ctx.wrap(() => {
+                ctx.rotate(
+                    interpolate(
+                        this.fromAngle * PI / 2, 
+                        this.toAngle * PI / 2,
+                        r,
+                    )
+                );
+                ctx.lineTo(18, -26);
+            });
+        }
+
         ctx.stroke();
     }
 }

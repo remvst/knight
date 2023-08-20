@@ -7,6 +7,7 @@ class Scene {
     }
 
     add(entity) {
+        if (this.entities.has(entity)) return;
         this.entities.add(entity);
         entity.scene = this;
 
@@ -28,7 +29,7 @@ class Scene {
     }
 
     remove(entity) {
-        if (!this.entities.delete(entity)) return;
+        this.entities.delete(entity);
 
         for (const category of entity.categories) {
             if (this.categories.has(category)) {
@@ -36,7 +37,8 @@ class Scene {
             }
         }
 
-        this.sortedEntities.splice(this.sortedEntities.indexOf(entity), 1);
+        const index = this.sortedEntities.indexOf(entity);
+        if (index >= 0) this.sortedEntities.splice(index, 1);
     }
 
     cycle(elapsed) {

@@ -152,28 +152,43 @@ characterStateMachine = ({
         constructor(counter = 0) {
             super();
             this.counter = counter;
+            this.prepareRatio = -min(PLAYER_HEAVY_ATTACK_INDEX, this.counter + 1) * 0.4;
+            this.windup = 0.05;
+            this.duration = 0.15;
         }
 
         get swordRaiseRatio() { 
-            return interpolate(-(this.counter + 1) * 0.4, 1, this.age / 0.05);
+            return this.age < this.windup 
+                ? interpolate(
+                    this.previous.swordRaiseRatio, 
+                    this.prepareRatio, 
+                    this.age / this.windup,
+                )
+                : interpolate(
+                    this.prepareRatio, 
+                    1, 
+                    (this.age - this.windup) / (this.duration - this.windup),
+                );   
         }
 
         onEnter() {
-            const target = entity.lunge();
+            entity.lunge();
 
-            const anim = new SwingEffect(
+            this.anim = new SwingEffect(
                 entity, 
                 this.counter == PLAYER_HEAVY_ATTACK_INDEX ? '#ff0' : '#fff', 
-                min(this.previous.swordRaiseRatio, this.swordRaiseRatio), 
+                this.prepareRatio, 
                 0,
             );
-            anim.x = target.x;
-            anim.y = target.y;
-            entity.scene.add(anim);
         }
 
         cycle(elapsed) {
             super.cycle(elapsed);
+
+            if (this.age >= this.windup) {
+                entity.scene.add(this.anim);
+                this.anim.toAngle = this.swordRaiseRatio;
+            }
 
             if (controls.attack) {
                 this.didTryToAttackAgain = true;
