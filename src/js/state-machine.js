@@ -143,15 +143,16 @@ characterStateMachine = ({
 
             if (!controls.attack) {
                 const counter = this.age >= 1 ? PLAYER_HEAVY_ATTACK_INDEX : this.counter;
-                stateMachine.transitionToState(new Strike(counter));
+                stateMachine.transitionToState(new Strike(counter, this.age >= 1));
             }
         }
     }
 
     class Strike extends MaybeExhaustedState {
-        constructor(counter = 0) {
+        constructor(counter = 0, superAttack) {
             super();
             this.counter = counter;
+            this.superAttack = superAttack;
             this.prepareRatio = -min(PLAYER_HEAVY_ATTACK_INDEX, this.counter + 1) * 0.4;
             this.windup = 0.05;
             this.duration = 0.15;
@@ -195,7 +196,11 @@ characterStateMachine = ({
             }
 
             if (this.age > 0.15) {
-                entity.strike(0.15 + this.counter * 0.08);
+                entity.strike(
+                    this.superAttack
+                        ? 1
+                        : 0.15 + this.counter * 0.08,
+                );
 
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
                     if (this.didTryToAttackAgain) {

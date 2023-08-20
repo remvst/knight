@@ -10,11 +10,6 @@ class Level {
         this.scene.add(new Rain());
         this.scene.add(new PauseOverlay());
 
-        // const fade = this.scene.add(new Fade());
-        // this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear))
-        //     .await()
-        //     .then(() => fade.remove());
-
         for (let i = 0 ; i < 0 ; i++) {
             const enemy = new TankEnemy();
             enemy.x = rnd(-600, 600);

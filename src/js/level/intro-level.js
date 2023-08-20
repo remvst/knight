@@ -39,18 +39,18 @@ class IntroLevel extends Level {
         }
 
         // Respawn when leaving the area
-        // (async () => {
-        //     while (true) {
-        //         await this.scene.waitFor(() => distP(player.x, player.y, 0, 0) > 650);
+        (async () => {
+            while (true) {
+                await this.scene.waitFor(() => distP(player.x, player.y, 0, 0) > 650);
 
-        //         const fade = this.scene.add(new Fade());
-        //         await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
-        //         player.x = player.y = 0;
-        //         camera.cycle(999);
-        //         await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
-        //         fade.remove();
-        //     }
-        // })();
+                const fade = this.scene.add(new Fade());
+                await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
+                player.x = player.y = 0;
+                camera.cycle(999);
+                await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
+                fade.remove();
+            }
+        })();
 
         (async () => {
             const fade = this.scene.add(new Fade());
