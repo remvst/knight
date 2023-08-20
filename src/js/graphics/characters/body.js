@@ -53,7 +53,7 @@ CanvasRenderingContext2D.prototype.renderLegs = function(entity, color) {
             this.translate(0, -32);
 
             this.fillStyle = this.resolveColor(color);
-            this.translate(-6, 15);
+            this.translate(-6, 12);
             if (entity.controls.force) this.rotate(-sin(age * TWO_PI * 4) * PI / 16);
             this.fillRect(-4, 0, 8, 20);
         });
@@ -63,7 +63,7 @@ CanvasRenderingContext2D.prototype.renderLegs = function(entity, color) {
             this.translate(0, -32);
 
             this.fillStyle = this.resolveColor(color);
-            this.translate(6, 15);
+            this.translate(6, 12);
             if (entity.controls.force) this.rotate(sin(age * TWO_PI * 4) * PI / 16);
             this.fillRect(-4, 0, 8, 20);
         });
