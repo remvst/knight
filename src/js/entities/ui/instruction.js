@@ -16,8 +16,7 @@ class Instruction extends Entity {
         ctx.textAlign = nomangle('center');
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 4;
-        ctx.letterSpacing = "2px";
-        ctx.font = nomangle('24pt Times New Roman');
+        ctx.font = nomangle('18pt Times New Roman');
 
         const width = ctx.measureText(this.text).width + 20;
         ctx.fillStyle = 'rgba(0,0,0,.5)';

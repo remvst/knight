@@ -20,6 +20,7 @@ const CONSTANTS = {
 
     "LAYER_CORPSE": belowLayer--,
     "LAYER_WATER": belowLayer--,
+    "LAYER_PATH": belowLayer--,
 
     "LAYER_CHARACTER_HUD": aboveLayer++,
     "LAYER_PARTICLE": aboveLayer++,
@@ -67,6 +68,7 @@ compiler.run((tasks) => {
                 "src/js/entities/camera.js",
                 "src/js/entities/interpolator.js",
                 "src/js/entities/cursor.js",
+                "src/js/entities/path.js",
 
                 "src/js/entities/animations/shield-block.js",
                 "src/js/entities/animations/perfect-parry.js",

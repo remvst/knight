@@ -16,7 +16,7 @@ class DummyEnemy extends Character {
 
     renderBody() {
         ctx.wrap(() => {
-            ctx.fillStyle = ctx.resolveColor('brown');
+            ctx.fillStyle = ctx.resolveColor(COLOR_WOOD);
             ctx.fillRect(-2, 0, 4, -20);
         });
         ctx.renderChest(this, COLOR_WOOD, CHEST_WIDTH_NAKED);

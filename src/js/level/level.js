@@ -7,7 +7,6 @@ class Level {
         const camera = firstItem(this.scene.category('camera'));
 
         const player = this.scene.add(new Player());
-        this.scene.add(new PlayerHUD(player));
         this.scene.add(new Cursor(player));
 
         this.scene.add(new Rain());
@@ -42,25 +41,9 @@ class Level {
         }
 
         for (let i = 0 ; i < 20 ; i++) {
-            const tree = new Tree();
-            tree.x = random() * 10000;
-            this.scene.add(tree);
-        }
-
-        for (let i = 0 ; i < 20 ; i++) {
             const bush = new Bush();
             bush.x = random() * 10000;
             this.scene.add(bush);
-        }
-
-        for (let x = 0 ; x < 10000 ; x += 300) {
-            const water = new Water();
-            water.width = rnd(100, 200);
-            water.height = rnd(200, 400);
-            water.rotation = random() * TWO_PI;
-            water.x = x;
-            water.y = this.scene.pathCurve(water.x) + rnd(300, 800) * pick([-1, 1]);
-            this.scene.add(water);
         }
 
         // Respawn when far from the path

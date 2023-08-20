@@ -2,6 +2,14 @@ class IntroLevel extends Level {
     constructor() {
         super();
 
+        for (let r = 0 ; r < 1 ; r += 1 / 15) {
+            const tree = new Tree();
+            tree.noRegen = true;
+            tree.x = cos(r * TWO_PI) * 500 + rnd(-20, 20);
+            tree.y = sin(r * TWO_PI) * 500 + rnd(-20, 20);
+            this.scene.add(tree);
+        }
+
         const camera = firstItem(this.scene.category('camera'));
         camera.zoom = 2;
 
@@ -22,6 +30,20 @@ class IntroLevel extends Level {
             }
         }
 
+        // Respawn when leaving the area
+        (async () => {
+            while (true) {
+                await this.waitFor(() => distP(player.x, player.y, 0, 0) > 500);
+
+                const fade = this.scene.add(new Fade());
+                await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
+                player.x = player.y = 0;
+                camera.cycle(999);
+                await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
+                fade.remove();
+            }
+        })();
+
         (async () => {
             const fade = this.scene.add(new Fade());
 
@@ -40,6 +62,9 @@ class IntroLevel extends Level {
             logo.remove();
 
             msg.text = '';
+
+            await this.scene.add(new Interpolator(camera, 'zoom', 2, 1, 2)).await();
+
             await this.delay(1);
 
             // Roll tutorial
@@ -54,17 +79,23 @@ class IntroLevel extends Level {
             );
 
             // Attack tutorial
-            const dummy = this.scene.add(new DummyEnemy());
-            dummy.x = player.x + 200;
-            dummy.y = player.y;
-            dummy.poof();
+            const totalAttackCount = () => Array
+                .from(this.scene.category('enemy'))
+                .reduce((acc, enemy) => enemy.damageCount + acc, 0);
+
+            for (let r = 0 ; r < 1 ; r += 1 / 5) {
+                const enemy = this.scene.add(new DummyEnemy());
+                enemy.x = cos(r * TWO_PI) * 200;
+                enemy.y = sin(r * TWO_PI) * 200;
+                enemy.poof();
+            }
 
             await this.repeat(
                 msg,
-                nomangle('[LEFT CLICK] to strike the dummy'),
+                nomangle('[LEFT CLICK] to strike a dummy'),
                 async () => {
-                    const initial = dummy.damageCount;
-                    await this.waitFor(() => dummy.damageCount > initial);
+                    const initial = totalAttackCount();
+                    await this.waitFor(() => totalAttackCount() > initial);
                 },
                 10,
             );
@@ -76,8 +107,8 @@ class IntroLevel extends Level {
                 async () => {
                     await this.waitFor(() => player.stateMachine.state.attackPreparationRatio >= 1);
 
-                    const initial = dummy.damageCount;
-                    await this.waitFor(() => dummy.damageCount > initial);
+                    const initial = totalAttackCount();
+                    await this.waitFor(() => totalAttackCount() > initial);
                 },
                 3,
             );
@@ -87,6 +118,7 @@ class IntroLevel extends Level {
 
             const enemy = this.scene.add(new StickEnemy());
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
+            enemy.y = -99;
             enemy.damageRatio = 0;
             enemy.setController(new AttackAI());
 
@@ -99,6 +131,12 @@ class IntroLevel extends Level {
                 },
                 3,
             );
+
+            this.scene.add(new CharacterHUD(enemy));
+
+            enemy.damageRatio = 1;
+            msg.text = nomangle('Now slay them!');
+            await this.waitFor(() => enemy.health <= 0);
 
             msg.text = '';
             await this.delay(1);

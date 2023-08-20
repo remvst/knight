@@ -12,7 +12,8 @@ class Tree extends Obstacle {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        regenEntity(this, CANVAS_WIDTH / 2 + 200);
+
+        if (!this.noRegen) regenEntity(this, CANVAS_WIDTH / 2 + 200);
 
         this.rng.reset();
 
