@@ -175,11 +175,19 @@ characterStateMachine = ({
         cycle(elapsed) {
             super.cycle(elapsed);
 
-            if (this.age > 0.1) {
+            if (controls.attack) {
+                this.didTryToAttackAgain = true;
+            }
+
+            if (this.age > 0.15) {
                 entity.strike(0.15 + this.counter * 0.08);
 
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
-                    stateMachine.transitionToState(new LightRecover(this.counter));
+                    if (this.didTryToAttackAgain) {
+                        stateMachine.transitionToState(new Charging(this.counter + 1));    
+                    } else {
+                        stateMachine.transitionToState(new LightRecover(this.counter));
+                    }
                 } else {
                     stateMachine.transitionToState(new HeavyRecover());
                 }
