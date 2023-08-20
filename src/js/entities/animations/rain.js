@@ -5,19 +5,26 @@ class Rain extends Entity {
 
     doRender(camera) {
         this.rng.reset();
+
+        ctx.fillStyle = '#0af';
         for (let i = 40 ; i-- ;) {
             const age = this.age + this.rng.next(0, 10);
-            const duration = this.rng.next(0.5, 1);
-            const relAge = age / duration % duration;
+
+            const leftX = camera.x - CANVAS_WIDTH / 2;
+            const topY = camera.y - CANVAS_HEIGHT / 2;
 
             ctx.wrap(() => {
                 ctx.rotate(this.rng.next(0, PI / 16));
-                ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
 
-                ctx.fillStyle = '#0af';
+                const x = this.rng.next(0, CANVAS_WIDTH);
+                const y = this.rng.next(1000, 2000) * age;
+
+                const shiftXCount = floor((x - leftX) / CANVAS_WIDTH);
+                const shiftYCount = floor((y - topY) / CANVAS_HEIGHT);
+
                 ctx.fillRect(
-                    this.rng.next(0, CANVAS_WIDTH),
-                    relAge * CANVAS_HEIGHT,
+                    x - shiftXCount * CANVAS_WIDTH,
+                    y - shiftYCount * CANVAS_HEIGHT,
                     2,
                     20,
                 );
