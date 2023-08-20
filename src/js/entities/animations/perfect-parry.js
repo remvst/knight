@@ -1,5 +1,10 @@
 class PerfectParry extends Entity {
 
+    constructor() {
+        super();
+        this.affectedBySpeedRatio = false;
+    }
+
     get z() { 
         return LAYER_ANIMATIONS; 
     }

@@ -202,6 +202,16 @@ class Character extends Entity {
                             parryVictim.loseStamina(1);
                         }
                     }
+
+                    (async () => {
+                        this.scene.speedRatio = 0.1;
+
+                        const camera = firstItem(this.scene.category('camera'));
+                        await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 2, 0.2)).await();
+                        await this.scene.delay(5 * this.scene.speedRatio);
+                        await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
+                        this.scene.speedRatio = 1;
+                    })();
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(0.18);
@@ -388,7 +398,7 @@ class Character extends Entity {
 
             this.scene.add(new Particle(
                 '#fff',
-                [5, 10],
+                [10, 20],
                 [x, x + rnd(-20, 20)],
                 [y, y + rnd(-20, 20)],
                 rnd(0.5, 1),

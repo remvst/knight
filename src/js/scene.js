@@ -6,6 +6,7 @@ class Scene {
         this.sortedEntities = [];
 
         this.speedRatio = 1;
+        this.onCycle = new Set();
     }
 
     add(entity) {
@@ -50,6 +51,10 @@ class Scene {
 
         for (const entity of this.entities) {
             entity.cycle(elapsed * (entity.affectedBySpeedRatio ? this.speedRatio : 1));
+        }
+
+        for (const onCycle of this.onCycle) {
+            onCycle();
         }
     }
 
@@ -96,5 +101,24 @@ class Scene {
                 ctx.wrap(() => entity.render());
             }
         });
+    }
+
+    async waitFor(condition) {
+        return new Promise((resolve) => {
+            const checker = () => {
+                if (condition()) {
+                    this.onCycle.delete(checker);
+                    resolve();
+                }
+            };
+            this.onCycle.add(checker);
+        })
+    }
+
+    async delay(timeout) {
+        const entity = this.add(new Entity());
+        entity
+        await this.waitFor(() => entity.age > timeout);
+        entity.remove();
     }
 }

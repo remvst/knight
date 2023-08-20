@@ -39,18 +39,18 @@ class IntroLevel extends Level {
         }
 
         // Respawn when leaving the area
-        (async () => {
-            while (true) {
-                await this.waitFor(() => distP(player.x, player.y, 0, 0) > 650);
+        // (async () => {
+        //     while (true) {
+        //         await this.scene.waitFor(() => distP(player.x, player.y, 0, 0) > 650);
 
-                const fade = this.scene.add(new Fade());
-                await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
-                player.x = player.y = 0;
-                camera.cycle(999);
-                await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
-                fade.remove();
-            }
-        })();
+        //         const fade = this.scene.add(new Fade());
+        //         await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
+        //         player.x = player.y = 0;
+        //         camera.cycle(999);
+        //         await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
+        //         fade.remove();
+        //     }
+        // })();
 
         (async () => {
             const fade = this.scene.add(new Fade());
@@ -65,7 +65,7 @@ class IntroLevel extends Level {
 
             // Movement tutorial
             msg.text = nomangle('Use [ARROW KEYS] or [WASD] to move');
-            await this.waitFor(() => distP(player.x, player.y, 0, 0) > 50);
+            await this.scene.waitFor(() => distP(player.x, player.y, 0, 0) > 50);
             await this.scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
             logo.remove();
 
@@ -73,15 +73,15 @@ class IntroLevel extends Level {
 
             await this.scene.add(new Interpolator(camera, 'zoom', 2, 1, 2)).await();
 
-            await this.delay(1);
+            await this.scene.delay(1);
 
             // Roll tutorial
             await this.repeat(
                 msg,
                 nomangle('Press [SPACE] to roll'),
                 async () => {
-                    await this.waitFor(() => player.stateMachine.state.dashAngle !== undefined);
-                    await this.waitFor(() => player.stateMachine.state.dashAngle === undefined);
+                    await this.scene.waitFor(() => player.stateMachine.state.dashAngle !== undefined);
+                    await this.scene.waitFor(() => player.stateMachine.state.dashAngle === undefined);
                 },
                 3,
             );
@@ -103,7 +103,7 @@ class IntroLevel extends Level {
                 nomangle('[LEFT CLICK] to strike a dummy'),
                 async () => {
                     const initial = totalAttackCount();
-                    await this.waitFor(() => totalAttackCount() > initial);
+                    await this.scene.waitFor(() => totalAttackCount() > initial);
                 },
                 10,
             );
@@ -113,10 +113,10 @@ class IntroLevel extends Level {
                 msg,
                 nomangle('Hold [LEFT CLICK] to charge a heavy attack'),
                 async () => {
-                    await this.waitFor(() => player.stateMachine.state.attackPreparationRatio >= 1);
+                    await this.scene.waitFor(() => player.stateMachine.state.attackPreparationRatio >= 1);
 
                     const initial = totalAttackCount();
-                    await this.waitFor(() => totalAttackCount() > initial);
+                    await this.scene.waitFor(() => totalAttackCount() > initial);
                 },
                 3,
             );
@@ -133,13 +133,7 @@ class IntroLevel extends Level {
                 nomangle('Hold [RIGHT CLICK] or [SHIFT] to block attacks'),
                 async () => {
                     const initial = player.parryCount;
-                    await this.waitFor(() => player.parryCount > initial);
-
-                    this.scene.speedRatio = 0.1;
-                    await this.scene.add(new Interpolator(camera, 'zoom', 1, 2, 0.2)).await();
-                    await this.delay(5 * this.scene.speedRatio);
-                    await this.scene.add(new Interpolator(camera, 'zoom', 2, 1, 0.2)).await();
-                    this.scene.speedRatio = 1;
+                    await this.scene.waitFor(() => player.parryCount > initial);
                 },
                 3,
             );
@@ -148,10 +142,10 @@ class IntroLevel extends Level {
 
             enemy.damageRatio = 1;
             msg.text = nomangle('Now slay them!');
-            await this.waitFor(() => enemy.health <= 0);
+            await this.scene.waitFor(() => enemy.health <= 0);
 
             msg.text = '';
-            await this.delay(1);
+            await this.scene.delay(1);
 
             await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
 
@@ -163,7 +157,7 @@ class IntroLevel extends Level {
                 nomangle('This is his story.'),
             ]));
 
-            await this.delay(18);
+            await this.scene.delay(18);
 
             await this.scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
@@ -179,8 +173,8 @@ class IntroLevel extends Level {
         
         msg.text = instruction + ' (' + count + '/' + count + ')';
 
-        await this.delay(1);
+        await this.scene.delay(1);
         msg.text = '';
-        await this.delay(1);
+        await this.scene.delay(1);
     }
 }

@@ -1,7 +1,6 @@
 class Level {
     constructor() {
         this.scene = new Scene();
-        this.onCycle = new Set();
 
         const camera = this.scene.add(new Camera());
 
@@ -49,7 +48,7 @@ class Level {
         // Respawn when far from the path
         (async () => {
             while (true) {
-                await this.waitFor(() => abs(player.y - this.scene.pathCurve(player.x)) > 1000);
+                await this.scene.waitFor(() => abs(player.y - this.scene.pathCurve(player.x)) > 1000);
 
                 const fade = this.scene.add(new Fade());
                 await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
@@ -63,27 +62,5 @@ class Level {
 
     cycle(elapsed) {
         this.scene.cycle(elapsed);
-
-        for (const onCycle of this.onCycle) {
-            onCycle();
-        }
-    }
-
-    async waitFor(condition) {
-        return new Promise((resolve) => {
-            const checker = () => {
-                if (condition()) {
-                    this.onCycle.delete(checker);
-                    resolve();
-                }
-            };
-            this.onCycle.add(checker);
-        })
-    }
-
-    async delay(timeout) {
-        const entity = this.scene.add(new Entity());
-        await this.waitFor(() => entity.age > timeout);
-        entity.remove();
     }
 }

@@ -5,7 +5,7 @@ class SwingEffect extends Entity {
         this.color = color;
         this.fromAngle = fromAngle;
         this.toAngle = toAngle;
-        this.toAngle = 1;
+        this.affectedBySpeedRatio = character.affectedBySpeedRatio;
     }
 
     get z() {
