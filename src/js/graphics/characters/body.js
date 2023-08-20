@@ -25,6 +25,26 @@ CanvasRenderingContext2D.prototype.renderSword = function() {
     });
 };
 
+CanvasRenderingContext2D.prototype.renderAxe = function() {
+    this.wrap(() => {
+        this.fillStyle = this.resolveColor(COLOR_WOOD);
+        this.fillRect(-2, 12, 4, -40);
+
+        this.translate(0, -20);
+
+        const radius = 10;
+
+        this.fillStyle = this.resolveColor('#eee');
+
+        this.beginPath();
+        this.arc(0, 0, radius, -PI / 4, PI / 4);
+        this.arc(0, radius * hypot(1, 1), radius, -PI / 4, -PI * 3 / 4, true);
+        this.arc(0, 0, radius, PI * 3 / 4, -PI * 3 / 4);
+        this.arc(0, -radius * hypot(1, 1), radius, PI * 3 / 4, PI / 4, true);
+        this.fill();
+    });
+};
+
 CanvasRenderingContext2D.prototype.renderShield = function() {
     this.wrap(() => {
         this.fillStyle = this.resolveColor('#fff');
@@ -107,10 +127,9 @@ CanvasRenderingContext2D.prototype.renderArm = function(entity, color, renderToo
 
         const { renderAge } = entity;
 
-        this.translate(0, -32);
+        this.translate(11, -42);
         
         this.fillStyle = this.resolveColor(color);
-        this.translate(12, -10);
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
         this.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
