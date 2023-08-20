@@ -84,6 +84,7 @@ compiler.run((tasks) => {
                 "src/js/entities/ui/fade.js",
                 "src/js/entities/ui/logo.js",
                 "src/js/entities/ui/instruction.js",
+                "src/js/entities/ui/exposition.js",
 
                 "src/js/entities/characters/character-hud.js",
                 "src/js/entities/characters/player-hud.js",

@@ -3,7 +3,7 @@ class IntroLevel extends Level {
         super();
 
         const camera = firstItem(this.scene.category('camera'));
-        // camera.zoom = 2;
+        camera.zoom = 2;
 
         const player = firstItem(this.scene.category('player'));
         player.damageRatio = 0;
@@ -103,7 +103,13 @@ class IntroLevel extends Level {
             msg.text = '';
             await this.delay(1);
 
-            msg.text = nomangle('You are ready for your glorious quest');
+            const expo = this.scene.add(new Exposition([
+                nomangle('1254 AD'),
+                nomangle('The Kingdom of Syldavia is being invaded by the Northern Empire.'),
+                nomangle('The Syldavian army is outnumbered and outmatched.'),
+                nomangle('One lone soldier decides to take on the king himself.'),
+                nomangle('This is his story.'),
+            ]));
             await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
         })();
     }
