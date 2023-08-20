@@ -1,13 +1,16 @@
 class Grass extends Entity {
 
+    constructor() {
+        super();
+        this.renderPadding = 100;
+    }
+
     cycle(elapsed) {
         super.cycle(elapsed);
         regenEntity(this, CANVAS_WIDTH / 2 + 50);
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         ctx.translate(this.x, this.y);
         
         ctx.withShadow(() => {

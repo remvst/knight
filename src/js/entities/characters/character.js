@@ -3,6 +3,8 @@ class Character extends Entity {
         super();
         this.categories.push('character');
 
+        this.renderPadding = 90;
+
         this.facing = 1;
 
         this.health = 1;
