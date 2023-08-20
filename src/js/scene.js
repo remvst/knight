@@ -4,8 +4,6 @@ class Scene {
         this.entities = new Set();
         this.categories = new Map();
         this.sortedEntities = [];
-
-        this.add(new Camera());
     }
 
     add(entity) {
@@ -44,6 +42,8 @@ class Scene {
     cycle(elapsed) {
         if (DEBUG && DOWN[70]) elapsed *= 3;
         if (DEBUG && DOWN[71]) elapsed *= 0.1;
+        if (GAME_PAUSED) return;
+
         for (const entity of this.entities) {
             entity.cycle(elapsed);
         }

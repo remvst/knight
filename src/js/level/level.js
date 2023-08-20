@@ -1,15 +1,15 @@
 class Level {
     constructor() {
         this.scene = new Scene();
-
         this.onCycle = new Set();
 
-        const camera = firstItem(this.scene.category('camera'));
+        const camera = this.scene.add(new Camera());
 
         const player = this.scene.add(new Player());
         this.scene.add(new Cursor(player));
 
         this.scene.add(new Rain());
+        this.scene.add(new PauseOverlay());
 
         // const fade = this.scene.add(new Fade());
         // this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2, linear))

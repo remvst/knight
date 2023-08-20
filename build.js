@@ -58,6 +58,7 @@ compiler.run((tasks) => {
                 "src/js/graphics/characters/exclamation.js",
                 "src/js/graphics/characters/body.js",
                 "src/js/graphics/gauge.js",
+                "src/js/graphics/text.js",
 
                 "src/js/input/keyboard.js",
                 "src/js/input/mouse.js",
@@ -87,6 +88,7 @@ compiler.run((tasks) => {
                 "src/js/entities/ui/logo.js",
                 "src/js/entities/ui/instruction.js",
                 "src/js/entities/ui/exposition.js",
+                "src/js/entities/ui/pause-overlay.js",
 
                 "src/js/entities/characters/character-hud.js",
                 "src/js/entities/characters/player-hud.js",

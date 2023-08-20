@@ -5,7 +5,7 @@ class Instruction extends Entity {
     }
 
     doRender(camera) {
-        if (!this.text) return;
+        if (!this.text || GAME_PAUSED) return;
 
         ctx.translate(camera.x, camera.y);
         ctx.scale(1 / camera.zoom, 1 / camera.zoom);
@@ -17,12 +17,14 @@ class Instruction extends Entity {
         ctx.lineWidth = 4;
         ctx.font = nomangle('18pt Times New Roman');
 
-        const width = ctx.measureText(this.text).width + 20;
-        ctx.fillStyle = 'rgba(0,0,0,.5)';
-        ctx.fillRect(-width / 2, 0, width, 40);
+        ctx.renderInstruction(this.text);
 
-        ctx.fillStyle = '#fff';
-        ctx.strokeText(this.text, 0, 20);
-        ctx.fillText(this.text, 0, 20);
+        // const width = ctx.measureText(this.text).width + 20;
+        // ctx.fillStyle = 'rgba(0,0,0,.5)';
+        // ctx.fillRect(-width / 2, 0, width, 40);
+
+        // ctx.fillStyle = '#fff';
+        // ctx.strokeText(this.text, 0, 20);
+        // ctx.fillText(this.text, 0, 20);
     }
 }
