@@ -101,3 +101,30 @@ createEnemyType = ({
 
     return EnemyType;
 };
+
+const shield = { shield: true };
+const sword = { sword: true, attackCount: 2 };
+const stick = { stick: true, attackCount: 3 };
+const axe = { axe: true, attackCount: 1 };
+const armor = { armor: true };
+const superArmor = { superArmor: true };
+
+const StickEnemy = createEnemyType({ ...stick, });
+const AxeEnemy = createEnemyType({ ...axe, });
+const SwordEnemy = createEnemyType({ ...sword, });
+const AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
+const SwordArmorEnemy = createEnemyType({ ...sword, ...armor, });
+const SwordShieldArmorEnemy = createEnemyType({ ...sword, ...shield, ...armor, });
+const SwordShieldTankEnemy = createEnemyType({ ...sword,  ...shield, ...superArmor, });
+const AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
+
+const ENEMY_TYPES = [
+    AxeShieldTankEnemy,
+    AxeShieldArmorEnemy,
+    StickEnemy,
+    AxeEnemy,
+    SwordEnemy,
+    SwordArmorEnemy,
+    SwordShieldArmorEnemy,
+    SwordShieldTankEnemy,
+];

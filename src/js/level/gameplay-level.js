@@ -23,46 +23,6 @@ class GameplayLevel extends Level {
             this.scene.add(water);
         }
 
-        const shield = { shield: true };
-        const sword = { sword: true, attackCount: 2 };
-        const stick = { stick: true, attackCount: 3 };
-        const axe = { axe: true, attackCount: 1 };
-        const armor = { armor: true };
-        const superArmor = { superArmor: true };
-
-        const StickEnemy = createEnemyType({ ...stick, });
-        const AxeEnemy = createEnemyType({ ...axe, });
-        const SwordEnemy = createEnemyType({ ...sword, });
-        const AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
-        const SwordArmorEnemy = createEnemyType({ ...sword, ...armor, });
-        const SwordShieldArmorEnemy = createEnemyType({ ...sword, ...shield, ...armor, });
-        const SwordShieldTankEnemy = createEnemyType({ ...sword,  ...shield, ...superArmor, });
-        const AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
-
-        (async () => {
-            let y = 0;
-            for (const type of [
-                StickEnemy,
-                AxeEnemy,
-                SwordEnemy,
-                AxeShieldArmorEnemy,
-                SwordArmorEnemy,
-                SwordShieldArmorEnemy,
-                SwordShieldTankEnemy,
-                AxeShieldTankEnemy,
-            ]) {
-                const enemy = this.scene.add(new type());
-                enemy.x = 200;
-                enemy.y = y;
-                enemy.poof();
-
-                this.scene.add(new CharacterHUD(enemy));
-
-                await this.scene.waitFor(() => enemy.health <= 0);
-                await this.scene.delay(1);
-            }
-        })();
-
         // Respawn when far from the path
         (async () => {
             while (true) {
@@ -82,6 +42,16 @@ class GameplayLevel extends Level {
             const fade = this.scene.add(new Fade());
             await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
             fade.remove();
+
+            for (let x = CANVAS_WIDTH ; x < CANVAS_WIDTH * 5; x += CANVAS_WIDTH) {
+                await this.scene.waitFor(() => player.x >= x);
+
+                for (let i = 0 ; i < 5 ; i++) {
+                    const enemy = this.scene.add(new (pick(ENEMY_TYPES))());
+                    enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
+                    enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(20, 50));
+                }
+            }
         })();
 
         // Game over
@@ -92,12 +62,16 @@ class GameplayLevel extends Level {
             const fade = this.scene.add(new Fade());
             await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
 
-            const expo = this.scene.add(new Exposition([
-                nomangle('His first attempt was not successful.'),
-                nomangle('However he never gave up.'),
-            ]));
+            const expo = this.scene.add(new Exposition([pick([
+                nomangle('The path to glory is a challenging one.'),
+                nomangle('Giving up was never an option.'),
+                nomangle('His first attempts weren\'t successful.'),
+                nomangle('He did not reach the King until after several attempts.'),
+                nomangle('Legend says many were inspired to try.'),
+                nomangle('Many followed his footsteps.'),
+            ])]));
 
-            await this.scene.delay(5);
+            await this.scene.delay(3);
             await this.scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
             level = new GameplayLevel();
