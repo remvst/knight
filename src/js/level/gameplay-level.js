@@ -2,6 +2,8 @@ class GameplayLevel extends Level {
     constructor() {
         super();
 
+        const player = firstItem(this.scene.category('player'));
+
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Path());
 
