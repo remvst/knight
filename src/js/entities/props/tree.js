@@ -33,14 +33,12 @@ class Tree extends Obstacle {
         this.alpha += between(-elapsed * 2, targetAlpha - this.alpha, elapsed * 2);
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         ctx.translate(this.x, this.y);
-
-        this.rng.reset();
         
         ctx.withShadow(() => {
+            this.rng.reset();
+
             ctx.wrap(() => {
                 ctx.rotate(sin((this.age + this.rng.next(0, 10)) * TWO_PI / this.rng.next(4, 16)) * this.rng.next(PI / 32, PI / 64));
                 ctx.fillStyle = ctx.resolveColor('#a65');

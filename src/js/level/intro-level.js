@@ -3,11 +3,19 @@ class IntroLevel extends Level {
         super();
 
         for (let r = 0 ; r < 1 ; r += 1 / 15) {
-            const tree = new Tree();
+            const tree = this.scene.add(new Tree());
             tree.noRegen = true;
-            tree.x = cos(r * TWO_PI) * 500 + rnd(-20, 20);
-            tree.y = sin(r * TWO_PI) * 500 + rnd(-20, 20);
-            this.scene.add(tree);
+            tree.x = cos(r * TWO_PI) * 600 + rnd(-20, 20);
+            tree.y = sin(r * TWO_PI) * 600 + rnd(-20, 20);
+        }
+
+        for (let r = 0 ; r < 1 ; r += 1 / 3) {
+            const water = this.scene.add(new Water());
+            water.x = cos(r * TWO_PI) * 300 + rnd(-50, 50);
+            water.y = sin(r * TWO_PI) * 300 + rnd(-50, 50);
+            water.rotation = random() * TWO_PI;
+            water.width = rnd(50, 100);
+            water.height = rnd(100, 200);
         }
 
         const camera = firstItem(this.scene.category('camera'));

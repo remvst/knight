@@ -9,6 +9,11 @@ class Water extends Entity {
         return LAYER_WATER; 
     }
 
+    cycle(elapsed) {
+        super.cycle(elapsed);
+        this.renderPadding = max(this.width, this.height) / 2;
+    }
+
     contains(point) {
         const xInSelf = point.x - this.x;
         const yInSelf = point.y - this.y;
@@ -19,7 +24,7 @@ class Water extends Entity {
         return abs(xInSelfRotated) < this.width / 2 && abs(yInSelfRotated) < this.height / 2;
     }
 
-    render() {
+    doRender() {
         this.rng.reset();
 
         ctx.wrap(() => {

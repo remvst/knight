@@ -31,15 +31,14 @@ class Entity {
         }
 
         const camera = firstItem(this.scene.category('camera'));
-        if (window.filterStuff) {
-            if (
-                !isBetween(camera.x - CANVAS_WIDTH / 2 - this.renderPadding, this.x, camera.x + CANVAS_WIDTH / 2 + this.renderPadding) ||
-                !isBetween(camera.y - CANVAS_HEIGHT / 2 - this.renderPadding, this.y, camera.y + CANVAS_HEIGHT / 2 + this.renderPadding)
-            ) {
-                return;
-            }
+        if (
+            !isBetween(camera.x - CANVAS_WIDTH / 2 - this.renderPadding, this.x, camera.x + CANVAS_WIDTH / 2 + this.renderPadding) ||
+            !isBetween(camera.y - CANVAS_HEIGHT / 2 - this.renderPadding, this.y, camera.y + CANVAS_HEIGHT / 2 + this.renderPadding)
+        ) {
+            return;
         }
 
+        this.rng.reset();
         this.doRender(camera);
     }
 

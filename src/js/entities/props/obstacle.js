@@ -9,7 +9,6 @@ class Obstacle extends Entity {
     cycle(elapsed) {
         super.cycle(elapsed);
 
-
         for (const character of this.scene.category('character')) {
             if (dist(character, this) < this.radius) {
                 const angle = atan2(character.y - this.y, character.x - this.x);

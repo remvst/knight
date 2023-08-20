@@ -13,9 +13,9 @@ class Bush extends Entity {
     doRender() {
         ctx.translate(this.x, this.y);
         
-        this.rng.reset();
-        
         ctx.withShadow(() => {
+            this.rng.reset();
+
             let x = 0;
             for (let i = 0 ; i < 5 ; i++) {
                 ctx.wrap(() => {
