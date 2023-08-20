@@ -155,7 +155,7 @@ class IntroLevel extends Level {
 
             await this.scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
-            console.log('DONE')
+            level = new GameplayLevel();
         })();
     }
 
