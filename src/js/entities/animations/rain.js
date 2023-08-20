@@ -3,11 +3,7 @@ class Rain extends Entity {
         return LAYER_WEATHER;
     }
 
-    render() {
-        super.render();
-
-        const camera = firstItem(this.scene.category('camera'));
-
+    doRender(camera) {
         this.rng.reset();
         for (let i = 40 ; i-- ;) {
             const age = this.age + this.rng.next(0, 10);

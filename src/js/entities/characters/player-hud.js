@@ -15,11 +15,7 @@ class PlayerHUD extends Entity {
         this.gauge.cycle(elapsed);
     }
 
-    render() {
-        super.render();
-
-        const camera = firstItem(this.scene.category('camera'));
-
+    doRender(camera) {
         ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
 
         ctx.shadowColor = '#000';

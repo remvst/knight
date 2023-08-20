@@ -11,9 +11,7 @@ class ShieldBlock extends Entity {
         }
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         const ratio = this.age / 0.25;
         ctx.fillStyle = '#fff';
 

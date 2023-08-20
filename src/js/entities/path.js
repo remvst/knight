@@ -4,13 +4,7 @@ class Path extends Entity {
         return LAYER_PATH;
     }
 
-    render() {
-        super.render();
-
-        // console.log('rend');
-
-        const camera = firstItem(this.scene.category('camera'));
-
+    doRender(camera) {
         ctx.strokeStyle = '#dc9';
         ctx.lineWidth = 70;
 

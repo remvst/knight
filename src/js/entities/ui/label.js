@@ -13,9 +13,7 @@ class Label extends Entity {
         if (this.age > 1) this.remove();
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         ctx.translate(this.x, interpolate(this.y + 20, this.y, this.age / 0.25));
         ctx.globalAlpha = interpolate(0, 1, this.age / 0.25);
 

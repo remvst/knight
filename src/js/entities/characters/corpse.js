@@ -26,9 +26,7 @@ class Corpse extends Entity {
         }
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         if (this.age > 3 && this.age % 0.25 < 0.125) return;
 
         ctx.translate(this.x, this.y);

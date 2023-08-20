@@ -8,9 +8,7 @@ class Fade extends Entity {
         return LAYER_FADE;
     }
 
-    render() {
-        super.render();
-        const camera = firstItem(this.scene.category('camera'));
+    doRender(camera) {
         ctx.fillStyle = '#000';
         ctx.globalAlpha = this.alpha;
         ctx.fillRect(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT);

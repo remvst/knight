@@ -269,9 +269,7 @@ class Character extends Entity {
         return this.age * (this.inWater ? 0.5 : 1);
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         const { inWater, renderAge } = this;
 
         ctx.translate(this.x, this.y);

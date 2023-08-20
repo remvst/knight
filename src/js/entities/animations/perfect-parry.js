@@ -11,9 +11,7 @@ class PerfectParry extends Entity {
         }
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         const ratio = this.age / 0.5;
         ctx.fillStyle = '#fff';
 

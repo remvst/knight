@@ -50,12 +50,9 @@ class Logo extends Entity {
         return LAYER_LOGO; 
     }
 
-    render() {
+    doRender(camera) {
         ctx.globalAlpha = this.alpha;
-
-        const camera = firstItem(this.scene.category('camera'));
         ctx.scale(1 / camera.zoom, 1 / camera.zoom);
-
         ctx.translate(this.x, this.y);
         ctx.drawImage(logo, -logo.width / 2, -logo.height);
     }

@@ -10,10 +10,9 @@ class Exposition extends Entity {
         return LAYER_INSTRUCTIONS; 
     }
 
-    render() {
+    doRender(camera) {
         if (!this.text) return;
 
-        const camera = firstItem(this.scene.category('camera'));
         ctx.translate(camera.x, camera.y);
         ctx.scale(1 / camera.zoom, 1 / camera.zoom);
         ctx.translate(-CANVAS_WIDTH / 2 + 200 , 0);

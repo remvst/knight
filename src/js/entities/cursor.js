@@ -8,9 +8,7 @@ class Cursor extends Entity {
         return LAYER_PLAYER_HUD;
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         ctx.translate(this.player.controls.aim.x, this.player.controls.aim.y);
 
         ctx.fillStyle = '#000';

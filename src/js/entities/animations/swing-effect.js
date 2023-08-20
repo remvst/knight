@@ -12,9 +12,7 @@ class SwingEffect extends Entity {
         if (this.age > 0.2) this.remove();
     }
 
-    render() {
-        super.render();
-
+    doRender() {
         ctx.globalAlpha = 1 - this.age / 0.2;
 
         ctx.translate(this.x, this.y - 30);

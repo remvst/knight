@@ -31,7 +31,7 @@ class Particle extends Entity {
         return property[0] + progress * (property[1] - property[0]);
     }
 
-    render() {
+    doRender() {
         const size = this.interp(this.valuesSize);
         ctx.translate(this.interp(this.valuesX) - size / 2, this.interp(this.valuesY) - size / 2);
         ctx.rotate(PI / 4);
