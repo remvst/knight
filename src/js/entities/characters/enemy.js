@@ -19,22 +19,21 @@ createEnemyType = ({
             this.categories.push('enemy');
             this.targetTeam = 'player';
 
-            const weight = toRatio(
-                sword, 1,
-                axe, 1,
-                armor, 1,
-                superArmor, 1
-            );
+            let weight = 0;
+            if (armor) weight += 0.2;
+            if (superArmor) weight += 0.3;
+            if (axe) weight += 0.1;
+            if (sword) weight += 0.3;
+            if (shield) weight += 0.3;
 
-            const selfProtectionRatio = toRatio(
-                shield, 1,
-                armor, 1,
-                superArmor, 2,
-            );
+            let protection = 0;
+            if (shield) protection += 0.3;
+            if (armor) protection += 0.5;
+            if (superArmor) protection += 0.7;
 
-            this.health = this.maxHealth = ~~interpolate(100, 400, selfProtectionRatio);
+            this.health = this.maxHealth = ~~interpolate(100, 400, protection);
             this.strength = axe ? 40 : (sword ? 30 : 10);
-            this.baseSpeed = 180 - interpolate(0, 80, weight);
+            this.baseSpeed = interpolate(180, 100, weight);
     
             if (stick) this.gibs.push(() => ctx.renderStick());
             if (sword) this.gibs.push(() => ctx.renderSword());

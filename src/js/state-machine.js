@@ -280,6 +280,10 @@ characterStateMachine = ({
             return 0.5; 
         }
 
+        onEnter() {
+            entity.displayLabel(nomangle('Exhausted'));
+        }
+
         cycle(elapsed) {
             super.cycle(elapsed);
 

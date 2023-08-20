@@ -92,7 +92,7 @@ class Character extends Entity {
         }
 
         // Stamina regen
-        if (this.age - this.lastStaminaLoss > 2) {
+        if (this.age - this.lastStaminaLoss > 5 || this.stateMachine.state.exhausted) {
             this.stamina = min(1, this.stamina + elapsed * 0.3);
         }
 
@@ -200,7 +200,7 @@ class Character extends Entity {
                     for (const parryVictim of this.scene.category(victim.targetTeam)) {
                         if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX, victim.strikeRadiusY)) {
                             parryVictim.dash(angleBetween(victim, parryVictim), 100, 0.2);
-                            parryVictim.loseStamina(1);
+                            // parryVictim.loseStamina(1);
                         }
                     }
 
@@ -215,7 +215,7 @@ class Character extends Entity {
                     })();
                 } else {
                     // Regular parry, victim loses stamina
-                    victim.loseStamina(relativeStrength * 0.18);
+                    victim.loseStamina(relativeStrength * 0.2);
 
                     // victim.updateCombo(1, nomangle('Parry'));
                     victim.displayLabel(nomangle('Blocked!'));
@@ -259,6 +259,7 @@ class Character extends Entity {
     loseStamina(amount) {
         this.stamina = max(0, this.stamina - amount);
         this.lastStaminaLoss = this.age;
+        console.log('lose stam', this.constructor.name);
     }
 
     damage(amount) {
@@ -266,7 +267,7 @@ class Character extends Entity {
         this.lastDamage = this.age;
         this.damageCount++;
 
-        if (!this.exhausted) this.loseStamina(amount / this.maxHealth * 0.3);
+        if (!this.stateMachine.state.exhausted) this.loseStamina(amount / this.maxHealth * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
         this.displayLabel('-' + amount);
 

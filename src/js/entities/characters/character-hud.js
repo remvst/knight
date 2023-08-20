@@ -17,7 +17,10 @@ class CharacterHUD extends Entity {
     }
 
     doRender() {
-        if (this.character.health > 0.5 && this.character.age - this.character.lastDamage > 2) return;
+        if (
+            this.character.health > 0.5 && 
+            this.character.age - max(this.character.lastStaminaLoss, this.character.lastDamage) > 2
+        ) return;
  
         ctx.shadowColor = '#000';
         ctx.shadowBlur = 3;
