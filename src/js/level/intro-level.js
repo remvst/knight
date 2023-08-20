@@ -22,7 +22,7 @@ class IntroLevel extends Level {
         camera.zoom = 2;
 
         const player = firstItem(this.scene.category('player'));
-        player.damageRatio = 0;
+        player.health = Number.MAX_SAFE_INTEGER;
 
         camera.cycle(99);
 
@@ -126,7 +126,7 @@ class IntroLevel extends Level {
             const enemy = this.scene.add(new StickEnemy());
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
-            enemy.damageRatio = 0;
+            enemy.damageTakenRatio = 0;
             enemy.setController(new AttackAI());
 
             await this.repeat(
@@ -141,7 +141,7 @@ class IntroLevel extends Level {
 
             this.scene.add(new CharacterHUD(enemy));
 
-            enemy.damageRatio = 1;
+            enemy.health = enemy.maxHealth = 100;
             msg.text = nomangle('Now slay them!');
             await this.scene.waitFor(() => enemy.health <= 0);
 

@@ -105,6 +105,7 @@ compiler.run((tasks) => {
                 "src/js/level/level.js",
                 "src/js/level/intro-level.js",
                 "src/js/level/gameplay-level.js",
+                "src/js/level/test-level.js",
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

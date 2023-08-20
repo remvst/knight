@@ -6,7 +6,7 @@ class DummyEnemy extends Character {
 
         this.baseSpeed = 100;
 
-        this.damageRatio = 0;
+        this.health = this.maxHealth = Number.MAX_SAFE_INTEGER;
 
         this.stateMachine = characterStateMachine({
             entity: this, 

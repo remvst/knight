@@ -7,7 +7,7 @@ class Gauge {
     }
 
     cycle(elapsed) {
-        this.displayedHealth += between(-elapsed * 0.5, this.character.health - this.displayedHealth, elapsed * 0.5);
+        this.displayedHealth += between(-elapsed * 0.5, (this.character.health / this.character.maxHealth) - this.displayedHealth, elapsed * 0.5);
         this.displayedStamina += between(-elapsed * 0.5, this.character.stamina - this.displayedStamina, elapsed * 0.5);
     }
 
@@ -33,7 +33,7 @@ class Gauge {
 
             // Actual health
             ctx.fillStyle = '#900';
-            ctx.fillRect(0, 0, width * this.character.health, height * 0.8 - 2);
+            ctx.fillRect(0, 0, width * this.character.health / this.character.maxHealth, height * 0.8 - 2);
 
             // Stamina change
             ctx.fillStyle = '#fff';

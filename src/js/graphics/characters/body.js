@@ -186,7 +186,7 @@ CanvasRenderingContext2D.prototype.renderAttackIndicator = function(entity) {
         if (progress > 0 && !this.isShadow) {
             this.strokeStyle = 'rgba(255,0,0,1)';
             this.fillStyle = 'rgba(255,0,0,.5)';
-            this.globalAlpha = 0.5 * (1 - progress);
+            this.globalAlpha = interpolate(0.5, 0, progress);
             this.lineWidth = 10;
             this.beginPath();
             this.scale(1 - progress, 1 - progress);

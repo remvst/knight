@@ -7,7 +7,8 @@ class Character extends Entity {
 
         this.facing = 1;
 
-        this.health = 1;
+        this.health = 100;
+        this.maxHealth = 100;
 
         this.combo = 0;
         this.lastComboChange = 0;
@@ -27,7 +28,8 @@ class Character extends Entity {
         this.collisionRadius = 30;
 
         this.lastDamage = -9;
-        this.damageRatio = 1;
+        this.damageTakenRatio = 1;
+        this.strength = 100;
         this.damageCount = 0;
         this.parryCount = 0;
 
@@ -172,7 +174,7 @@ class Character extends Entity {
         }
     }
 
-    strike(damage) {
+    strike(relativeStrength) {
         // this.loseStamina(0.1);
 
         const victim = this.pickVictim(this.strikeRadiusX, this.strikeRadiusY, PI);
@@ -182,15 +184,14 @@ class Character extends Entity {
                 victim.facing = sign(this.x - victim.x) || 1;
                 victim.parryCount++;
 
-                this.x -= cos(angle) * damage * 10;
-                this.y -= sin(angle) * damage * 10;
+                // Push back
+                this.dash(angle + PI, 20, 0.1);
 
                 if (victim.stateMachine.state.perfectParry) {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
                     victim.updateCombo(1, nomangle('Perfect Block!'));
                     victim.displayLabel(nomangle('Perfect Block!'));
-                    this.loseStamina(1);
 
                     const animation = this.scene.add(new PerfectParry());
                     animation.x = victim.x;
@@ -214,7 +215,7 @@ class Character extends Entity {
                     })();
                 } else {
                     // Regular parry, victim loses stamina
-                    victim.loseStamina(0.18);
+                    victim.loseStamina(relativeStrength * 0.18);
 
                     // victim.updateCombo(1, nomangle('Parry'));
                     victim.displayLabel(nomangle('Blocked!'));
@@ -224,8 +225,8 @@ class Character extends Entity {
                     animation.y = victim.y - 30;
                 }
             } else {
-                victim.damage(damage);
-                victim.dash(angle, damage * 25, 0.1);
+                victim.damage(this.strength * relativeStrength);
+                victim.dash(angle, this.strength * relativeStrength, 0.1);
 
                 this.updateCombo(1, nomangle('Hit'));
 
@@ -261,15 +262,13 @@ class Character extends Entity {
     }
 
     damage(amount) {
-        const adjusted = amount * this.damageRatio;
-
-        this.health = max(0, this.health - adjusted);
+        this.health = max(0, this.health - amount);
         this.lastDamage = this.age;
         this.damageCount++;
 
-        if (!this.exhausted) this.loseStamina(adjusted * 0.3);
+        if (!this.exhausted) this.loseStamina(amount / this.maxHealth * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
-        this.displayLabel('-' + ~~(amount * 100));
+        this.displayLabel('-' + amount);
 
         // Death
         if (this.health <= 0) this.die();
@@ -330,15 +329,23 @@ class Character extends Entity {
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 3;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.font = '12pt Courier';
+            ctx.textAlign = nomangle('center');
+            ctx.textBaseline = nomangle('middle');
+            ctx.font = nomangle('12pt Courier');
+        
+            let y = -90;
+            for (const text of [
+                nomangle('State: ') + this.stateMachine.state.constructor.name,
+                nomangle('AI: ') + this.controller.description,
+                nomangle('HP: ') + ~~(this.health) + '/' + this.maxHealth,
+                nomangle('Speed: ') + this.baseSpeed,
+                nomangle('Strength: ') + this.strength,
+            ].reverse()) {
+                ctx.strokeText(text, 0, y);
+                ctx.fillText(text, 0, y);
 
-            // ctx.strokeText(this.stateMachine.state.constructor.name, 0, -90);
-            // ctx.fillText(this.stateMachine.state.constructor.name, 0, -90);
-
-            // ctx.strokeText(this.controller.description, 0, -110);
-            // ctx.fillText(this.controller.description, 0, -110);
+                y -= 20;
+            }
         }
     }
 

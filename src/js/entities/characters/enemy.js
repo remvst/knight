@@ -1,3 +1,13 @@
+toRatio = (...valuesAndWeights) => {
+    let totalWeight = 0;
+    let weight = 0;
+    for (let i = 0 ; i < valuesAndWeights.length ; i++) {
+        weight += !!valuesAndWeights[i++];
+        totalWeight += valuesAndWeights[i];
+    }
+    return weight / totalWeight;
+}
+
 createEnemyType = ({
     stick, sword, axe,
     shield, armor, superArmor,
@@ -9,13 +19,22 @@ createEnemyType = ({
             this.categories.push('enemy');
             this.targetTeam = 'player';
 
-            const weight = 
-                + !!sword * 1 
-                + !!axe * 1
-                + !!armor * 0.5
-                + !!superArmor * 0.75;
-    
-            this.baseSpeed = 200 - weight * 75;
+            const weight = toRatio(
+                sword, 1,
+                axe, 1,
+                armor, 1,
+                superArmor, 1
+            );
+
+            const selfProtectionRatio = toRatio(
+                shield, 1,
+                armor, 1,
+                superArmor, 2,
+            );
+
+            this.health = this.maxHealth = ~~interpolate(100, 400, selfProtectionRatio);
+            this.strength = axe ? 40 : (sword ? 30 : 10);
+            this.baseSpeed = 180 - interpolate(0, 80, weight);
     
             if (stick) this.gibs.push(() => ctx.renderStick());
             if (sword) this.gibs.push(() => ctx.renderSword());

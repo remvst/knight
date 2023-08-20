@@ -6,6 +6,7 @@ class Player extends Character {
         this.targetTeam = 'enemy';
 
         this.baseSpeed = 250;
+        this.strength = 30;
 
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;

@@ -43,6 +43,14 @@ characterStateMachine = ({
     const { controls } = entity;
     const stateMachine = new StateMachine();
 
+    const attackDamagePattern = [
+        0.7,
+        0.8,
+        0.9,
+        1,
+        2,
+    ];
+
     chargeTime = chargeTime || 1;
     perfectParryTime = perfectParryTime || 0;
     staggerTime = staggerTime || 0;
@@ -54,7 +62,6 @@ characterStateMachine = ({
                 this.stateMachine.transitionToState(new Exhausted());
             }
             if (entity.age - entity.lastDamage < staggerTime) {
-                // console.log('aw yis')
                 this.stateMachine.transitionToState(new Staggered());
             }
         }
@@ -142,17 +149,16 @@ characterStateMachine = ({
             super.cycle(elapsed);
 
             if (!controls.attack) {
-                const counter = this.age >= 1 ? PLAYER_HEAVY_ATTACK_INDEX : this.counter;
-                stateMachine.transitionToState(new Strike(counter, this.age >= 1));
+                const counter = this.age >= 1 ? attackDamagePattern.length - 1 : this.counter;
+                stateMachine.transitionToState(new Strike(counter));
             }
         }
     }
 
     class Strike extends MaybeExhaustedState {
-        constructor(counter = 0, superAttack) {
+        constructor(counter = 0) {
             super();
             this.counter = counter;
-            this.superAttack = superAttack;
             this.prepareRatio = -min(PLAYER_HEAVY_ATTACK_INDEX, this.counter + 1) * 0.4;
             this.windup = 0.05;
             this.duration = 0.15;
@@ -177,7 +183,7 @@ characterStateMachine = ({
 
             this.anim = new SwingEffect(
                 entity, 
-                this.counter == PLAYER_HEAVY_ATTACK_INDEX ? '#ff0' : '#fff', 
+                this.counter == attackDamagePattern.length - 1 ? '#ff0' : '#fff', 
                 this.prepareRatio, 
                 0,
             );
@@ -196,11 +202,7 @@ characterStateMachine = ({
             }
 
             if (this.age > 0.15) {
-                entity.strike(
-                    this.superAttack
-                        ? 1
-                        : 0.15 + this.counter * 0.08,
-                );
+                entity.strike(attackDamagePattern[this.counter]);
 
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
                     if (this.didTryToAttackAgain) {
