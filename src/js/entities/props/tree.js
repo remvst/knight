@@ -9,7 +9,7 @@ class Tree extends Obstacle {
         this.radius = 20;
         this.alpha = 1;
         
-        this.renderPadding = this.trunkHeight + 40;
+        this.renderPadding = this.trunkHeight + 60;
     }
 
     cycle(elapsed) {
