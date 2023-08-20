@@ -122,8 +122,6 @@ class IntroLevel extends Level {
             );
 
             // Shield tutorial 
-            // TODO add an enemy to shield against
-
             const enemy = this.scene.add(new StickEnemy());
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
@@ -136,6 +134,12 @@ class IntroLevel extends Level {
                 async () => {
                     const initial = player.parryCount;
                     await this.waitFor(() => player.parryCount > initial);
+
+                    this.scene.speedRatio = 0.1;
+                    await this.scene.add(new Interpolator(camera, 'zoom', 1, 2, 0.2)).await();
+                    await this.delay(5 * this.scene.speedRatio);
+                    await this.scene.add(new Interpolator(camera, 'zoom', 2, 1, 0.2)).await();
+                    this.scene.speedRatio = 1;
                 },
                 3,
             );

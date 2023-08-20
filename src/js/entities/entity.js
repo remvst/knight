@@ -6,6 +6,8 @@ class Entity {
         this.rng = new RNG();
 
         this.renderPadding = Infinity;
+
+        this.affectedBySpeedRatio = true;
     }
 
     get z() { 

@@ -4,6 +4,8 @@ class Scene {
         this.entities = new Set();
         this.categories = new Map();
         this.sortedEntities = [];
+
+        this.speedRatio = 1;
     }
 
     add(entity) {
@@ -47,7 +49,7 @@ class Scene {
         if (GAME_PAUSED) return;
 
         for (const entity of this.entities) {
-            entity.cycle(elapsed);
+            entity.cycle(elapsed * (entity.affectedBySpeedRatio ? this.speedRatio : 1));
         }
     }
 
@@ -59,8 +61,27 @@ class Scene {
 
     render() {
         // Background
-        ctx.fillStyle = '#996';
-        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.wrap(() => {
+            // ctx.globalAlpha = this.speedRatio;
+            ctx.fillStyle = '#996';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        });
+
+        // if (this.speedRatio < 1) {
+            // ctx.wrap(() => {
+            //     ctx.globalCompositeOperation = 'destination-out';
+
+            //     const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 400);
+            //     // grad.addColorStop(0, 'rgba(255,255,255,0)');
+            //     // grad.addColorStop(1, 'rgba(255,255,255,0.5)');
+            //     grad.addColorStop(0, 'rgba(255,255,255,1)');
+            //     grad.addColorStop(1, 'rgba(255,255,255,0)');
+
+            //     ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+            //     ctx.fillStyle = grad;
+            //     ctx.fillRect(-CANVAS_WIDTH / 2, -CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT);
+            // });
+        // }
 
         const camera = firstItem(this.category('camera'));
         

@@ -10,6 +10,8 @@ class Player extends Character {
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;
 
+        this.affectedBySpeedRatio = false;
+
         this.gibs = [
             () => ctx.renderSword(),
             () => ctx.renderShield(),

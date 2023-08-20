@@ -3,6 +3,7 @@ class Camera extends Entity {
         super();
         this.categories.push('camera');
         this.zoom = 1;
+        this.affectedBySpeedRatio = false;
     }
 
     cycle(elapsed) {
