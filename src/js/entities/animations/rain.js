@@ -11,7 +11,7 @@ class Rain extends Entity {
         this.rng.reset();
         for (let i = 40 ; i-- ;) {
             const age = this.age + this.rng.next(0, 10);
-            const duration = this.rng.next(0.5, 1.5);
+            const duration = this.rng.next(0.5, 1);
             const relAge = age / duration % duration;
 
             ctx.wrap(() => {

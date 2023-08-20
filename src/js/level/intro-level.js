@@ -103,6 +103,8 @@ class IntroLevel extends Level {
             msg.text = '';
             await this.delay(1);
 
+            await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
+
             const expo = this.scene.add(new Exposition([
                 nomangle('1254 AD'),
                 nomangle('The Kingdom of Syldavia is being invaded by the Northern Empire.'),
@@ -110,7 +112,12 @@ class IntroLevel extends Level {
                 nomangle('One lone soldier decides to take on the king himself.'),
                 nomangle('This is his story.'),
             ]));
-            await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
+
+            await this.delay(18);
+
+            await this.scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
+
+            console.log('DONE')
         })();
     }
 

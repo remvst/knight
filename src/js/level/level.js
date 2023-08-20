@@ -4,6 +4,8 @@ class Level {
 
         this.onCycle = new Set();
 
+        const camera = firstItem(this.scene.category('camera'));
+
         const player = this.scene.add(new Player());
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Cursor(player));
@@ -60,34 +62,24 @@ class Level {
             water.y = this.scene.pathCurve(water.x) + rnd(300, 800) * pick([-1, 1]);
             this.scene.add(water);
         }
-    }
 
-    cycle(elapsed) {
-        this.scene.cycle(elapsed);
-
-        const player = firstItem(this.scene.category('player'));
-        const camera = firstItem(this.scene.category('camera'));
-        if (!player) {
-            // TODO game over
-            return;
-        }
-
-        const dY = abs(player.y - this.scene.pathCurve(player.x));
-        if (dY > 800 && !this.respawning) {
-            (async () => {
-                this.respawning = true;
+        // Respawn when far from the path
+        (async () => {
+            while (true) {
+                await this.waitFor(() => abs(player.y - this.scene.pathCurve(player.x)) > 1000);
 
                 const fade = this.scene.add(new Fade());
                 await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
                 player.y = this.scene.pathCurve(player.x);
                 camera.cycle(999);
                 await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
-
                 fade.remove();
+            }
+        })();
+    }
 
-                this.respawning = false;
-            })();
-        }
+    cycle(elapsed) {
+        this.scene.cycle(elapsed);
 
         for (const onCycle of this.onCycle) {
             onCycle();
