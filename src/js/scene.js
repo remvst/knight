@@ -3,6 +3,7 @@ class Scene {
     constructor() {
         this.entities = new Set();
         this.categories = new Map();
+        this.sortedEntities = [];
 
         this.add(new Camera());
     }
@@ -10,6 +11,8 @@ class Scene {
     add(entity) {
         this.entities.add(entity);
         entity.scene = this;
+
+        this.sortedEntities.push(entity);
 
         for (const category of entity.categories) {
             if (!this.categories.has(category)) {
@@ -27,13 +30,15 @@ class Scene {
     }
 
     remove(entity) {
-        this.entities.delete(entity);
+        if (!this.entities.delete(entity)) return;
 
         for (const category of entity.categories) {
             if (this.categories.has(category)) {
                 this.categories.get(category).delete(entity);
             }
         }
+
+        this.sortedEntities.splice(this.sortedEntities.indexOf(entity), 1);
     }
 
     cycle(elapsed) {
@@ -62,8 +67,9 @@ class Scene {
             ctx.translate(-camera.x, -camera.y);
             ctx.translate(CANVAS_WIDTH / 2 / camera.zoom, CANVAS_HEIGHT / 2 / camera.zoom);
 
-            const ordered = Array.from(this.entities).sort((a, b) => a.z - b.z);
-            for (const entity of ordered) {
+            this.sortedEntities.sort((a, b) => a.z - b.z);
+
+            for (const entity of this.sortedEntities) {
                 ctx.wrap(() => entity.render());
             }
         });
