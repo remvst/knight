@@ -155,6 +155,7 @@ class IntroLevel extends Level {
                 nomangle('The Kingdom of Syldavia is being invaded by the Northern Empire.'),
                 nomangle('The Syldavian army is outnumbered and outmatched.'),
                 nomangle('One lone soldier decides to take on the king himself.'),
+                nomangle('This is his story.'),
             ]));
 
             await this.scene.delay(18);
