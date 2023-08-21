@@ -57,7 +57,7 @@ createEnemyType = ({
 
             // Cancel any remaining aggression
             firstItem(this.scene.category('aggressivity-tracker'))
-                .cancelAggression(this.entity);
+                .cancelAggression(this);
         }
     
         renderBody() {
