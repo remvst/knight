@@ -12,7 +12,10 @@ class AI extends CharacterController {
 
     start(entity) {
         super.start(entity);
-        return new Promise((resolve) => this.doResolve = resolve);
+        return new Promise((resolve, reject) => {
+            this.doResolve = resolve;
+            this.doReject = reject;
+        });
     }
 
     cycle() {
@@ -28,8 +31,19 @@ class AI extends CharacterController {
 
     resolve() {
         const { doResolve } = this;
-        this.doResolve = null;
+        this.onDone();
         if (doResolve) doResolve();
+    }
+
+    reject(error) {
+        const { doReject } = this;
+        this.onDone();
+        if (doReject) doReject(error);
+    }
+
+    onDone() {
+        this.doReject = null;
+        this.doReject = null;
     }
 }
 
@@ -71,14 +85,23 @@ class EnemyAI extends AI {
     }
 
     async race(ais) {
-        await Promise.race(ais.map(ai => {
-            this.ais.add(ai);
-            return ai.start(this.entity);
-        }));
+        try {
+            await Promise.race(ais.map(ai => {
+                this.ais.add(ai);
+                return ai.start(this.entity);
+            }));
+        } finally { 
+            for (const ai of ais) {
+                ai.reject(new Error('Other AI completed first'));
+                ai.resolve(); // Allow the AI to clean up
+                this.ais.delete(ai);
+            }
+        }
+    }
 
+    async sequence(ais) {
         for (const ai of ais) {
-            ai.resolve(); // Allow the AI to clean up
-            this.ais.delete(ai);
+            await this.startAI(ai);
         }
     }
 }
@@ -102,13 +125,55 @@ class Wait extends AI {
     }
 }
 
+class Timeout extends AI {
+
+    constructor(duration) {
+        super();
+        this.duration = duration;
+    }
+
+    start(entity) {
+        this.endTime = entity.age + this.duration;
+        return super.start(entity);
+    }
+
+    update() {
+        if (this.entity.age > this.endTime) {
+            this.reject(new Error('Time passed'));
+        }
+    }
+}
+
+class BecomeAggressive extends AI {
+    update() {
+        const tracker = firstItem(this.entity.scene.category('aggressivity-tracker'));
+        if (tracker.requestAggression(this.entity)) {
+            this.resolve();
+        }
+    }
+}
+
+class BecomePassive extends AI {
+    update() {
+        const tracker = firstItem(this.entity.scene.category('aggressivity-tracker'));
+        tracker.cancelAggression(this.entity);
+        this.resolve();
+    }
+}
+
 class ReachPlayer extends AI {
+    constructor(radiusX, radiusY) {
+        super();
+        this.radiusX = radiusX;
+        this.radiusY = radiusY;
+    }
+
     update(player) {
         const { controls } = this.entity;
 
         controls.force = 0;
 
-        if (!this.entity.isStrikable(player, this.entity.strikeRadiusX, this.entity.strikeRadiusY, PI / 2)) {
+        if (!this.entity.isStrikable(player, this.radiusX, this.radiusY, PI / 2)) {
             controls.force = 1;
             controls.angle = angleBetween(this.entity, player);
         } else {
@@ -137,15 +202,16 @@ class Attack extends AI {
 }
 
 class RetreatAI extends AI {
-    constructor(distance = 200) {
+    constructor(radiusX, radiusY) {
         super();
-        this.distance = distance;
+        this.radiusX = radiusX;
+        this.radiusY = radiusY;
     }
 
     update(player) {
         this.entity.controls.force = 0;
 
-        if (dist(player, this.entity) < this.distance) {
+        if (this.entity.isStrikable(player, this.radiusX, this.radiusY, PI / 2)) {
             // Get away from the player
             this.entity.controls.force = 1;
             this.entity.controls.angle = angleBetween(player, this.entity);
@@ -154,9 +220,8 @@ class RetreatAI extends AI {
         }
     }
 
-    resolve() {
+    onDone() {
         this.entity.controls.force = 0;
-        super.resolve();
     }
 }
 
@@ -165,7 +230,7 @@ class HoldShield extends AI {
         this.entity.controls.shield = true;
     }
 
-    resolve() {
+    onDone() {
         this.entity.controls.shield = false;
         super.resolve();
     }

@@ -19,6 +19,8 @@ createEnemyType = ({
             this.categories.push('enemy');
             this.targetTeam = 'player';
 
+            this.aggression = 1;
+
             let weight = 0;
             if (armor) weight += 0.2;
             if (superArmor) weight += 0.3;
@@ -33,7 +35,7 @@ createEnemyType = ({
 
             this.health = this.maxHealth = ~~interpolate(100, 400, protection);
             this.strength = axe ? 40 : (sword ? 30 : 10);
-            this.baseSpeed = interpolate(180, 100, weight);
+            this.baseSpeed = interpolate(120, 30, weight);
     
             if (stick) this.gibs.push(() => ctx.renderStick());
             if (sword) this.gibs.push(() => ctx.renderSword());
@@ -48,6 +50,14 @@ createEnemyType = ({
 
         get ai() {
             return new EnemyTypeAI(this);
+        }
+
+        remove() {
+            super.remove();
+
+            // Cancel any remaining aggression
+            firstItem(this.scene.category('aggressivity-tracker'))
+                .cancelAggression(this.entity);
         }
     
         renderBody() {
@@ -81,20 +91,47 @@ createEnemyType = ({
     class EnemyTypeAI extends EnemyAI {
         async doStart() {
             while (true) {
-                await this.startAI(new ReachPlayer(0.5));
-                for (let i = attackCount ; i-- ; ) {
-                    await this.startAI(new Attack(0.5));
+                // Try to be near the player
+                await this.startAI(new ReachPlayer(300, 300));
+                
+                // Wait for our turn to attack
+                try {
+                    await this.race([
+                        new Timeout(3),
+                        new BecomeAggressive(),
+                    ]);
+                } catch (e) {
+                    // We failed to become aggressive, start a new loop
+                    continue;
                 }
-    
-                await this.startAI(new Wait(0.5));
-    
+
+                await this.startAI(new BecomeAggressive());
+
+                // Okay we're allowed to be aggro, let's do it!
+                try {
+                    await this.race([
+                        new Timeout(3),
+                        new ReachPlayer(this.entity.strikeRadiusX, this.entity.strikeRadiusY),
+                    ]);
+
+                    for (let i = attackCount ; i-- ; ) {
+                        await this.startAI(new Attack(0.5));
+                    }
+                    await this.startAI(new Wait(0.5));
+                } catch (e) {}
+
+                // We're done attacking, let's allow someone else to be aggro
+                await this.startAI(new BecomePassive());
+
+                // Retreat a bit so we're not too close to the player
                 await this.race([
-                    new RetreatAI(),
+                    new RetreatAI(200, 200),
                     new Wait(2),
                     shield ? new HoldShield() : new AI(),
                 ]);
-    
                 await this.startAI(new Wait(1));
+
+                // Rinse and repeat
             }
         }
     }

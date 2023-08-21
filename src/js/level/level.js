@@ -4,6 +4,8 @@ class Level {
 
         const camera = this.scene.add(new Camera());
 
+        this.scene.add(new AggressivityTracker());
+
         const player = this.scene.add(new Player());
         this.scene.add(new Cursor(player));
 

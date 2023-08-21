@@ -341,8 +341,8 @@ class Character extends Entity {
                 nomangle('Speed: ') + this.baseSpeed,
                 nomangle('Strength: ') + this.strength,
             ].reverse()) {
-                ctx.strokeText(text, 0, y);
-                ctx.fillText(text, 0, y);
+                // ctx.strokeText(text, 0, y);
+                // ctx.fillText(text, 0, y);
 
                 y -= 20;
             }

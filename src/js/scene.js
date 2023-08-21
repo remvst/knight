@@ -117,7 +117,6 @@ class Scene {
 
     async delay(timeout) {
         const entity = this.add(new Entity());
-        entity
         await this.waitFor(() => entity.age > timeout);
         entity.remove();
     }

@@ -70,6 +70,7 @@ compiler.run((tasks) => {
                 "src/js/entities/interpolator.js",
                 "src/js/entities/cursor.js",
                 "src/js/entities/path.js",
+                "src/js/entities/aggressivity-tracker.js",
 
                 "src/js/entities/animations/shield-block.js",
                 "src/js/entities/animations/perfect-parry.js",
