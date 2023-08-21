@@ -33,6 +33,16 @@ const CONSTANTS = {
     "LAYER_FADE": aboveLayer++,
     "LAYER_LOGO": aboveLayer++,
     "LAYER_INSTRUCTIONS": aboveLayer++,
+
+    "CHEST_WIDTH_ARMORED": 25,
+    "CHEST_WIDTH_NAKED": 22,
+
+    "COLOR_SKIN": "'#fec'",
+    "COLOR_SHIRT": "'#753'",
+    "COLOR_LEGS": "'#666'",
+    "COLOR_ARMORED_ARM": "'#666'",
+    "COLOR_ARMOR": "'#ccc'",
+    "COLOR_WOOD": "'#634'",
 };
 
 function copy(obj) {
@@ -204,6 +214,31 @@ compiler.run((tasks) => {
                     "ratio",
                     "size",
                     "index",
+                    "controls",
+                    "attack",
+                    "end",
+                    "description",
+                    "resolve",
+                    "reject",
+                    "category",
+                    "update",
+                    "error",
+                    "endTime",
+                    "aggressivity",
+                    "radiusX",
+                    "radiusY",
+                    "state",
+                    "rotation",
+                    "contains",
+                    "zoom",
+                    "object",
+                    "entity",
+                    "Entity",
+                    "entities",
+                    "timeout",
+                    "frame",
+                    "line",
+                    "repeat",
                 ]
             }));
         }

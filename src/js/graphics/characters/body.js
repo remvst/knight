@@ -1,14 +1,4 @@
-CHEST_WIDTH_ARMORED = 25;
-CHEST_WIDTH_NAKED = 22;
-
-COLOR_SKIN = '#fec';
-COLOR_SHIRT = '#753';
-COLOR_LEGS = '#666';
-COLOR_ARMORED_ARM = '#666';
-COLOR_ARMOR = '#ccc';
-COLOR_WOOD = '#634';
-
-CanvasRenderingContext2D.prototype.renderSword = function() {
+canvasPrototype.renderSword = function() {
     this.wrap(() => {
         this.fillStyle = this.resolveColor('#444');
         this.fillRect(-10, -2, 20, 4);
@@ -25,7 +15,7 @@ CanvasRenderingContext2D.prototype.renderSword = function() {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderAxe = function() {
+canvasPrototype.renderAxe = function() {
     this.wrap(() => {
         this.fillStyle = this.resolveColor(COLOR_WOOD);
         this.fillRect(-2, 12, 4, -40);
@@ -45,7 +35,7 @@ CanvasRenderingContext2D.prototype.renderAxe = function() {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderShield = function() {
+canvasPrototype.renderShield = function() {
     this.wrap(() => {
         this.fillStyle = this.resolveColor('#fff');
 
@@ -64,7 +54,7 @@ CanvasRenderingContext2D.prototype.renderShield = function() {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderLegs = function(entity, color) {
+canvasPrototype.renderLegs = function(entity, color) {
     this.wrap(() => {
         const { age } = entity;
 
@@ -90,7 +80,7 @@ CanvasRenderingContext2D.prototype.renderLegs = function(entity, color) {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderChest = function(entity, color, width = 25) {
+canvasPrototype.renderChest = function(entity, color, width = 25) {
     this.wrap(() => {
         const { renderAge } = entity;
 
@@ -106,7 +96,7 @@ CanvasRenderingContext2D.prototype.renderChest = function(entity, color, width =
     });
 }
 
-CanvasRenderingContext2D.prototype.renderHead = function(entity, color, slitColor = null) {
+canvasPrototype.renderHead = function(entity, color, slitColor = null) {
     this.wrap(() => {
         const { renderAge } = entity;
 
@@ -120,12 +110,12 @@ CanvasRenderingContext2D.prototype.renderHead = function(entity, color, slitColo
     });
 }
 
-CanvasRenderingContext2D.prototype.renderStick = function() {
+canvasPrototype.renderStick = function() {
     this.fillStyle = this.resolveColor('#444');
     this.fillRect(-3, 10, 6, -40);
 }
 
-CanvasRenderingContext2D.prototype.renderArm = function(entity, color, renderTool) {
+canvasPrototype.renderArm = function(entity, color, renderTool) {
     this.wrap(() => {
         if (!entity.health) return;
 
@@ -147,7 +137,7 @@ CanvasRenderingContext2D.prototype.renderArm = function(entity, color, renderToo
     });
 }
 
-CanvasRenderingContext2D.prototype.renderArmAndShield = function(entity, armColor) {
+canvasPrototype.renderArmAndShield = function(entity, armColor) {
     this.wrap(() => {
         const { renderAge } = entity;
 
@@ -173,7 +163,7 @@ CanvasRenderingContext2D.prototype.renderArmAndShield = function(entity, armColo
     });
 };
 
-CanvasRenderingContext2D.prototype.renderExhaustion = function(entity, y) {
+canvasPrototype.renderExhaustion = function(entity, y) {
     if (!entity.health) return;
 
     if (entity.stateMachine.state.exhausted) {
@@ -188,7 +178,7 @@ CanvasRenderingContext2D.prototype.renderExhaustion = function(entity, y) {
     }
 };
 
-CanvasRenderingContext2D.prototype.renderAttackIndicator = function(entity) {
+canvasPrototype.renderAttackIndicator = function(entity) {
     this.wrap(() => {
         if (!entity.health) return;
 
@@ -207,7 +197,7 @@ CanvasRenderingContext2D.prototype.renderAttackIndicator = function(entity) {
     });
 };
 
-CanvasRenderingContext2D.prototype.renderExclamation = function(entity) {
+canvasPrototype.renderExclamation = function(entity) {
     this.wrap(() => {
         if (!entity.health) return;
 

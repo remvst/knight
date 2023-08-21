@@ -94,7 +94,7 @@ class EnemyAI extends AI {
             }));
         } finally { 
             for (const ai of ais) {
-                ai.reject(new Error('Other AI completed first'));
+                ai.reject(Error());
                 ai.resolve(); // Allow the AI to clean up
                 this.ais.delete(ai);
             }
@@ -141,7 +141,7 @@ class Timeout extends AI {
 
     update() {
         if (this.entity.age > this.endTime) {
-            this.reject(new Error('Time passed'));
+            this.reject(Error());
         }
     }
 }

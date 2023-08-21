@@ -8,7 +8,7 @@ createCanvas = (w, h, render) => {
     return render(ctx, can) || can;
 };
 
-CanvasRenderingContext2D.prototype.slice = (radius, sliceUp, ratio) => {
+canvasPrototype.slice = (radius, sliceUp, ratio) => {
     ctx.beginPath();
     if (sliceUp) {
         ctx.moveTo(-radius, -radius);
