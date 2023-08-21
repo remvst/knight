@@ -37,7 +37,7 @@ createEnemyType = ({
 
             this.health = this.maxHealth = ~~interpolate(100, 400, protection);
             this.strength = axe ? 40 : (sword ? 30 : 10);
-            this.baseSpeed = interpolate(120, 30, weight);
+            this.baseSpeed = interpolate(120, 50, weight);
     
             if (stick) this.gibs.push(() => ctx.renderStick());
             if (sword) this.gibs.push(() => ctx.renderSword());
