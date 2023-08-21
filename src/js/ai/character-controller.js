@@ -232,6 +232,5 @@ class HoldShield extends AI {
 
     onDone() {
         this.entity.controls.shield = false;
-        super.resolve();
     }
 }
