@@ -20,6 +20,8 @@ createEnemyType = ({
             this.targetTeam = 'player';
 
             this.aggression = 1;
+            if (sword) this.aggression += 1;
+            if (axe) this.aggression += 2;
 
             let weight = 0;
             if (armor) weight += 0.2;

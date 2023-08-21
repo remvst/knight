@@ -337,9 +337,10 @@ class Character extends Entity {
             for (const text of [
                 nomangle('State: ') + this.stateMachine.state.constructor.name,
                 nomangle('AI: ') + this.controller.description,
-                nomangle('HP: ') + ~~(this.health) + '/' + this.maxHealth,
+                nomangle('HP: ') + ~~this.health + '/' + this.maxHealth,
                 nomangle('Speed: ') + this.baseSpeed,
                 nomangle('Strength: ') + this.strength,
+                nomangle('Aggro: ') + this.aggression,
             ].reverse()) {
                 // ctx.strokeText(text, 0, y);
                 // ctx.fillText(text, 0, y);

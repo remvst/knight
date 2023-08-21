@@ -8,7 +8,7 @@ class AggressivityTracker extends Entity {
     }
 
     get z() { 
-        return LAYER_PATH;
+        return LAYER_PATH + 1;
     }
 
     requestAggression(enemy) {
