@@ -16,8 +16,8 @@ make
 
 ## TODO
 
-- story
-- enemy AIs / settings
+- king
+- balance enemy waves
 - gameplay level
 - SFX
 - mobile controls
