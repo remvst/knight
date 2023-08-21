@@ -14,9 +14,9 @@ let lastFrame = performance.now();
 const level = new GameplayLevel();
 
 frame = () => {
-    const now = performance.now();
-    const elapsed = (now - lastFrame) / 1000;
-    lastFrame = now;
+    const current = performance.now();
+    const elapsed = (current - lastFrame) / 1000;
+    lastFrame = current;
 
     // Game update
     level.cycle(elapsed);

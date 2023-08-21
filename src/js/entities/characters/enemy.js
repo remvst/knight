@@ -142,23 +142,23 @@ createEnemyType = ({
     return EnemyType;
 };
 
-const shield = { shield: true };
-const sword = { sword: true, attackCount: 2 };
-const stick = { stick: true, attackCount: 3 };
-const axe = { axe: true, attackCount: 1 };
-const armor = { armor: true };
-const superArmor = { superArmor: true };
+shield = { shield: true };
+sword = { sword: true, attackCount: 2 };
+stick = { stick: true, attackCount: 3 };
+axe = { axe: true, attackCount: 1 };
+armor = { armor: true };
+superArmor = { superArmor: true };
 
-const StickEnemy = createEnemyType({ ...stick, });
-const AxeEnemy = createEnemyType({ ...axe, });
-const SwordEnemy = createEnemyType({ ...sword, });
-const AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
-const SwordArmorEnemy = createEnemyType({ ...sword, ...armor, });
-const SwordShieldArmorEnemy = createEnemyType({ ...sword, ...shield, ...armor, });
-const SwordShieldTankEnemy = createEnemyType({ ...sword,  ...shield, ...superArmor, });
-const AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
+StickEnemy = createEnemyType({ ...stick, });
+AxeEnemy = createEnemyType({ ...axe, });
+SwordEnemy = createEnemyType({ ...sword, });
+AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
+SwordArmorEnemy = createEnemyType({ ...sword, ...armor, });
+SwordShieldArmorEnemy = createEnemyType({ ...sword, ...shield, ...armor, });
+SwordShieldTankEnemy = createEnemyType({ ...sword,  ...shield, ...superArmor, });
+AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
 
-const ENEMY_TYPES = [
+ENEMY_TYPES = [
     AxeShieldTankEnemy,
     AxeShieldArmorEnemy,
     StickEnemy,

@@ -239,6 +239,8 @@ compiler.run((tasks) => {
                     "frame",
                     "line",
                     "repeat",
+                    "elements",
+                    "add",
                 ]
             }));
         }
