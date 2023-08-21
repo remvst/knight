@@ -139,7 +139,10 @@ compiler.run((tasks) => {
                     "monetization",
                     "yield",
                     "await",
-                    "async"
+                    "async",
+                    "try",
+                    "catch",
+                    "finally",
                 ],
                 "force": [
                     "a",
