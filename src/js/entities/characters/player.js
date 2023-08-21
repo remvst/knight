@@ -77,8 +77,8 @@ class Player extends Character {
     renderBody() {
         ctx.renderLegs(this, COLOR_LEGS);
         ctx.renderArm(this, COLOR_LEGS, () => ctx.renderSword());
-        ctx.renderChest(this, COLOR_ARMOR, CHEST_WIDTH_ARMORED);
         ctx.renderHead(this, COLOR_SKIN);
+        ctx.renderChest(this, COLOR_ARMOR, CHEST_WIDTH_ARMORED);
         ctx.renderArmAndShield(this, COLOR_LEGS);
         ctx.renderExhaustion(this, -70);
     }

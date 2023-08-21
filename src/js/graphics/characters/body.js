@@ -96,6 +96,10 @@ CanvasRenderingContext2D.prototype.renderChest = function(entity, color, width =
 
         this.translate(0, -32);
 
+        // Breathing
+        this.translate(0, sin(renderAge * TWO_PI / 5) * 0.5);
+        this.rotate(sin(renderAge * TWO_PI / 5) * PI / 128);
+
         this.fillStyle = this.resolveColor(color);
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
         this.fillRect(-width / 2, -15, width, 30);
@@ -133,6 +137,9 @@ CanvasRenderingContext2D.prototype.renderArm = function(entity, color, renderToo
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
         this.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
+        // Breathing
+        this.rotate(sin(renderAge * TWO_PI / 5) * PI / 32);
+
         this.fillRect(0, -3, 20, 6);
 
         this.translate(18, -6);
@@ -151,6 +158,9 @@ CanvasRenderingContext2D.prototype.renderArmAndShield = function(entity, armColo
         if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
         this.rotate(Math.PI / 3);
         this.rotate(entity.stateMachine.state.shieldRaiseRatio * -PI / 3);
+
+        // Breathing
+        this.rotate(sin(renderAge * TWO_PI / 5) * PI / 64);
 
         const armLength = 10 + 15 * entity.stateMachine.state.shieldRaiseRatio;
         this.fillRect(0, -3, armLength, 6);
