@@ -45,6 +45,7 @@ createEnemyType = ({
             this.stateMachine = characterStateMachine({
                 entity: this, 
                 chargeTime: 0.5,
+                staggerTime: (1 - protection) * 0.3,
             });
         }
 
