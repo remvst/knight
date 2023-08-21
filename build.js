@@ -240,7 +240,6 @@ compiler.run((tasks) => {
                     "line",
                     "repeat",
                     "elements",
-                    "add",
                 ]
             }));
         }
