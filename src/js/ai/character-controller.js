@@ -166,6 +166,7 @@ class ReachPlayer extends AI {
         super();
         this.radiusX = radiusX;
         this.radiusY = radiusY;
+        this.angle = random() * TWO_PI;
     }
 
     update(player) {
@@ -175,7 +176,10 @@ class ReachPlayer extends AI {
 
         if (!this.entity.isStrikable(player, this.radiusX, this.radiusY, PI / 2)) {
             controls.force = 1;
-            controls.angle = angleBetween(this.entity, player);
+            controls.angle = angleBetween(this.entity, {
+                x: player.x + cos(this.angle) * this.radiusX,
+                y: player.y + sin(this.angle) * this.radiusY,
+            });
         } else {
             this.resolve();
         }
