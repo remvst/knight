@@ -6,6 +6,8 @@ class CharacterController {
     get description() {
         return this.constructor.name;
     }
+
+    cycle() {}
 }
 
 class AI extends CharacterController {

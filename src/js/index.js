@@ -11,7 +11,7 @@ onload = () => {
 
 let lastFrame = performance.now();
 
-const level = new TestLevel();
+const level = new IntroLevel();
 
 frame = () => {
     const now = performance.now();
@@ -29,7 +29,7 @@ frame = () => {
         ctx.strokeStyle = '#000';
         ctx.textAlign = nomangle('left');
         ctx.textBaseline = nomangle('bottom');
-        ctx.font = nomangle('12pt Courier');
+        ctx.font = nomangle('14pt Courier');
         ctx.lineWidth = 3;
 
         let y = CANVAS_HEIGHT - 10;
@@ -39,7 +39,7 @@ frame = () => {
         ].reverse()) {
             ctx.strokeText(line, 10, y);
             ctx.fillText(line, 10, y);
-            y -= 15;
+            y -= 20;
         }
     }
 

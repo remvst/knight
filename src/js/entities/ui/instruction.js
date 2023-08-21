@@ -9,7 +9,7 @@ class Instruction extends Entity {
 
         ctx.translate(camera.x, camera.y);
         ctx.scale(1 / camera.zoom, 1 / camera.zoom);
-        ctx.translate(0, CANVAS_HEIGHT / 4);
+        ctx.translate(0, CANVAS_HEIGHT / 3);
 
         ctx.textBaseline = nomangle('middle');
         ctx.textAlign = nomangle('center');

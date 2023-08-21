@@ -18,9 +18,12 @@ const CONSTANTS = {
     "PLAYER_DASH_DURATION": 0.3,
     "PLAYER_DASH_DISTANCE": 200,
 
+    "MAX_AGGRESSION": 5,
+
     "LAYER_CORPSE": belowLayer--,
     "LAYER_WATER": belowLayer--,
     "LAYER_PATH": belowLayer--,
+    "LAYER_LOWER_FADE": belowLayer--,
 
     "LAYER_CHARACTER_HUD": aboveLayer++,
     "LAYER_PARTICLE": aboveLayer++,
@@ -28,8 +31,8 @@ const CONSTANTS = {
     "LAYER_WEATHER": aboveLayer++,
     "LAYER_PLAYER_HUD": aboveLayer++,
     "LAYER_FADE": aboveLayer++,
-    "LAYER_INSTRUCTIONS": aboveLayer++,
     "LAYER_LOGO": aboveLayer++,
+    "LAYER_INSTRUCTIONS": aboveLayer++,
 };
 
 function copy(obj) {

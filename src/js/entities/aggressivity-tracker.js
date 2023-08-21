@@ -2,7 +2,6 @@ class AggressivityTracker extends Entity {
     constructor() {
         super();
         this.categories.push('aggressivity-tracker');
-        this.maxAggression = 5;
         this.currentAggression = 0;
         this.aggressive = new Set();
     }
@@ -15,7 +14,7 @@ class AggressivityTracker extends Entity {
         this.cancelAggression(enemy);
 
         const { aggression } = enemy;
-        if (this.currentAggression + aggression > this.maxAggression) {
+        if (this.currentAggression + aggression > MAX_AGGRESSION) {
             return;
         }
 

@@ -19,24 +19,13 @@ class IntroLevel extends Level {
         }
 
         const camera = firstItem(this.scene.category('camera'));
-        camera.zoom = 2;
+        camera.zoom = 3;
 
         const player = firstItem(this.scene.category('player'));
         player.health = Number.MAX_SAFE_INTEGER;
+        player.setController(new CharacterController());
 
         camera.cycle(99);
-
-        // TODO maybe remove this and use an already existing AI?
-        class AttackAI extends EnemyAI {
-            async doStart() {
-                while (true) {
-                    await this.startAI(new ReachPlayer());
-                    await this.startAI(new Attack(1));
-                    await this.startAI(new RetreatAI(200));
-                    await this.startAI(new Wait(1));
-                }
-            }
-        }
 
         // Respawn when leaving the area
         (async () => {
@@ -53,25 +42,25 @@ class IntroLevel extends Level {
         })();
 
         (async () => {
-            const fade = this.scene.add(new Fade());
-
             const logo = this.scene.add(new Logo());
             logo.x = player.x;
-            logo.y = player.y - CANVAS_HEIGHT / 3;
-
-            await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
+            logo.y = player.y - CANVAS_HEIGHT / 2;
 
             const msg = this.scene.add(new Instruction());
+            msg.text = nomangle('[CLICK] to follow the path');
+
+            await new Promise(r => onclick = r);
+            msg.text = '';
+            player.setController(new PlayerController());
+            await this.scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
+            await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 2)).await();
 
             // Movement tutorial
             msg.text = nomangle('Use [ARROW KEYS] or [WASD] to move');
-            await this.scene.waitFor(() => distP(player.x, player.y, 0, 0) > 50);
-            await this.scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
+            await this.scene.waitFor(() => distP(player.x, player.y, 0, 0) > 200);
             logo.remove();
 
             msg.text = '';
-
-            await this.scene.add(new Interpolator(camera, 'zoom', 2, 1, 2)).await();
 
             await this.scene.delay(1);
 
@@ -122,12 +111,11 @@ class IntroLevel extends Level {
             );
 
             // Shield tutorial 
-            const StickEnemy = createEnemyType({ stick: true, });
+            const StickEnemy = createEnemyType({ stick: true, attackCount: 1, });
             const enemy = this.scene.add(new StickEnemy());
+            enemy.health = enemy.maxHealth = Number.MAX_SAFE_INTEGER;
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
-            enemy.damageTakenRatio = 0;
-            enemy.setController(new AttackAI());
 
             await this.repeat(
                 msg,
@@ -148,6 +136,7 @@ class IntroLevel extends Level {
             msg.text = '';
             await this.scene.delay(1);
 
+            const fade = this.scene.add(new Fade());
             await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
 
             const expo = this.scene.add(new Exposition([
