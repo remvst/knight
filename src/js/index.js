@@ -26,10 +26,21 @@ frame = () => {
 
     if (DEBUG) {
         ctx.fillStyle = '#fff';
-        ctx.textAlign = nomangle('right');
-        ctx.textBaseline = nomangle('top');
-        ctx.font = nomangle('24pt Arial');
-        ctx.fillText(~~(1 / elapsed), CANVAS_WIDTH - 10, 10);
+        ctx.strokeStyle = '#000';
+        ctx.textAlign = nomangle('left');
+        ctx.textBaseline = nomangle('bottom');
+        ctx.font = nomangle('12pt Courier');
+        ctx.lineWidth = 3;
+
+        let y = CANVAS_HEIGHT - 10;
+        for (const line of [
+            nomangle('FPS: ') + ~~(1 / elapsed),
+            nomangle('Entities: ') + level.scene.entities.size,
+        ].reverse()) {
+            ctx.strokeText(line, 10, y);
+            ctx.fillText(line, 10, y);
+            y -= 15;
+        }
     }
 
     requestAnimationFrame(frame);
