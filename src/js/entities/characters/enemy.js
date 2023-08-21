@@ -113,14 +113,14 @@ createEnemyType = ({
                 // Okay we're allowed to be aggro, let's do it!
                 try {
                     await this.race([
-                        new Timeout(3),
+                        new Timeout(500 / this.baseSpeed),
                         new ReachPlayer(this.entity.strikeRadiusX, this.entity.strikeRadiusY),
                     ]);
 
                     for (let i = attackCount ; i-- ; ) {
                         await this.startAI(new Attack(0.5));
                     }
-                    await this.startAI(new Wait(0.5));
+                    await this.startAI(new Wait(2));
                 } catch (e) {}
 
                 // We're done attacking, let's allow someone else to be aggro
@@ -128,8 +128,8 @@ createEnemyType = ({
 
                 // Retreat a bit so we're not too close to the player
                 await this.race([
-                    new RetreatAI(200, 200),
-                    new Wait(2),
+                    new RetreatAI(300, 300),
+                    new Wait(4),
                     shield ? new HoldShield() : new AI(),
                 ]);
                 await this.startAI(new Wait(1));

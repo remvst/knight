@@ -34,9 +34,10 @@ class AggressivityTracker extends Entity {
 
     doRender(camera) {
         if (DEBUG) {
+            return;
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 5;
             ctx.textAlign = nomangle('center');
             ctx.textBaseline = nomangle('middle');
             ctx.font = nomangle('12pt Courier');
@@ -53,7 +54,8 @@ class AggressivityTracker extends Entity {
 
             for (const enemy of this.aggressive) {
                 ctx.strokeStyle = '#f00';
-                ctx.lineWidth = 5;
+                ctx.lineWidth = 20;
+                ctx.globalAlpha = 0.1;
                 ctx.beginPath();
                 ctx.moveTo(enemy.x, enemy.y);
                 ctx.lineTo(player.x, player.y);
