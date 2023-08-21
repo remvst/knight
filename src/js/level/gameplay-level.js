@@ -50,6 +50,8 @@ class GameplayLevel extends Level {
                     const enemy = this.scene.add(new (pick(ENEMY_TYPES))());
                     enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
                     enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(20, 50));
+
+                    this.scene.add(new CharacterHUD(enemy));
                 }
             }
         })();
@@ -67,7 +69,6 @@ class GameplayLevel extends Level {
                 nomangle('Giving up was never an option.'),
                 nomangle('His first attempts weren\'t successful.'),
                 nomangle('He did not reach the King until after several attempts.'),
-                nomangle('Legend says many were inspired to try.'),
                 nomangle('Many followed his footsteps.'),
             ])]));
 
