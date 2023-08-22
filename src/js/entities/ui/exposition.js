@@ -13,9 +13,9 @@ class Exposition extends Entity {
     doRender(camera) {
         if (!this.text) return;
 
-        ctx.translate(camera.x, camera.y);
-        ctx.scale(1 / camera.zoom, 1 / camera.zoom);
-        ctx.translate(-CANVAS_WIDTH / 2 + 200 , 0);
+        this.cancelCameraOffset(camera);
+
+        ctx.translate(200, evaluate(CANVAS_HEIGHT / 2));
 
         ctx.textBaseline = nomangle('middle');
         ctx.textAlign = nomangle('left');

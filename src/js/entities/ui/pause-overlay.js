@@ -6,9 +6,7 @@ class PauseOverlay extends Entity {
     doRender(camera) {
         if (!GAME_PAUSED) return;
 
-        ctx.translate(camera.x, camera.y);
-        ctx.scale(1 / camera.zoom, 1 / camera.zoom);
-        ctx.translate(-CANVAS_WIDTH / 2, -CANVAS_HEIGHT / 2);
+        this.cancelCameraOffset(camera);
 
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);

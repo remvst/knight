@@ -7,9 +7,9 @@ class Instruction extends Entity {
     doRender(camera) {
         if (!this.text || GAME_PAUSED) return;
 
-        ctx.translate(camera.x, camera.y);
-        ctx.scale(1 / camera.zoom, 1 / camera.zoom);
-        ctx.translate(0, CANVAS_HEIGHT / 3);
+        this.cancelCameraOffset(camera);
+
+        ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT * 5 / 6);
 
         ctx.textBaseline = nomangle('middle');
         ctx.textAlign = nomangle('center');
@@ -18,13 +18,5 @@ class Instruction extends Entity {
         ctx.font = nomangle('18pt Times New Roman');
 
         ctx.renderInstruction(this.text);
-
-        // const width = ctx.measureText(this.text).width + 20;
-        // ctx.fillStyle = 'rgba(0,0,0,.5)';
-        // ctx.fillRect(-width / 2, 0, width, 40);
-
-        // ctx.fillStyle = '#fff';
-        // ctx.strokeText(this.text, 0, 20);
-        // ctx.fillText(this.text, 0, 20);
     }
 }

@@ -16,7 +16,10 @@ class PlayerHUD extends Entity {
     }
 
     doRender(camera) {
-        ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
+        ctx.translate(
+            camera.x - evaluate(CANVAS_WIDTH / 2), 
+            camera.y - evaluate(CANVAS_HEIGHT / 2),
+        );
 
         ctx.wrap(() => {
             ctx.shadowColor = '#000';

@@ -64,10 +64,12 @@ class GameplayLevel extends Level {
                 }
 
                 await Promise.all(waveEnemies.map(enemy => this.scene.waitFor(() => enemy.health <= 0)));
+
+                this.scene.add(new Announcement(nomangle('Wave Cleared')));
                 
                 // Regen a bit of health
                 player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
-                
+
                 nextWaveX = player.x + CANVAS_WIDTH;
             }
             

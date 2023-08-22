@@ -14,17 +14,14 @@ class Announcement extends Entity {
     }
 
     doRender(camera) {
-        if (GAME_PAUSED) return;
+        this.cancelCameraOffset(camera);
 
         ctx.globalAlpha = this.age < 1 
             ? interpolate(0, 1, this.age)
             : interpolate(1, 0, this.age - 4);
 
-        ctx.translate(camera.x, camera.y);
-        ctx.scale(1 / camera.zoom, 1 / camera.zoom);
-
         ctx.wrap(() => {
-            ctx.translate(-CANVAS_WIDTH / 2 + 40, CANVAS_HEIGHT / 2 - 40);
+            ctx.translate(40, evaluate(CANVAS_HEIGHT - 40));
 
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
