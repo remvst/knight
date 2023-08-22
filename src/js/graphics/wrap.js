@@ -1,4 +1,4 @@
-CanvasRenderingContext2D.prototype.wrap = function(f) {
+canvasPrototype.wrap = function(f) {
     const { resolveColor } = this;
     this.save();
     f();

@@ -1,6 +1,6 @@
-CanvasRenderingContext2D.prototype.resolveColor = x => x;
+canvasPrototype.resolveColor = x => x;
 
-CanvasRenderingContext2D.prototype.withShadow = function(render) {
+canvasPrototype.withShadow = function(render) {
     this.wrap(() => {
         this.isShadow = true;
         this.resolveColor = () => 'rgba(0,0,0,0.2)';
