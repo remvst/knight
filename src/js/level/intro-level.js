@@ -155,6 +155,25 @@ class IntroLevel extends Level {
 
             level = new GameplayLevel();
         })();
+
+        (async () => {
+            const enemy = scene.add(new DummyEnemy());
+            enemy.y = -500;
+            enemy.poof();
+
+            const label = scene.add(new Label(nomangle('Skip intro?')));
+            label.y = enemy.y - 30;
+            label.infinite = true;
+
+            while (true) {
+                const { damageCount } = enemy;
+                await this.scene.waitFor(() => enemy.damageCount > damageCount);
+
+                if (confirm('Skip intro?')) {
+                    level = new GameplayLevel();
+                }
+            }
+        })();
     }
 
     async repeat(msg, instruction, script, count) {

@@ -10,12 +10,12 @@ class Label extends Entity {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        if (this.age > 1) this.remove();
+        if (this.age > 1 && !this.infinite) this.remove();
     }
 
     doRender() {
         ctx.translate(this.x, interpolate(this.y + 20, this.y, this.age / 0.25));
-        ctx.globalAlpha = interpolate(0, 1, this.age / 0.25);
+        if (!this.infinite) ctx.globalAlpha = interpolate(0, 1, this.age / 0.25);
 
         ctx.font = nomangle('bold 14pt Arial');
         ctx.fillStyle = '#fff';
