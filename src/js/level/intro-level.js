@@ -161,7 +161,7 @@ class IntroLevel extends Level {
             enemy.y = -500;
             enemy.poof();
 
-            const label = scene.add(new Label(nomangle('Skip intro?')));
+            const label = scene.add(new Label(nomangle('Skip intro')));
             label.y = enemy.y - 30;
             label.infinite = true;
 
@@ -169,7 +169,7 @@ class IntroLevel extends Level {
                 const { damageCount } = enemy;
                 await this.scene.waitFor(() => enemy.damageCount > damageCount);
 
-                if (confirm('Skip intro?')) {
+                if (confirm(nomangle('Skip intro?'))) {
                     level = new GameplayLevel();
                 }
             }
