@@ -49,9 +49,11 @@ class IntroLevel extends Level {
 
             const msg = scene.add(new Instruction());
             msg.text = nomangle('[CLICK] to follow the path');
-
             await new Promise(r => onclick = r);
             msg.text = '';
+
+            can.style[nomangle('cursor')] = 'none';
+
             player.setController(new PlayerController());
             await scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
             await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 2)).await();
