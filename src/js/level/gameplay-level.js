@@ -72,12 +72,14 @@ class GameplayLevel extends Level {
                 await Promise.all(waveEnemies.map(enemy => this.scene.waitFor(() => enemy.health <= 0)));
 
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
+
+                player.affectedBySpeedRatio = true;
                 this.scene.speedRatio = 0.1;
-                const camera = firstItem(this.scene.category('camera'));
-                await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 2, 0.2)).await();
+                this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 3));
                 await this.scene.delay(3 * this.scene.speedRatio);
                 await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
                 this.scene.speedRatio = 1;
+                player.affectedBySpeedRatio = false;
                 
                 // Regen a bit of health
                 player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
