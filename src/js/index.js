@@ -22,23 +22,23 @@ frame = () => {
     level.cycle(elapsed);
 
     // Rendering
-    ctx.wrap(() => level.scene.render());
+    wrap(() => level.scene.render());
 
     if (DEBUG) {
-        ctx.fillStyle = '#fff';
-        ctx.strokeStyle = '#000';
-        ctx.textAlign = nomangle('left');
-        ctx.textBaseline = nomangle('bottom');
-        ctx.font = nomangle('14pt Courier');
-        ctx.lineWidth = 3;
+        fillStyle = '#fff';
+        strokeStyle = '#000';
+        textAlign = nomangle('left');
+        textBaseline = nomangle('bottom');
+        font = nomangle('14pt Courier');
+        lineWidth = 3;
 
         let y = CANVAS_HEIGHT - 10;
         for (const line of [
             nomangle('FPS: ') + ~~(1 / elapsed),
             nomangle('Entities: ') + level.scene.entities.size,
         ].reverse()) {
-            ctx.strokeText(line, 10, y);
-            ctx.fillText(line, 10, y);
+            strokeText(line, 10, y);
+            fillText(line, 10, y);
             y -= 20;
         }
     }

@@ -11,18 +11,18 @@ class Bush extends Entity {
     }
 
     doRender() {
-        ctx.translate(this.x, this.y);
+        translate(this.x, this.y);
         
-        ctx.withShadow(() => {
+        withShadow(() => {
             this.rng.reset();
 
             let x = 0;
             for (let i = 0 ; i < 5 ; i++) {
-                ctx.wrap(() => {
-                    ctx.fillStyle = ctx.resolveColor('green');
-                    ctx.translate(x, 0);
-                    ctx.rotate(sin((this.age + this.rng.next(0, 5)) * TWO_PI / this.rng.next(4, 8)) * this.rng.next(PI / 32, PI / 16));
-                    ctx.fillRect(-10, 0, 20, -this.rng.next(20, 60));
+                wrap(() => {
+                    fillStyle = ctx.resolveColor('green');
+                    translate(x, 0);
+                    rotate(sin((this.age + this.rng.next(0, 5)) * TWO_PI / this.rng.next(4, 8)) * this.rng.next(PI / 32, PI / 16));
+                    fillRect(-10, 0, 20, -this.rng.next(20, 60));
                 });
 
                 x += this.rng.next(5, 15);

@@ -27,10 +27,10 @@ canvasPrototype.renderLargeText = function (bits) {
         this.font = size + nomangle('px Times New Roman');
 
         this.shadowBlur = 5;
-        this.strokeText(text, x, 0);
+        strokeText(text, x, 0);
 
         this.shadowBlur = 0;
-        this.fillText(text, x, 0);
+        fillText(text, x, 0);
 
         x += this.measureText(text).width + (offsetWidth || 0);
     }

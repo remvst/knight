@@ -5,16 +5,16 @@ class Path extends Entity {
     }
 
     doRender(camera) {
-        ctx.strokeStyle = '#dc9';
-        ctx.lineWidth = 70;
+        strokeStyle = '#dc9';
+        lineWidth = 70;
 
-        ctx.fillStyle = '#fff';
+        fillStyle = '#fff';
 
-        ctx.beginPath();
+        beginPath();
         for (let x = roundToNearest(camera.x - CANVAS_WIDTH * 2, 300) ; x < camera.x + CANVAS_WIDTH ; x += 300) {
             const y = this.scene.pathCurve(x);
-            ctx.lineTo(x, y);
+            lineTo(x, y);
         }
-        ctx.stroke();
+        stroke();
     }
 }

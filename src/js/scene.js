@@ -66,20 +66,20 @@ class Scene {
 
     render() {
         // Background
-        ctx.fillStyle = '#996';
-        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        fillStyle = '#996';
+        fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
         const camera = firstItem(this.category('camera'));
         
-        ctx.wrap(() => {
-            ctx.scale(camera.zoom, camera.zoom);
-            ctx.translate(-camera.x, -camera.y);
-            ctx.translate(CANVAS_WIDTH / 2 / camera.zoom, CANVAS_HEIGHT / 2 / camera.zoom);
+        wrap(() => {
+            scale(camera.zoom, camera.zoom);
+            translate(-camera.x, -camera.y);
+            translate(CANVAS_WIDTH / 2 / camera.zoom, CANVAS_HEIGHT / 2 / camera.zoom);
 
             this.sortedEntities.sort((a, b) => a.z - b.z);
 
             for (const entity of this.sortedEntities) {
-                ctx.wrap(() => entity.render());
+                wrap(() => entity.render());
             }
         });
     }

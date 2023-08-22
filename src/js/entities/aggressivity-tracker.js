@@ -34,31 +34,31 @@ class AggressivityTracker extends Entity {
     doRender(camera) {
         if (DEBUG) {
             return;
-            ctx.fillStyle = '#fff';
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 5;
-            ctx.textAlign = nomangle('center');
-            ctx.textBaseline = nomangle('middle');
-            ctx.font = nomangle('12pt Courier');
+            fillStyle = '#fff';
+            strokeStyle = '#000';
+            lineWidth = 5;
+            textAlign = nomangle('center');
+            textBaseline = nomangle('middle');
+            font = nomangle('12pt Courier');
 
-            ctx.wrap(() => {
-                ctx.translate(camera.x, camera.y - 100);
+            wrap(() => {
+                translate(camera.x, camera.y - 100);
         
-                ctx.strokeText('Agg: ' + this.currentAggression, 0, 0);
-                ctx.fillText('Agg: ' + this.currentAggression, 0, 0);
+                strokeText('Agg: ' + this.currentAggression, 0, 0);
+                fillText('Agg: ' + this.currentAggression, 0, 0);
             });
 
             const player = firstItem(this.scene.category('player'));
             if (!player) return;
 
             for (const enemy of this.aggressive) {
-                ctx.strokeStyle = '#f00';
-                ctx.lineWidth = 20;
-                ctx.globalAlpha = 0.1;
-                ctx.beginPath();
-                ctx.moveTo(enemy.x, enemy.y);
-                ctx.lineTo(player.x, player.y);
-                ctx.stroke();
+                strokeStyle = '#f00';
+                lineWidth = 20;
+                globalAlpha = 0.1;
+                beginPath();
+                moveTo(enemy.x, enemy.y);
+                lineTo(player.x, player.y);
+                stroke();
             }
         }
     }

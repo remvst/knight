@@ -11,16 +11,16 @@ class Logo extends Entity {
     doRender(camera) {
         if (GAME_PAUSED) return;
 
-        ctx.wrap(() => {
+        wrap(() => {
             this.cancelCameraOffset(camera);
 
-            ctx.globalAlpha = this.alpha;
+            globalAlpha = this.alpha;
     
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            fillStyle = '#000';
+            fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-            ctx.translate(evaluate(CANVAS_WIDTH / 2), evaluate(CANVAS_HEIGHT / 3));
-            ctx.renderLargeText([
+            translate(evaluate(CANVAS_WIDTH / 2), evaluate(CANVAS_HEIGHT / 3));
+            renderLargeText([
                 [nomangle('P'), 192, -30],
                 [nomangle('ATH'), 96, 30],
                 [nomangle('TO'), 36, 20],

@@ -16,37 +16,37 @@ class PlayerHUD extends Entity {
     }
 
     doRender(camera) {
-        ctx.translate(
+        translate(
             camera.x - evaluate(CANVAS_WIDTH / 2), 
             camera.y - evaluate(CANVAS_HEIGHT / 2),
         );
 
-        ctx.wrap(() => {
-            ctx.shadowColor = '#000';
-            ctx.shadowBlur = 2;
+        wrap(() => {
+            shadowColor = '#000';
+            shadowBlur = 2;
     
-            ctx.translate(CANVAS_WIDTH / 2, 30);
+            translate(CANVAS_WIDTH / 2, 30);
             this.gauge.render(400, 20);
         });
 
         if (this.player.combo > 0) {
-            ctx.wrap(() => {
-                ctx.translate(CANVAS_WIDTH / 2 + 200, 70);
+            wrap(() => {
+                translate(CANVAS_WIDTH / 2 + 200, 70);
 
-                ctx.fillStyle = '#fff';
-                ctx.strokeStyle = '#000';
-                ctx.lineWidth = 4;
-                ctx.textBaseline = nomangle('middle');
-                ctx.textAlign = nomangle('right');
-                ctx.font = nomangle('bold 36pt Impact');
+                fillStyle = '#fff';
+                strokeStyle = '#000';
+                lineWidth = 4;
+                textBaseline = nomangle('middle');
+                textAlign = nomangle('right');
+                font = nomangle('bold 36pt Impact');
 
-                ctx.rotate(-PI / 32);
+                rotate(-PI / 32);
 
                 const ratio = min(1, (this.player.age - this.player.lastComboChange) / 0.1);
-                ctx.scale(1 + 1 - ratio, 1 + 1 - ratio);
+                scale(1 + 1 - ratio, 1 + 1 - ratio);
 
-                ctx.strokeText('X' + this.player.combo, 0, 0);
-                ctx.fillText('X' + this.player.combo, 0, 0);
+                strokeText('X' + this.player.combo, 0, 0);
+                fillText('X' + this.player.combo, 0, 0);
             });
         }
     }

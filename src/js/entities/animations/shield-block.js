@@ -13,16 +13,16 @@ class ShieldBlock extends Entity {
 
     doRender() {
         const ratio = this.age / 0.25;
-        ctx.fillStyle = '#fff';
+        fillStyle = '#fff';
 
-        ctx.translate(this.x, this.y);
-        ctx.scale(ratio, ratio);
+        translate(this.x, this.y);
+        scale(ratio, ratio);
 
-        ctx.globalAlpha = 1 - ratio; 
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 10;
-        ctx.beginPath();
-        ctx.arc(0, 0, 80, 0, TWO_PI);
-        ctx.stroke();
+        globalAlpha = 1 - ratio; 
+        strokeStyle = '#fff';
+        lineWidth = 10;
+        beginPath();
+        arc(0, 0, 80, 0, TWO_PI);
+        stroke();
     }
 }
