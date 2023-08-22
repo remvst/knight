@@ -9,9 +9,14 @@ class Water extends Entity {
         return LAYER_WATER; 
     }
 
+    get inWater() {
+        return false;
+    }
+
     cycle(elapsed) {
         super.cycle(elapsed);
         this.renderPadding = max(this.width, this.height) / 2;
+        regenEntity(this, CANVAS_WIDTH * 2, CANVAS_HEIGHT * 2, max(this.width, this.height));
     }
 
     contains(point) {

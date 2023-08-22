@@ -32,7 +32,8 @@ class Level {
 
         for (let i = 0 ; i < 400 ; i++) {
             const grass = new Grass();
-            grass.x = random() * 10000;
+            grass.x = rnd(-2, 2) * CANVAS_WIDTH;
+            grass.y = rnd(-2, 2) * CANVAS_HEIGHT;
             this.scene.add(grass);
         }
 

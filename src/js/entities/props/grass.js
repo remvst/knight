@@ -7,7 +7,7 @@ class Grass extends Entity {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        regenEntity(this, CANVAS_WIDTH / 2 + 50);
+        regenEntity(this, CANVAS_WIDTH / 2 + 50, CANVAS_HEIGHT / 2 + 50);
     }
 
     doRender() {

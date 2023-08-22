@@ -16,30 +16,20 @@ class TestLevel extends Level {
         //     enemy.poof();
         // }
 
-        for (let r = 0 ; r < 1 ; r += 1 / 10) {
-            const type = pick(ENEMY_TYPES);
-            const enemy = this.scene.add(new type());
-            enemy.x = cos(r * TWO_PI) * 400;
-            enemy.y = sin(r * TWO_PI) * 400;
-            enemy.poof();
+        // for (let r = 0 ; r < 1 ; r += 1 / 10) {
+        //     const type = pick(ENEMY_TYPES);
+        //     const enemy = this.scene.add(new type());
+        //     enemy.x = cos(r * TWO_PI) * 400;
+        //     enemy.y = sin(r * TWO_PI) * 400;
+        //     enemy.poof();
 
-            this.scene.add(new CharacterHUD(enemy));
-        }
+        //     this.scene.add(new CharacterHUD(enemy));
+        // }
 
         for (let i = 0 ; i < 20 ; i++) {
             const tree = new Tree();
             tree.x = random() * 10000;
             this.scene.add(tree);
-        }
-
-        for (let x = 0 ; x < 10000 ; x += 300) {
-            const water = new Water();
-            water.width = rnd(100, 200);
-            water.height = rnd(200, 400);
-            water.rotation = random() * TWO_PI;
-            water.x = x;
-            water.y = this.scene.pathCurve(water.x) + rnd(300, 800) * pick([-1, 1]);
-            this.scene.add(water);
         }
 
         // (async () => {

@@ -8,19 +8,20 @@ class GameplayLevel extends Level {
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Path());
 
-        for (let i = 0 ; i < 20 ; i++) {
+        for (let i = 0 ; i < 15 ; i++) {
             const tree = new Tree();
-            tree.x = random() * 10000;
+            tree.x = rnd(-1, 1) * CANVAS_WIDTH / 2;
+            tree.y = rnd(-1, 1) * CANVAS_HEIGHT / 2;
             this.scene.add(tree);
         }
 
-        for (let x = 0 ; x < 10000 ; x += 300) {
+        for (let i = 0 ; i < 20 ; i++) {
             const water = new Water();
             water.width = rnd(100, 200);
             water.height = rnd(200, 400);
             water.rotation = random() * TWO_PI;
-            water.x = x;
-            water.y = this.scene.pathCurve(water.x) + rnd(300, 800) * pick([-1, 1]);
+            water.x = random() * CANVAS_WIDTH * 5;
+            water.y = random() * CANVAS_HEIGHT * 5;
             this.scene.add(water);
         }
 
