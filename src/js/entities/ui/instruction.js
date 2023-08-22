@@ -9,14 +9,14 @@ class Instruction extends Entity {
 
         this.cancelCameraOffset(camera);
 
-        translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT * 5 / 6);
+        ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT * 5 / 6);
 
-        textBaseline = nomangle('middle');
-        textAlign = nomangle('center');
-        strokeStyle = '#000';
-        lineWidth = 4;
-        font = nomangle('18pt Times New Roman');
+        ctx.textBaseline = nomangle('middle');
+        ctx.textAlign = nomangle('center');
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 4;
+        ctx.font = nomangle('18pt Times New Roman');
 
-        renderInstruction(this.text);
+        ctx.renderInstruction(this.text);
     }
 }

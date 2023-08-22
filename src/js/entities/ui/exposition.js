@@ -15,18 +15,18 @@ class Exposition extends Entity {
 
         this.cancelCameraOffset(camera);
 
-        translate(200, evaluate(CANVAS_HEIGHT / 2));
+        ctx.translate(200, evaluate(CANVAS_HEIGHT / 2));
 
-        textBaseline = nomangle('middle');
-        textAlign = nomangle('left');
-        fillStyle = '#fff';
-        font = nomangle('18pt Times New Roman');
+        ctx.textBaseline = nomangle('middle');
+        ctx.textAlign = nomangle('left');
+        ctx.fillStyle = '#fff';
+        ctx.font = nomangle('18pt Times New Roman');
 
         let y = -this.text.length / 2 * 50;
         let lineIndex = 0;
         for (const line of this.text) {
-            globalAlpha = between(0, (this.age - lineIndex * 3), 1) * this.alpha;
-            fillText(line, 0, y);
+            ctx.globalAlpha = between(0, (this.age - lineIndex * 3), 1) * this.alpha;
+            ctx.fillText(line, 0, y);
             y += 50;
             lineIndex++;
         }

@@ -11,8 +11,8 @@ class Fade extends Entity {
     doRender(camera) {
         this.cancelCameraOffset(camera);
 
-        fillStyle = '#000';
-        globalAlpha = this.alpha;
-        fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.fillStyle = '#000';
+        ctx.globalAlpha = this.alpha;
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
 }

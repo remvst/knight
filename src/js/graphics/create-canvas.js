@@ -9,16 +9,16 @@ createCanvas = (w, h, render) => {
 };
 
 canvasPrototype.slice = (radius, sliceUp, ratio) => {
-    this.beginPath();
+    ctx.beginPath();
     if (sliceUp) {
-        this.moveTo(-radius, -radius);
-        this.lineTo(radius, -radius);
+        ctx.moveTo(-radius, -radius);
+        ctx.lineTo(radius, -radius);
     } else {
-        this.lineTo(-radius, radius);
-        this.lineTo(radius, radius);
+        ctx.lineTo(-radius, radius);
+        ctx.lineTo(radius, radius);
     }
 
-    this.lineTo(radius, -radius * ratio);
-    this.lineTo(-radius, radius * ratio);
-    this.clip();
+    ctx.lineTo(radius, -radius * ratio);
+    ctx.lineTo(-radius, radius * ratio);
+    ctx.clip();
 };

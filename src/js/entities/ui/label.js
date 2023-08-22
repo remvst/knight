@@ -14,20 +14,20 @@ class Label extends Entity {
     }
 
     doRender() {
-        translate(this.x, interpolate(this.y + 20, this.y, this.age / 0.25));
-        if (!this.infinite) globalAlpha = interpolate(0, 1, this.age / 0.25);
+        ctx.translate(this.x, interpolate(this.y + 20, this.y, this.age / 0.25));
+        if (!this.infinite) ctx.globalAlpha = interpolate(0, 1, this.age / 0.25);
 
-        font = nomangle('bold 14pt Arial');
-        fillStyle = '#fff';
-        strokeStyle = '#000';
-        lineWidth = 2;
-        textAlign = nomangle('center');
-        textBaseline = nomangle('middle');
+        ctx.font = nomangle('bold 14pt Arial');
+        ctx.fillStyle = '#fff';
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.textAlign = nomangle('center');
+        ctx.textBaseline = nomangle('middle');
 
-        shadowColor = '#000';
-        shadowOffsetX = shadowOffsetY = 1;
+        ctx.shadowColor = '#000';
+        ctx.shadowOffsetX = ctx.shadowOffsetY = 1;
 
-        strokeText(this.text, 0, 0);
-        fillText(this.text, 0, 0);
+        ctx.strokeText(this.text, 0, 0);
+        ctx.fillText(this.text, 0, 0);
     }
 }

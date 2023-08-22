@@ -65,16 +65,13 @@ compiler.run((tasks) => {
                 "src/js/math.js",
                 "src/js/state-machine.js",
 
-                "src/js/graphics/wrap.js",
                 "src/js/graphics/create-canvas.js",
-                "src/js/graphics/gauge.js",
-                "src/js/graphics/text.js",
+                "src/js/graphics/wrap.js",
                 "src/js/graphics/with-shadow.js",
-
                 "src/js/graphics/characters/exclamation.js",
                 "src/js/graphics/characters/body.js",
-                
-                "src/js/graphics/make-ctx-global.js",
+                "src/js/graphics/gauge.js",
+                "src/js/graphics/text.js",
 
                 "src/js/input/keyboard.js",
                 "src/js/input/mouse.js",

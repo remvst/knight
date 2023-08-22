@@ -281,33 +281,33 @@ class Character extends Entity {
     doRender() {
         const { inWater, renderAge } = this;
 
-        translate(this.x, this.y);
+        ctx.translate(this.x, this.y);
 
         if (DEBUG) {
-            // wrap(() => {
-            //     lineWidth = 10;
-            //     strokeStyle = '#f00';
-            //     globalAlpha = 0.1;
-            //     beginPath();
-            //     ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-            //     stroke();
+            // ctx.wrap(() => {
+            //     ctx.lineWidth = 10;
+            //     ctx.strokeStyle = '#f00';
+            //     ctx.globalAlpha = 0.1;
+            //     ctx.beginPath();
+            //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+            //     ctx.stroke();
 
-            //     beginPath();
-            //     ellipse(0, 0, this.magnetRadiusX, this.magnetRadiusY, 0, 0, TWO_PI);
-            //     stroke();
+            //     ctx.beginPath();
+            //     ctx.ellipse(0, 0, this.magnetRadiusX, this.magnetRadiusY, 0, 0, TWO_PI);
+            //     ctx.stroke();
             // });
         }
 
-        const orig = resolveColor || (x => x);
-        resolveColor = x => this.getColor(orig(x));
+        const orig = ctx.resolveColor || (x => x);
+        ctx.resolveColor = x => this.getColor(orig(x));
 
-        withShadow(() => {
+        ctx.withShadow(() => {
             if (inWater) {
-                beginPath();
-                rect(-100, -100, 200, 100);
-                clip();
+                ctx.beginPath();
+                ctx.rect(-100, -100, 200, 100);
+                ctx.clip();
 
-                translate(0, 10);
+                ctx.translate(0, 10);
             }
 
             let { facing } = this;
@@ -315,23 +315,23 @@ class Character extends Entity {
             if (dashAngle !== undefined) {
                 facing = sign(cos(dashAngle));
     
-                translate(0, -30);
-                rotate(this.stateMachine.state.age / PLAYER_DASH_DURATION * facing * TWO_PI);
-                translate(0, 30);
+                ctx.translate(0, -30);
+                ctx.rotate(this.stateMachine.state.age / PLAYER_DASH_DURATION * facing * TWO_PI);
+                ctx.translate(0, 30);
             }
 
-            scale(facing, 1);
+            ctx.scale(facing, 1);
 
-            wrap(() => this.renderBody(renderAge));
+            ctx.wrap(() => this.renderBody(renderAge));
         });
 
         if (DEBUG) {
-            fillStyle = '#fff';
-            strokeStyle = '#000';
-            lineWidth = 3;
-            textAlign = nomangle('center');
-            textBaseline = nomangle('middle');
-            font = nomangle('12pt Courier');
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.textAlign = nomangle('center');
+            ctx.textBaseline = nomangle('middle');
+            ctx.font = nomangle('12pt Courier');
         
             let y = -90;
             for (const text of [
@@ -342,8 +342,8 @@ class Character extends Entity {
                 nomangle('Strength: ') + this.strength,
                 nomangle('Aggro: ') + this.aggression,
             ].reverse()) {
-                // strokeText(text, 0, y);
-                // fillText(text, 0, y);
+                // ctx.strokeText(text, 0, y);
+                // ctx.fillText(text, 0, y);
 
                 y -= 20;
             }
@@ -365,13 +365,13 @@ class Character extends Entity {
 
         const gibs = this.gibs.concat(
             () => {
-                slice(30, true, 0.5);
-                translate(0, 30);
+                ctx.slice(30, true, 0.5);
+                ctx.translate(0, 30);
                 this.renderBody();
             },
             () => {
-                slice(30, false, 0.5);
-                translate(0, 30);
+                ctx.slice(30, false, 0.5);
+                ctx.translate(0, 30);
                 this.renderBody();
             },
         );

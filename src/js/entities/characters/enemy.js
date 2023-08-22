@@ -39,10 +39,10 @@ createEnemyType = ({
             this.strength = axe ? 40 : (sword ? 30 : 10);
             this.baseSpeed = interpolate(120, 50, weight);
     
-            if (stick) this.gibs.push(() => renderStick());
-            if (sword) this.gibs.push(() => renderSword());
-            if (shield) this.gibs.push(() => renderShield());
-            if (axe) this.gibs.push(() => renderAxe());
+            if (stick) this.gibs.push(() => ctx.renderStick());
+            if (sword) this.gibs.push(() => ctx.renderSword());
+            if (shield) this.gibs.push(() => ctx.renderShield());
+            if (axe) this.gibs.push(() => ctx.renderAxe());
     
             this.stateMachine = characterStateMachine({
                 entity: this, 
@@ -64,14 +64,14 @@ createEnemyType = ({
         }
     
         renderBody() {
-            renderAttackIndicator(this);
-            renderLegs(this, COLOR_LEGS);
-            renderArm(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN, () => {
-                if (stick) renderStick(this)
-                if (sword) renderSword(this);
-                if (axe) renderAxe(this);
+            ctx.renderAttackIndicator(this);
+            ctx.renderLegs(this, COLOR_LEGS);
+            ctx.renderArm(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN, () => {
+                if (stick) ctx.renderStick(this)
+                if (sword) ctx.renderSword(this);
+                if (axe) ctx.renderAxe(this);
             });
-            renderChest(
+            ctx.renderChest(
                 this, 
                 armor 
                     ? COLOR_ARMOR 
@@ -79,15 +79,15 @@ createEnemyType = ({
                 CHEST_WIDTH_NAKED,
             );
 
-            renderHead(
+            ctx.renderHead(
                 this, 
                 superArmor ? '#666' : COLOR_SKIN, 
                 superArmor ? '#000' : COLOR_SKIN,
             );
 
-            if (shield) renderArmAndShield(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN);
-            renderExhaustion(this, -70);
-            renderExclamation(this);
+            if (shield) ctx.renderArmAndShield(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN);
+            ctx.renderExhaustion(this, -70);
+            ctx.renderExclamation(this);
         }
     }
 

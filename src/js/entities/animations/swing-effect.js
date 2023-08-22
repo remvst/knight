@@ -18,29 +18,29 @@ class SwingEffect extends Entity {
     }
 
     doRender() {
-        globalAlpha = 1 - this.age / 0.2;
+        ctx.globalAlpha = 1 - this.age / 0.2;
 
-        translate(this.character.x, this.character.y);
-        scale(this.character.facing, 1);
-        translate(11, -42);
+        ctx.translate(this.character.x, this.character.y);
+        ctx.scale(this.character.facing, 1);
+        ctx.translate(11, -42);
 
-        strokeStyle = this.color;
-        lineWidth = 40;
-        beginPath();
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 40;
+        ctx.beginPath();
 
         for (let r = 0 ; r < 1 ; r += 0.05) {
-            wrap(() => {
-                rotate(
+            ctx.wrap(() => {
+                ctx.rotate(
                     interpolate(
                         this.fromAngle * PI / 2, 
                         this.toAngle * PI / 2,
                         r,
                     )
                 );
-                lineTo(18, -26);
+                ctx.lineTo(18, -26);
             });
         }
 
-        stroke();
+        ctx.stroke();
     }
 }

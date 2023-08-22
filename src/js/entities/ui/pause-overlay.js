@@ -8,13 +8,13 @@ class PauseOverlay extends Entity {
 
         this.cancelCameraOffset(camera);
 
-        fillStyle = 'rgba(0,0,0,0.5)';
-        fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-        wrap(() => {
-            translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3);
+        ctx.wrap(() => {
+            ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3);
 
-            renderLargeText([
+            ctx.renderLargeText([
                 [nomangle('G'), 192, 0],
                 [nomangle('AME'), 96, 30],
                 [nomangle('P'), 192, -30],
@@ -22,9 +22,9 @@ class PauseOverlay extends Entity {
             ]);
         });
 
-        wrap(() => {
-            translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT * 3 / 4);
-            renderInstruction(nomangle('Press [P] or [ESC] to resume'));
+        ctx.wrap(() => {
+            ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT * 3 / 4);
+            ctx.renderInstruction(nomangle('Press [P] or [ESC] to resume'));
         });
 
     }

@@ -27,36 +27,36 @@ class Water extends Entity {
     doRender() {
         this.rng.reset();
 
-        wrap(() => {
-            fillStyle = '#08a';
-            translate(this.x, this.y);
-            rotate(this.rotation);
-            beginPath();
-            rect(-this.width / 2, -this.height / 2, this.width, this.height);
-            fill();
-            clip();
+        ctx.wrap(() => {
+            ctx.fillStyle = '#08a';
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rotation);
+            ctx.beginPath();
+            ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.fill();
+            ctx.clip();
 
             // Ripples
-            rotate(-this.rotation);
-            scale(1, 0.5);
-            strokeStyle = '#fff';
-            lineWidth = 4;
+            ctx.rotate(-this.rotation);
+            ctx.scale(1, 0.5);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 4;
 
             for (let i = 3; i-- ; ) {
                 const duration = 2;
                 const relativeAge = (this.age + this.rng.next(0, 20)) / duration;
                 const ratio = min(1, relativeAge % (duration / 2));
 
-                globalAlpha = (1 - ratio) / 2;
-                beginPath();
-                arc(
+                ctx.globalAlpha = (1 - ratio) / 2;
+                ctx.beginPath();
+                ctx.arc(
                     ((this.rng.next(0, this.width) + ~~relativeAge * this.width * 0.7) % this.width) - this.width / 2,
                     ((this.rng.next(0, this.height) + ~~relativeAge * this.height * 0.7) % this.height) - this.width / 2,
                     ratio * this.rng.next(20, 60),
                     0,
                     TWO_PI,
                 );
-                stroke();
+                ctx.stroke();
             }
         });
     }

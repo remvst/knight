@@ -1,7 +1,7 @@
 canvasPrototype.wrap = function(f) {
     const { resolveColor } = this;
-    save();
+    this.save();
     f();
-    restore();
+    this.restore();
     this.resolveColor = resolveColor || (x => x);
 };

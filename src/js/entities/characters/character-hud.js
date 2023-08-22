@@ -22,10 +22,10 @@ class CharacterHUD extends Entity {
             this.character.age - max(this.character.lastStaminaLoss, this.character.lastDamage) > 2
         ) return;
  
-        shadowColor = '#000';
-        shadowBlur = 1;
+        ctx.shadowColor = '#000';
+        ctx.shadowBlur = 1;
 
-        translate(this.character.x, this.character.y + 20);
+        ctx.translate(this.character.x, this.character.y + 20);
         this.gauge.render(80, 5);
     }
 }

@@ -18,25 +18,29 @@ class PerfectParry extends Entity {
 
     doRender() {
         const ratio = this.age / 0.5;
-        fillStyle = '#fff';
+        ctx.fillStyle = '#fff';
 
-        translate(this.x, this.y);
+        ctx.translate(this.x, this.y);
 
-        globalAlpha = (1 - ratio); 
-        strokeStyle = '#fff';
-        fillStyle = '#fff';
-        lineWidth = 20;
-        beginPath();
+        ctx.globalAlpha = (1 - ratio); 
+        ctx.strokeStyle = '#fff';
+        ctx.fillStyle = '#fff';
+        ctx.lineWidth = 20;
+        ctx.beginPath();
 
         for (let r = 0 ; r < 1 ; r+= 0.05) {
             const angle = r * TWO_PI;
             const radius = ratio * rnd(140, 200);
-            lineTo(
+            ctx.lineTo(
                 cos(angle) * radius,
                 sin(angle) * radius,
             );
         }
 
-        fill();
+        // ctx.closePath();
+
+        // // ctx.arc(0, 0, 100, 0, TWO_PI);
+        // ctx.stroke();
+        ctx.fill();
     }
 }

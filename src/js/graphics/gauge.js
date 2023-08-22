@@ -35,30 +35,30 @@ class Gauge {
             const displayedMaxX = interpolate(-width / 2 + height / 2, width / 2, value);
             if (value === 0) return;
 
-            fillStyle = color;
-            beginPath();
-            moveTo(-width / 2, 0);
-            lineTo(displayedMaxX, 0);
-            lineTo(displayedMaxX - height / 2, height);
-            lineTo(-width / 2 + height / 2, height);
-            fill();
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(-width / 2, 0);
+            ctx.lineTo(displayedMaxX, 0);
+            ctx.lineTo(displayedMaxX - height / 2, height);
+            ctx.lineTo(-width / 2 + height / 2, height);
+            ctx.fill();
         }
 
-        wrap(() => {
+        ctx.wrap(() => {
             renderStuff(width + 8, height + 4, 1, '#000');
-            translate(0, 2);
+            ctx.translate(0, 2);
             renderStuff(width, height, this.displayedHealth, '#fff');
             renderStuff(width, height, this.character.health / this.character.maxHealth, healthGradient);
         });
 
-        translate(0, height + 2);
-        shadowBlur = 0;
+        ctx.translate(0, height + 2);
+        ctx.shadowBlur = 0;
 
-        wrap(() => {
+        ctx.wrap(() => {
             const staminaWidth = width * 0.75;
             const staminaHeight = height * 0.25;
             renderStuff(staminaWidth + 8, staminaHeight + 4, 1, '#000');
-            translate(0, 2);
+            ctx.translate(0, 2);
             renderStuff(staminaWidth, staminaHeight, this.displayedStamina, '#fff');
             renderStuff(staminaWidth, staminaHeight, this.character.stamina, staminaGradient);
         });

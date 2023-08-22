@@ -15,12 +15,12 @@ class DummyEnemy extends Character {
     }
 
     renderBody() {
-        wrap(() => {
-            fillStyle = resolveColor(COLOR_WOOD);
-            fillRect(-2, 0, 4, -20);
+        ctx.wrap(() => {
+            ctx.fillStyle = ctx.resolveColor(COLOR_WOOD);
+            ctx.fillRect(-2, 0, 4, -20);
         });
-        renderChest(this, COLOR_WOOD, CHEST_WIDTH_NAKED);
-        renderHead(this, COLOR_WOOD);
+        ctx.renderChest(this, COLOR_WOOD, CHEST_WIDTH_NAKED);
+        ctx.renderHead(this, COLOR_WOOD);
     }
 
     dash() {}
