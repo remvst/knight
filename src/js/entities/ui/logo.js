@@ -1,11 +1,3 @@
-LOGO_GRADIENT = createCanvas(1, 1, (ctx) => {
-    const grad = ctx.createLinearGradient(0, 0, 0, -150);
-    grad.addColorStop(0, '#888');
-    grad.addColorStop(0.7, '#eee');
-    grad.addColorStop(1, '#888');
-    return grad;
-});
-
 class Logo extends Entity {
     constructor() {
         super();

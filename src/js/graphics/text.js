@@ -1,4 +1,12 @@
-CanvasRenderingContext2D.prototype.renderLargeText = function (bits) {
+LOGO_GRADIENT = createCanvas(1, 1, (ctx) => {
+    const grad = ctx.createLinearGradient(0, 0, 0, -150);
+    grad.addColorStop(0, '#888');
+    grad.addColorStop(0.7, '#eee');
+    grad.addColorStop(1, '#888');
+    return grad;
+});
+
+canvasPrototype.renderLargeText = function (bits) {
     this.textBaseline = 'alphabetic';
     this.textAlign = 'left';
     this.fillStyle = LOGO_GRADIENT;
