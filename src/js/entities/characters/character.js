@@ -283,19 +283,19 @@ class Character extends Entity {
 
         ctx.translate(this.x, this.y);
 
-        if (DEBUG) {
-            // ctx.wrap(() => {
-            //     ctx.lineWidth = 10;
-            //     ctx.strokeStyle = '#f00';
-            //     ctx.globalAlpha = 0.1;
-            //     ctx.beginPath();
-            //     ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
-            //     ctx.stroke();
+        if (DEBUG && DEBUG_CHARACTER_RADII) {
+            ctx.wrap(() => {
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = '#f00';
+                ctx.globalAlpha = 0.1;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.strikeRadiusX, this.strikeRadiusY, 0, 0, TWO_PI);
+                ctx.stroke();
 
-            //     ctx.beginPath();
-            //     ctx.ellipse(0, 0, this.magnetRadiusX, this.magnetRadiusY, 0, 0, TWO_PI);
-            //     ctx.stroke();
-            // });
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.magnetRadiusX, this.magnetRadiusY, 0, 0, TWO_PI);
+                ctx.stroke();
+            });
         }
 
         const orig = ctx.resolveColor || (x => x);
@@ -332,18 +332,33 @@ class Character extends Entity {
             ctx.textAlign = nomangle('center');
             ctx.textBaseline = nomangle('middle');
             ctx.font = nomangle('12pt Courier');
+
+            const bits = [];
+            if (DEBUG_CHARACTER_STATE) {
+                bits.push(...[
+                    nomangle('State: ') + this.stateMachine.state.constructor.name,
+                    nomangle('HP: ') + ~~this.health + '/' + this.maxHealth,
+                ]);
+            }
+            
+            if (DEBUG_CHARACTER_AI) {
+                bits.push(...[
+                    nomangle('AI: ') + this.controller.description,
+                ]);
+            }
+            
+            if (DEBUG_CHARACTER_STATS) {
+                bits.push(...[
+                    nomangle('Speed: ') + this.baseSpeed,
+                    nomangle('Strength: ') + this.strength,
+                    nomangle('Aggro: ') + this.aggression,
+                ]);
+            }
         
             let y = -90;
-            for (const text of [
-                nomangle('State: ') + this.stateMachine.state.constructor.name,
-                nomangle('AI: ') + this.controller.description,
-                nomangle('HP: ') + ~~this.health + '/' + this.maxHealth,
-                nomangle('Speed: ') + this.baseSpeed,
-                nomangle('Strength: ') + this.strength,
-                nomangle('Aggro: ') + this.aggression,
-            ].reverse()) {
-                // ctx.strokeText(text, 0, y);
-                // ctx.fillText(text, 0, y);
+            for (const text of bits.reverse()) {
+                ctx.strokeText(text, 0, y);
+                ctx.fillText(text, 0, y);
 
                 y -= 20;
             }

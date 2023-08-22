@@ -6,10 +6,6 @@ class AggressivityTracker extends Entity {
         this.aggressive = new Set();
     }
 
-    get z() { 
-        return LAYER_PATH + 1;
-    }
-
     requestAggression(enemy) {
         this.cancelAggression(enemy);
 
@@ -32,8 +28,7 @@ class AggressivityTracker extends Entity {
     }
 
     doRender(camera) {
-        if (DEBUG) {
-            return;
+        if (DEBUG && DEBUG_AGGRESSIVITY) {
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 5;

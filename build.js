@@ -43,6 +43,13 @@ const CONSTANTS = {
     "COLOR_ARMORED_ARM": "'#666'",
     "COLOR_ARMOR": "'#ccc'",
     "COLOR_WOOD": "'#634'",
+
+    "DEBUG_AGGRESSIVITY": false,
+    "DEBUG_CHARACTER_RADII": false,
+    "DEBUG_CHARACTER_STATE": false,
+    "DEBUG_CHARACTER_STATS": false,
+    "DEBUG_CHARACTER_AI": false,
+    "DEBUG_PLAYER_MAGNET": false,
 };
 
 function copy(obj) {

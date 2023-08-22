@@ -26,12 +26,6 @@ class Entity {
     }
 
     render() {
-        if (DEBUG) {
-            // ctx.fillStyle = '#f00';
-            // ctx.fillRect(this.x - 1, this.y - 5, 2, 10);
-            // ctx.fillRect(this.x - 5, this.y - 1, 10, 2);
-        }
-
         const camera = firstItem(this.scene.category('camera'));
         if (
             !isBetween(camera.x - CANVAS_WIDTH / 2 - this.renderPadding, this.x, camera.x + CANVAS_WIDTH / 2 + this.renderPadding) ||

@@ -47,28 +47,28 @@ class Player extends Character {
             ctx.fill();
         });
 
-        if (DEBUG) {
-            // ctx.wrap(() => {
-            //     ctx.fillStyle = '#0f0';
-            //     for (let x = this.x - this.magnetRadiusX - 20 ; x < this.x + this.magnetRadiusX + 20 ; x += 4) {
-            //         for (let y = this.y - this.magnetRadiusY - 20 ; y < this.y + this.magnetRadiusY + 20 ; y += 4) {
-            //             ctx.globalAlpha = this.strikability({ x, y }, this.magnetRadiusX, this.magnetRadiusY, PI / 2);
-            //             ctx.fillRect(x - 2, y - 2, 4, 4);
-            //         }
-            //     }
-            // });
-            // ctx.wrap(() => {
-            //     for (const victim of this.scene.category(this.targetTeam)) {
-            //         const strikability = this.strikability(victim, this.magnetRadiusX, this.magnetRadiusY, PI / 2);
-            //         if (!strikability) continue;
-            //         ctx.lineWidth = strikability * 30;
-            //         ctx.strokeStyle = '#ff0';
-            //         ctx.beginPath();
-            //         ctx.moveTo(this.x, this.y);
-            //         ctx.lineTo(victim.x, victim.y);
-            //         ctx.stroke();
-            //     }
-            // });
+        if (DEBUG && DEBUG_PLAYER_MAGNET) {
+            ctx.wrap(() => {
+                ctx.fillStyle = '#0f0';
+                for (let x = this.x - this.magnetRadiusX - 20 ; x < this.x + this.magnetRadiusX + 20 ; x += 4) {
+                    for (let y = this.y - this.magnetRadiusY - 20 ; y < this.y + this.magnetRadiusY + 20 ; y += 4) {
+                        ctx.globalAlpha = this.strikability({ x, y }, this.magnetRadiusX, this.magnetRadiusY, PI / 2);
+                        ctx.fillRect(x - 2, y - 2, 4, 4);
+                    }
+                }
+            });
+            ctx.wrap(() => {
+                for (const victim of this.scene.category(this.targetTeam)) {
+                    const strikability = this.strikability(victim, this.magnetRadiusX, this.magnetRadiusY, PI / 2);
+                    if (!strikability) continue;
+                    ctx.lineWidth = strikability * 30;
+                    ctx.strokeStyle = '#ff0';
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(victim.x, victim.y);
+                    ctx.stroke();
+                }
+            });
         }
 
         super.render();
