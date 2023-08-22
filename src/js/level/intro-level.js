@@ -22,12 +22,11 @@ class IntroLevel extends Level {
 
         const camera = firstItem(scene.category('camera'));
         camera.zoom = 3;
+        camera.cycle(99);
 
         const player = firstItem(scene.category('player'));
         player.health = Number.MAX_SAFE_INTEGER;
         player.setController(new CharacterController());
-
-        camera.cycle(99);
 
         // Respawn when leaving the area
         (async () => {
@@ -56,6 +55,8 @@ class IntroLevel extends Level {
             player.setController(new PlayerController());
             await scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
             await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 2)).await();
+
+            scene.add(new Announcement(nomangle('Prologue')))
 
             // Movement tutorial
             msg.text = nomangle('Use [ARROW KEYS] or [WASD] to move');

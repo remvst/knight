@@ -44,10 +44,13 @@ class GameplayLevel extends Level {
             await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
             fade.remove();
 
+            this.scene.add(new Announcement(nomangle('The Path')));
+
             let nextWaveX = player.x + CANVAS_WIDTH;
-            for (let waveIndex = 0 ; waveIndex < 13 ; waveIndex++) {
+            for (let waveIndex = 1 ; waveIndex <= 13 ; waveIndex++) {
                 await this.scene.waitFor(() => player.x >= nextWaveX);
-                nextWaveX = player.x + CANVAS_WIDTH;
+
+                this.scene.add(new Announcement(nomangle('Wave ') + waveIndex + '/13'));
 
                 const waveEnemies = [];
                 for (let i = 0 ; i < 3 + waveIndex * 0.5 ; i++) {
@@ -64,6 +67,8 @@ class GameplayLevel extends Level {
                 
                 // Regen a bit of health
                 player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
+                
+                nextWaveX = player.x + CANVAS_WIDTH;
             }
             
             // TODO fight the king!

@@ -100,6 +100,7 @@ compiler.run((tasks) => {
                 "src/js/entities/ui/label.js",
                 "src/js/entities/ui/fade.js",
                 "src/js/entities/ui/logo.js",
+                "src/js/entities/ui/announcement.js",
                 "src/js/entities/ui/instruction.js",
                 "src/js/entities/ui/exposition.js",
                 "src/js/entities/ui/pause-overlay.js",
