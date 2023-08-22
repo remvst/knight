@@ -2,6 +2,7 @@ class Announcement extends Entity {
     constructor(text) {
         super();
         this.text = text;
+        this.affectedBySpeedRatio = false;
     }
 
     get z() { 

@@ -47,9 +47,14 @@ class GameplayLevel extends Level {
 
             this.scene.add(new Announcement(nomangle('The Path')));
 
+            const instruction = this.scene.add(new Instruction());
+
             let nextWaveX = player.x + CANVAS_WIDTH;
             for (let waveIndex = 1 ; waveIndex <= 13 ; waveIndex++) {
+                await this.scene.delay(2);
+                instruction.text = nomangle('Follow the path');
                 await this.scene.waitFor(() => player.x >= nextWaveX);
+                instruction.text = '';
 
                 this.scene.add(new Announcement(nomangle('Wave ') + waveIndex + '/13'));
 
@@ -67,6 +72,12 @@ class GameplayLevel extends Level {
                 await Promise.all(waveEnemies.map(enemy => this.scene.waitFor(() => enemy.health <= 0)));
 
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
+                this.scene.speedRatio = 0.1;
+                const camera = firstItem(this.scene.category('camera'));
+                await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 2, 0.2)).await();
+                await this.scene.delay(3 * this.scene.speedRatio);
+                await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
+                this.scene.speedRatio = 1;
                 
                 // Regen a bit of health
                 player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
@@ -80,10 +91,15 @@ class GameplayLevel extends Level {
         // Game over
         (async () => {
             await this.scene.waitFor(() => player.health <= 0);
-            await this.scene.delay(1);
+
+            this.scene.speedRatio = 0.1;
+            this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 5));
+            await this.scene.delay(3 * this.scene.speedRatio);
 
             const fade = this.scene.add(new Fade());
-            await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
+            await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * this.scene.speedRatio)).await();
+
+            this.scene.speedRatio = 1;
 
             const expo = this.scene.add(new Exposition([pick([
                 nomangle('The path to glory is a challenging one.'),
