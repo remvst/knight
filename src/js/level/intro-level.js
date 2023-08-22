@@ -158,10 +158,10 @@ class IntroLevel extends Level {
 
         (async () => {
             const enemy = scene.add(new DummyEnemy());
-            enemy.y = -500;
+            enemy.y = -550;
             enemy.poof();
 
-            const label = scene.add(new Label(nomangle('Skip intro')));
+            const label = scene.add(new Label(nomangle('Skip')));
             label.y = enemy.y - 30;
             label.infinite = true;
 

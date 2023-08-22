@@ -3,6 +3,7 @@ class GameplayLevel extends Level {
         super();
 
         const player = firstItem(this.scene.category('player'));
+        const camera = firstItem(this.scene.category('camera'));
 
         this.scene.add(new PlayerHUD(player));
         this.scene.add(new Path());
@@ -43,17 +44,29 @@ class GameplayLevel extends Level {
             await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
             fade.remove();
 
-            for (let x = CANVAS_WIDTH ; x < CANVAS_WIDTH * 5; x += CANVAS_WIDTH) {
-                await this.scene.waitFor(() => player.x >= x);
+            let nextWaveX = player.x + CANVAS_WIDTH;
+            for (let waveIndex = 0 ; waveIndex < 13 ; waveIndex++) {
+                await this.scene.waitFor(() => player.x >= nextWaveX);
+                nextWaveX = player.x + CANVAS_WIDTH;
 
-                for (let i = 0 ; i < 5 ; i++) {
+                const waveEnemies = [];
+                for (let i = 0 ; i < 3 + waveIndex * 0.5 ; i++) {
                     const enemy = this.scene.add(new (pick(ENEMY_TYPES))());
                     enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
                     enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(20, 50));
 
                     this.scene.add(new CharacterHUD(enemy));
+
+                    waveEnemies.push(enemy);
                 }
+
+                await Promise.all(waveEnemies.map(enemy => this.scene.waitFor(() => enemy.health <= 0)));
+                
+                // Regen a bit of health
+                player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
             }
+            
+            // TODO fight the king!
         })();
 
         // Game over
