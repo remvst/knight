@@ -44,8 +44,8 @@ class IntroLevel extends Level {
 
         (async () => {
             const logo = scene.add(new Logo());
-            logo.x = player.x;
-            logo.y = player.y - CANVAS_HEIGHT / 2;
+            const fade = scene.add(new Fade());
+            await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
 
             const msg = scene.add(new Instruction());
             msg.text = nomangle('[CLICK] to follow the path');
@@ -139,7 +139,6 @@ class IntroLevel extends Level {
             msg.text = '';
             await scene.delay(1);
 
-            const fade = scene.add(new Fade());
             await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
 
             const expo = scene.add(new Exposition([

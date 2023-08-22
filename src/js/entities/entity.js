@@ -51,4 +51,10 @@ class Entity {
     remove() {
         this.scene.remove(this);
     }
+
+    cancelCameraOffset(camera) {
+        ctx.translate(camera.x, camera.y);
+        ctx.scale(1 / camera.zoom, 1 / camera.zoom);
+        ctx.translate(evaluate(-CANVAS_WIDTH / 2), evaluate(-CANVAS_HEIGHT / 2));
+    }
 }

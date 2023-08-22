@@ -30,8 +30,8 @@ const CONSTANTS = {
     "LAYER_ANIMATIONS": aboveLayer++,
     "LAYER_WEATHER": aboveLayer++,
     "LAYER_PLAYER_HUD": aboveLayer++,
-    "LAYER_FADE": aboveLayer++,
     "LAYER_LOGO": aboveLayer++,
+    "LAYER_FADE": aboveLayer++,
     "LAYER_INSTRUCTIONS": aboveLayer++,
 
     "CHEST_WIDTH_ARMORED": 25,
