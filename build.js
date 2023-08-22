@@ -127,7 +127,7 @@ compiler.run((tasks) => {
                 "src/js/level/level.js",
                 "src/js/level/intro-level.js",
                 "src/js/level/gameplay-level.js",
-                "src/js/level/test-level.js",
+                constants.DEBUG ? "src/js/level/test-level.js" : null,
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",
@@ -136,7 +136,7 @@ compiler.run((tasks) => {
             
                 "src/js/scene.js",
                 "src/js/index.js",
-            ]),
+            ].filter(file => !!file)),
             tasks.concat(),
             tasks.constants(constants),
             tasks.macro('evaluate'),
