@@ -3,7 +3,8 @@ class CharacterHUD extends Entity {
         super();
         this.character = character;
 
-        this.gauge = new Gauge(this.character);
+        this.healthGauge = new Gauge(() => this.character.health / this.character.maxHealth);
+        this.staminaGauge = new Gauge(() => this.character.stamina);
     }
 
     get z() { 
@@ -12,7 +13,8 @@ class CharacterHUD extends Entity {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        this.gauge.cycle(elapsed);
+        this.healthGauge.cycle(elapsed);
+        this.staminaGauge.cycle(elapsed);
         if (!this.character.health) this.remove();
     }
 
@@ -22,10 +24,13 @@ class CharacterHUD extends Entity {
             this.character.age - max(this.character.lastStaminaLoss, this.character.lastDamage) > 2
         ) return;
  
-        ctx.shadowColor = '#000';
-        ctx.shadowBlur = 1;
-
-        ctx.translate(this.character.x, this.character.y + 20);
-        this.gauge.render(80, 5);
+        ctx.wrap(() => {
+            ctx.translate(this.character.x, this.character.y + 20);
+            ctx.wrap(() => {
+                ctx.translate(0, 4);
+                this.staminaGauge.render(60, 6, staminaGradient, true);
+            });
+            this.healthGauge.render(80, 5, healthGradient);
+        });
     }
 }

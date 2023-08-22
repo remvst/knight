@@ -13,54 +13,53 @@ staminaGradient = createCanvas(400, 1, (ctx) => {
 });
 
 class Gauge {
-    constructor(character) {
-        this.character = character;
-
-        this.displayedHealth = 1;
-        this.displayedStamina = 1;
+    constructor(getValue) {
+        this.getValue = getValue;
+        this.value = this.displayedValue = 1;
     }
 
     cycle(elapsed) {
-        this.displayedHealth += between(-elapsed * 0.5, (this.character.health / this.character.maxHealth) - this.displayedHealth, elapsed * 0.5);
-        this.displayedStamina += between(-elapsed * 0.5, this.character.stamina - this.displayedStamina, elapsed * 0.5);
+        this.displayedValue += between(-elapsed * 0.5, this.getValue() - this.displayedValue, elapsed * 0.5);
     }
 
-    render(width, height) {
-        function renderStuff(
+    render(width, height, color, half) {
+        function renderGague(
             width,
             height, 
             value,
             color,
         ) {
-            const displayedMaxX = interpolate(-width / 2 + height / 2, width / 2, value);
-            if (value === 0) return;
+            ctx.wrap(() => {
+                const displayedMaxX = interpolate(height / 2, width, value);
+                if (value === 0) return;
 
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(-width / 2, 0);
-            ctx.lineTo(displayedMaxX, 0);
-            ctx.lineTo(displayedMaxX - height / 2, height);
-            ctx.lineTo(-width / 2 + height / 2, height);
-            ctx.fill();
+                ctx.translate(-width / 2, 0);
+
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.lineTo(0, height / 2);
+
+                if (!half) {
+                    ctx.lineTo(height / 2, 0);
+                    ctx.lineTo(displayedMaxX - height / 2, 0);
+                }
+
+                ctx.lineTo(displayedMaxX, height / 2);
+                ctx.lineTo(displayedMaxX - height / 2, height);
+                ctx.lineTo(height / 2, height);
+                ctx.fill();
+            })
         }
 
         ctx.wrap(() => {
-            renderStuff(width + 8, height + 4, 1, '#000');
-            ctx.translate(0, 2);
-            renderStuff(width, height, this.displayedHealth, '#fff');
-            renderStuff(width, height, this.character.health / this.character.maxHealth, healthGradient);
-        });
+            ctx.wrap(() => {
+                ctx.globalAlpha *= 0.5;
+                renderGague(width + 8, height + 4, 1, '#000');
+            });
 
-        ctx.translate(0, height + 2);
-        ctx.shadowBlur = 0;
-
-        ctx.wrap(() => {
-            const staminaWidth = width * 0.75;
-            const staminaHeight = height * 0.25;
-            renderStuff(staminaWidth + 8, staminaHeight + 4, 1, '#000');
             ctx.translate(0, 2);
-            renderStuff(staminaWidth, staminaHeight, this.displayedStamina, '#fff');
-            renderStuff(staminaWidth, staminaHeight, this.character.stamina, staminaGradient);
+            renderGague(width, height, this.displayedValue, '#fff');
+            renderGague(width, height, this.getValue(), color);
         });
     }
 }

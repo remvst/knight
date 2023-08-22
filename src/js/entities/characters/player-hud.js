@@ -3,7 +3,18 @@ class PlayerHUD extends Entity {
         super();
         this.player = player;
 
-        this.gauge = new Gauge(this.player);
+        this.healthGauge = new Gauge(() => this.player.health / this.player.maxHealth);
+        this.staminaGauge = new Gauge(() => this.player.stamina);
+        this.progressGauge = new Gauge(() => this.progress);
+
+        this.progressGauge.displayedValue = 0;
+
+        this.progress = 0;
+        this.progressAlpha = 0;
+
+        this.dummyPlayer = new Player();
+
+        this.affectedBySpeedRatio = false;
     }
 
     get z() { 
@@ -12,21 +23,38 @@ class PlayerHUD extends Entity {
 
     cycle(elapsed) {
         super.cycle(elapsed);
-        this.gauge.cycle(elapsed);
+        this.healthGauge.cycle(elapsed);
+        this.staminaGauge.cycle(elapsed);
+        this.progressGauge.cycle(elapsed);
     }
 
     doRender(camera) {
-        ctx.translate(
-            camera.x - evaluate(CANVAS_WIDTH / 2), 
-            camera.y - evaluate(CANVAS_HEIGHT / 2),
-        );
+        this.cancelCameraOffset(camera);
 
         ctx.wrap(() => {
-            ctx.shadowColor = '#000';
-            ctx.shadowBlur = 2;
+            ctx.translate(CANVAS_WIDTH / 2, 50);
+            ctx.wrap(() => {
+                ctx.translate(0, 10);
+                this.staminaGauge.render(300, 20, staminaGradient, true);
+            });
+            this.healthGauge.render(400, 20, healthGradient);
+        });
+
+        ctx.wrap(() => {
+            ctx.globalAlpha = this.progressAlpha;
+
+            ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT - 150);
+            this.progressGauge.render(600, 10, '#fff');
+
+            ctx.wrap(() => {
+                ctx.translate(interpolate(-300, 300, this.progressGauge.displayedValue), 25 - 5);
+                ctx.scale(0.5, 0.5);
+                ctx.resolveColor = () => '#fff';
     
-            ctx.translate(CANVAS_WIDTH / 2, 30);
-            this.gauge.render(400, 20);
+                ctx.shadowColor = '#000';
+                ctx.shadowBlur = 1;
+                this.dummyPlayer.renderBody();
+            });
         });
 
         if (this.player.combo > 0) {

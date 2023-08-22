@@ -2,17 +2,19 @@ class GameplayLevel extends Level {
     constructor() {
         super();
 
-        const player = firstItem(this.scene.category('player'));
-        const camera = firstItem(this.scene.category('camera'));
+        const { scene } = this;
 
-        this.scene.add(new PlayerHUD(player));
-        this.scene.add(new Path());
+        const player = firstItem(scene.category('player'));
+        const camera = firstItem(scene.category('camera'));
+
+        const playerHUD = scene.add(new PlayerHUD(player));
+        scene.add(new Path());
 
         for (let i = 0 ; i < 15 ; i++) {
             const tree = new Tree();
             tree.x = rnd(-1, 1) * CANVAS_WIDTH / 2;
             tree.y = rnd(-1, 1) * CANVAS_HEIGHT / 2;
-            this.scene.add(tree);
+            scene.add(tree);
         }
 
         for (let i = 0 ; i < 20 ; i++) {
@@ -22,64 +24,71 @@ class GameplayLevel extends Level {
             water.rotation = random() * TWO_PI;
             water.x = random() * CANVAS_WIDTH * 5;
             water.y = random() * CANVAS_HEIGHT * 5;
-            this.scene.add(water);
+            scene.add(water);
         }
 
         // Respawn when far from the path
         (async () => {
             while (true) {
-                await this.scene.waitFor(() => abs(player.y - this.scene.pathCurve(player.x)) > 1000);
+                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 1000);
 
-                const fade = this.scene.add(new Fade());
-                await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
-                player.y = this.scene.pathCurve(player.x);
+                const fade = scene.add(new Fade());
+                await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
+                player.y = scene.pathCurve(player.x);
                 camera.cycle(999);
-                await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
+                await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
                 fade.remove();
             }
         })();
 
         // Scenario
         (async () => {
-            const fade = this.scene.add(new Fade());
-            await this.scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
+            const fade = scene.add(new Fade());
+            await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
             fade.remove();
 
-            this.scene.add(new Announcement(nomangle('The Path')));
-
-            const instruction = this.scene.add(new Instruction());
+            scene.add(new Announcement(nomangle('The Path')));
+            await scene.delay(2);
 
             let nextWaveX = player.x + CANVAS_WIDTH;
             for (let waveIndex = 1 ; waveIndex <= 13 ; waveIndex++) {
-                await this.scene.delay(2);
-                instruction.text = nomangle('Follow the path');
-                await this.scene.waitFor(() => player.x >= nextWaveX);
-                instruction.text = '';
+                // Show progress
+                (async () => {
+                    await scene.delay(1);
+                    await scene.add(new Interpolator(playerHUD, 'progressAlpha', 0, 1, 1)).await();
+                    await scene.add(new Interpolator(playerHUD, 'progress', playerHUD.progress, waveIndex / 13, 1)).await();
+                    await scene.delay(2);
+                    await scene.add(new Interpolator(playerHUD, 'progressAlpha', 1, 0, 1)).await();
+                })();
+
+                await scene.waitFor(() => player.x >= nextWaveX);
 
                 this.scene.add(new Announcement(nomangle('Wave ') + waveIndex + '/13'));
 
                 const waveEnemies = [];
                 for (let i = 0 ; i < 3 + waveIndex * 0.5 ; i++) {
-                    const enemy = this.scene.add(new (pick(ENEMY_TYPES))());
+                    const enemy = scene.add(new (pick(ENEMY_TYPES))());
                     enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
                     enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(20, 50));
 
-                    this.scene.add(new CharacterHUD(enemy));
+                    scene.add(new CharacterHUD(enemy));
 
                     waveEnemies.push(enemy);
+                    break;
                 }
 
-                await Promise.all(waveEnemies.map(enemy => this.scene.waitFor(() => enemy.health <= 0)));
+                await Promise.all(waveEnemies.map(enemy => scene.waitFor(() => enemy.health <= 0)));
+
+                // Slomo effect
+                player.affectedBySpeedRatio = true;
+                scene.speedRatio = 0.1;
+                scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 3));
+                await scene.delay(3 * scene.speedRatio);
+                await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
+                scene.speedRatio = 1;
+                player.affectedBySpeedRatio = false;
 
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
-
-                player.affectedBySpeedRatio = true;
-                this.scene.speedRatio = 0.1;
-                this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 3));
-                await this.scene.delay(3 * this.scene.speedRatio);
-                await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
-                this.scene.speedRatio = 1;
-                player.affectedBySpeedRatio = false;
                 
                 // Regen a bit of health
                 player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
@@ -92,18 +101,18 @@ class GameplayLevel extends Level {
 
         // Game over
         (async () => {
-            await this.scene.waitFor(() => player.health <= 0);
+            await scene.waitFor(() => player.health <= 0);
 
-            this.scene.speedRatio = 0.1;
-            this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 5));
-            await this.scene.delay(3 * this.scene.speedRatio);
+            scene.speedRatio = 0.1;
+            scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 5));
+            await scene.delay(3 * scene.speedRatio);
 
-            const fade = this.scene.add(new Fade());
-            await this.scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * this.scene.speedRatio)).await();
+            const fade = scene.add(new Fade());
+            await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
 
-            this.scene.speedRatio = 1;
+            scene.speedRatio = 1;
 
-            const expo = this.scene.add(new Exposition([pick([
+            const expo = scene.add(new Exposition([pick([
                 nomangle('The path to glory is a challenging one.'),
                 nomangle('Giving up was never an option.'),
                 nomangle('His first attempts weren\'t successful.'),
@@ -111,8 +120,8 @@ class GameplayLevel extends Level {
                 nomangle('Many followed his footsteps.'),
             ])]));
 
-            await this.scene.delay(3);
-            await this.scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
+            await scene.delay(3);
+            await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
             level = new GameplayLevel();
         })();

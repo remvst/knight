@@ -38,7 +38,7 @@ canvasPrototype.renderLargeText = function (bits) {
     return x;
 };
 
-CanvasRenderingContext2D.prototype.renderInstruction = function(text) {
+canvasPrototype.renderInstruction = function(text) {
     this.textBaseline = nomangle('middle');
     this.textAlign = nomangle('center');
     this.strokeStyle = '#000';

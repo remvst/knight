@@ -15,10 +15,10 @@ class Entity {
     }
 
     get inWater() {
+        if (!this.scene) return;
         for (const water of this.scene.category('water')) {
             if (water.contains(this)) return true;
         }
-        return false;
     }
 
     cycle(elapsed) {
