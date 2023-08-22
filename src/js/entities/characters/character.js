@@ -15,7 +15,7 @@ class Character extends Entity {
         this.lastComboChangeReason = '';
 
         this.stamina = 1;
-        this.lastStaminaLoss = 0;
+        this.lastStaminaLoss = -9;
 
         this.baseSpeed = 200;
 
