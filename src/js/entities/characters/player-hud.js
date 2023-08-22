@@ -18,14 +18,17 @@ class PlayerHUD extends Entity {
     doRender(camera) {
         ctx.translate(camera.x - CANVAS_WIDTH / 2, camera.y - CANVAS_HEIGHT / 2);
 
-        ctx.shadowColor = '#000';
-        ctx.shadowOffsetX = ctx.shadowOffsetY = 2;
-
-        ctx.wrap(() => this.gauge.render(40, 30, 400, 30));
+        ctx.wrap(() => {
+            ctx.shadowColor = '#000';
+            ctx.shadowBlur = 2;
+    
+            ctx.translate(CANVAS_WIDTH / 2, 30);
+            this.gauge.render(400, 20);
+        });
 
         if (this.player.combo > 0) {
             ctx.wrap(() => {
-                ctx.translate(420, 80);
+                ctx.translate(CANVAS_WIDTH / 2 + 200, 70);
 
                 ctx.fillStyle = '#fff';
                 ctx.strokeStyle = '#000';

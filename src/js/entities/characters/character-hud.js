@@ -23,8 +23,9 @@ class CharacterHUD extends Entity {
         ) return;
  
         ctx.shadowColor = '#000';
-        ctx.shadowBlur = 3;
+        ctx.shadowBlur = 1;
 
-        this.gauge.render(this.character.x - 50, this.character.y + 20, 100, 15);
+        ctx.translate(this.character.x, this.character.y + 20);
+        this.gauge.render(80, 5);
     }
 }

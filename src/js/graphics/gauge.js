@@ -1,3 +1,17 @@
+healthGradient = createCanvas(400, 1, (ctx) => {
+    const grad = ctx.createLinearGradient(-200, 0, 200, 0);
+    grad.addColorStop(0, '#900');
+    grad.addColorStop(1, '#f44');
+    return grad;
+});
+
+staminaGradient = createCanvas(400, 1, (ctx) => {
+    const grad = ctx.createLinearGradient(-200, 0, 200, 0);
+    grad.addColorStop(0, '#07f');
+    grad.addColorStop(1, '#0ef');
+    return grad;
+});
+
 class Gauge {
     constructor(character) {
         this.character = character;
@@ -11,44 +25,42 @@ class Gauge {
         this.displayedStamina += between(-elapsed * 0.5, this.character.stamina - this.displayedStamina, elapsed * 0.5);
     }
 
-    render(x, y, width, height, character) {
-        ctx.translate(x, y);
+    render(width, height) {
+        function renderStuff(
+            width,
+            height, 
+            value,
+            color,
+        ) {
+            const displayedMaxX = interpolate(-width / 2 + height / 2, width / 2, value);
+            if (value === 0) return;
 
-        // Background      
-        ctx.fillStyle = '#000';
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(width, 0);
-        ctx.lineTo(width - height / 2, height);
-        ctx.lineTo(0, height);
-        ctx.fill();
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(-width / 2, 0);
+            ctx.lineTo(displayedMaxX, 0);
+            ctx.lineTo(displayedMaxX - height / 2, height);
+            ctx.lineTo(-width / 2 + height / 2, height);
+            ctx.fill();
+        }
 
         ctx.wrap(() => {
-            ctx.shadowOffsetX = ctx.shadowOffsetY = ctx.shadowBlur = 0;
-            ctx.clip();
-
-            // Health change
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, 0, width * this.displayedHealth, height * 0.8 - 2);
-
-            // Actual health
-            ctx.fillStyle = '#900';
-            ctx.fillRect(0, 0, width * this.character.health / this.character.maxHealth, height * 0.8 - 2);
-
-            // Stamina change
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(0, height, width * this.displayedStamina, height * -0.2);
-
-            // Actual stamina
-            ctx.fillStyle = '#0ef';
-            ctx.fillRect(0, height, width * this.character.stamina, height * -0.2);
+            renderStuff(width + 8, height + 4, 1, '#000');
+            ctx.translate(0, 2);
+            renderStuff(width, height, this.displayedHealth, '#fff');
+            renderStuff(width, height, this.character.health / this.character.maxHealth, healthGradient);
         });
 
-        ctx.shadowOffsetX = ctx.shadowOffsetY = 2 * height / 30;
+        ctx.translate(0, height + 2);
         ctx.shadowBlur = 0;
-        ctx.translate(0, (height - 10) / 2);
-        ctx.scale(height / 30, height / 30);
-        ctx.scale(1.5, 1.5);
-        ctx.renderShield();
+
+        ctx.wrap(() => {
+            const staminaWidth = width * 0.75;
+            const staminaHeight = height * 0.25;
+            renderStuff(staminaWidth + 8, staminaHeight + 4, 1, '#000');
+            ctx.translate(0, 2);
+            renderStuff(staminaWidth, staminaHeight, this.displayedStamina, '#fff');
+            renderStuff(staminaWidth, staminaHeight, this.character.stamina, staminaGradient);
+        });
     }
 }

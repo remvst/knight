@@ -3,9 +3,9 @@ class TestLevel extends Level {
         super();
 
         const player = firstItem(this.scene.category('player'));
-        // this.scene.add(new PlayerHUD(player));
+        this.scene.add(new PlayerHUD(player));
 
-        player.health = player.maxHealth = Number.MAX_SAFE_INTEGER;
+        // player.health = player.maxHealth = Number.MAX_SAFE_INTEGER;
 
         this.scene.add(new Path())
 
@@ -22,6 +22,8 @@ class TestLevel extends Level {
             enemy.x = cos(r * TWO_PI) * 400;
             enemy.y = sin(r * TWO_PI) * 400;
             enemy.poof();
+
+            this.scene.add(new CharacterHUD(enemy));
         }
 
         for (let i = 0 ; i < 20 ; i++) {
