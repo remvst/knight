@@ -183,7 +183,6 @@ class GameplayLevel extends Level {
                 nomangle('Failing never affected his will, only his score.'),
                 nomangle('Giving up was never an option.'),
                 nomangle('His first attempts weren\'t successful.'),
-                nomangle('He did not reach the King until after several attempts.'),
                 nomangle('After licking his wounds, he resumed his quest.'),
             ])]));
 
