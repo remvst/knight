@@ -63,7 +63,7 @@ class GameplayLevel extends Level {
 
                 await scene.waitFor(() => player.x >= nextWaveX);
 
-                this.scene.add(new Announcement(nomangle('Wave ') + waveIndex + '/13'));
+                this.scene.add(new Announcement(nomangle('Wave ') + waveIndex));
 
                 const waveEnemies = [];
                 const enemyTypes = ENEMY_TYPES.slice(0, 1 + waveIndex / 2);

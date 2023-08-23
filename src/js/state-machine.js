@@ -115,7 +115,7 @@ characterStateMachine = ({
             this.dashAngle = entity.controls.angle;
 
             entity.dash(entity.controls.angle, PLAYER_DASH_DISTANCE, PLAYER_DASH_DURATION);
-            entity.loseStamina(0.15);
+            // entity.loseStamina(0.15);
         }
 
         cycle(elapsed) {
