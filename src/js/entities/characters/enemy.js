@@ -168,6 +168,7 @@ AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
 
 WAVE_SETTINGS = [
     [StickEnemy, AxeEnemy, SwordEnemy],
+    [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy],
     [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy],
     [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy, AxeShieldArmorEnemy, SwordShieldArmorEnemy],
     [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy, AxeShieldArmorEnemy, SwordShieldArmorEnemy, SwordShieldTankEnemy, AxeShieldTankEnemy],
