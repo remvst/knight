@@ -30,7 +30,7 @@ class GameplayLevel extends Level {
         // Respawn when far from the path
         (async () => {
             while (true) {
-                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 1000);
+                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 800);
 
                 const fade = scene.add(new Fade());
                 await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
@@ -114,11 +114,11 @@ class GameplayLevel extends Level {
             king.y = scene.pathCurve(king.x);
             scene.add(new CharacterHUD(king));
 
-            await scene.waitFor(() => king.x - player.x < 100);
+            await scene.waitFor(() => king.x - player.x < 400);
             await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
 
             // Make sure the player is near the king
-            player.x = king.x - 500;
+            player.x = king.x - 400;
             player.y = scene.pathCurve(player.x);
 
             const expo = scene.add(new Exposition([
@@ -162,9 +162,7 @@ class GameplayLevel extends Level {
         (async () => {
             await scene.waitFor(() => player.health <= 0);
 
-            scene.speedRatio = 0.1;
-            scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 5));
-            await scene.delay(3 * scene.speedRatio);
+            slowMo();
 
             const fade = scene.add(new Fade());
             await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
