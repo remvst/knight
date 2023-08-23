@@ -11,7 +11,7 @@ onload = () => {
 
 let lastFrame = performance.now();
 
-const level = new IntroLevel();
+const level = new GameplayLevel(0);
 
 frame = () => {
     const current = performance.now();

@@ -5,7 +5,11 @@ class GameplayLevel extends Level {
         const { scene } = this;
 
         const player = firstItem(scene.category('player'));
+        player.x = waveIndex * CANVAS_WIDTH;
+        player.y = scene.pathCurve(player.x);
+
         const camera = firstItem(scene.category('camera'));
+        camera.cycle(99);
 
         const playerHUD = scene.add(new PlayerHUD(player));
         scene.add(new Path());
@@ -35,7 +39,7 @@ class GameplayLevel extends Level {
                 const fade = scene.add(new Fade());
                 await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
                 player.y = scene.pathCurve(player.x);
-                camera.cycle(999);
+                camera.cycle(99);
                 await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
                 fade.remove();
             }
