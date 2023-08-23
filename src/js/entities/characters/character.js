@@ -7,30 +7,25 @@ class Character extends Entity {
 
         this.facing = 1;
 
-        this.health = 100;
-        this.maxHealth = 100;
+        this.health = this.maxHealth = 100;
 
         this.combo = 0;
-        this.lastComboChange = 0;
-        this.lastComboChangeReason = '';
 
         this.stamina = 1;
-        this.lastStaminaLoss = -9;
+
+        this.lastDamage = this.lastStaminaLoss = this.lastComboChange = -9;
 
         this.baseSpeed = 200;
 
         this.strikeRadiusX = 80;
         this.strikeRadiusY = 40;
 
-        this.magnetRadiusX = 0;
-        this.magnetRadiusY = 0;
+        this.magnetRadiusX = this.magnetRadiusY = 0;
 
         this.collisionRadius = 30;
 
-        this.lastDamage = -9;
         this.strength = 100;
-        this.damageCount = 0;
-        this.parryCount = 0;
+        this.damageCount = this.parryCount = 0;
 
         this.setController(this.ai);
 
@@ -39,10 +34,10 @@ class Character extends Entity {
         this.controls = {
             'force': 0,
             'angle': 0,
-            'shield': false,
-            'attack': false,
+            // 'shield': false,
+            // 'attack': false,
             'aim': {'x': 0, 'y': 0},
-            'dash': false,
+            // 'dash': false,
         };
 
         this.stateMachine = characterStateMachine({
@@ -51,8 +46,7 @@ class Character extends Entity {
     }
 
     setController(controller) {
-        this.controller = controller;
-        this.controller.start(this);
+        (this.controller = controller).start(this);
     }
 
     get ai() {
@@ -101,10 +95,9 @@ class Character extends Entity {
         }
     }
 
-    updateCombo(value, reason) {
+    updateCombo(value) {
         this.combo = max(0, this.combo + value);
         this.lastComboChange = this.age;
-        this.lastComboChangeReason = reason.toUpperCase();
     }
 
     isStrikable(character, radiusX, radiusY) {
@@ -189,7 +182,7 @@ class Character extends Entity {
                 if (victim.stateMachine.state.perfectParry) {
                     // Perfect parry, victim gets stamina back, we lose ours
                     victim.stamina = 1;
-                    victim.updateCombo(1, nomangle('Perfect Block!'));
+                    victim.updateCombo(1);
                     victim.displayLabel(nomangle('Perfect Block!'));
 
                     const animation = this.scene.add(new PerfectParry());
@@ -215,8 +208,6 @@ class Character extends Entity {
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(relativeStrength * 0.2);
-
-                    // victim.updateCombo(1, nomangle('Parry'));
                     victim.displayLabel(nomangle('Blocked!'));
                 
                     const animation = this.scene.add(new ShieldBlock());
@@ -227,7 +218,7 @@ class Character extends Entity {
                 victim.damage(this.strength * relativeStrength);
                 victim.dash(angle, this.strength * relativeStrength, 0.1);
 
-                this.updateCombo(1, nomangle('Hit'));
+                this.updateCombo(1);
 
                 const impactX = victim.x + rnd(-20, 20);
                 const impactY = victim.y - 30 + rnd(-20, 20);
