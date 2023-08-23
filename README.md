@@ -20,12 +20,8 @@ make
 
 ## TODO
 
-- king
-- balance enemy waves
-- gameplay level
 - SFX
 - gamepad controls
-- score
 
 ## Ideas
 
