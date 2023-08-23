@@ -91,7 +91,13 @@ class GameplayLevel extends Level {
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
                 
                 // Regen a bit of health
-                player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
+                scene.add(new Interpolator(
+                    player, 
+                    'health', 
+                    player.health, 
+                    min(player.maxHealth, player.health + 0.5), 
+                    1,
+                ));
 
                 nextWaveX = player.x + CANVAS_WIDTH;
             }
