@@ -154,17 +154,19 @@ AxeEnemy = createEnemyType({ ...axe, });
 SwordEnemy = createEnemyType({ ...sword, });
 AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
 SwordArmorEnemy = createEnemyType({ ...sword, ...armor, });
+AxeArmorEnemy = createEnemyType({ ...axe, ...armor, });
 SwordShieldArmorEnemy = createEnemyType({ ...sword, ...shield, ...armor, });
 SwordShieldTankEnemy = createEnemyType({ ...sword,  ...shield, ...superArmor, });
 AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
 
 ENEMY_TYPES = [
-    AxeShieldTankEnemy,
-    AxeShieldArmorEnemy,
     StickEnemy,
-    AxeEnemy,
     SwordEnemy,
     SwordArmorEnemy,
+    AxeEnemy,
+    AxeArmorEnemy,
     SwordShieldArmorEnemy,
     SwordShieldTankEnemy,
+    AxeShieldTankEnemy,
+    AxeShieldArmorEnemy,
 ];

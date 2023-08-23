@@ -66,8 +66,9 @@ class GameplayLevel extends Level {
                 this.scene.add(new Announcement(nomangle('Wave ') + waveIndex + '/13'));
 
                 const waveEnemies = [];
+                const enemyTypes = ENEMY_TYPES.slice(0, 1 + waveIndex / 2);
                 for (let i = 0 ; i < 3 + waveIndex * 0.5 ; i++) {
-                    const enemy = scene.add(new (pick(ENEMY_TYPES))());
+                    const enemy = scene.add(new (pick(enemyTypes))());
                     enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
                     enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(20, 50));
 
