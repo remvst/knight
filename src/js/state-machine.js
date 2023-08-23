@@ -197,15 +197,16 @@ characterStateMachine = ({
                 this.anim.toAngle = this.swordRaiseRatio;
             }
 
-            if (controls.attack) {
-                this.didTryToAttackAgain = true;
-            }
+            if (controls.attack) this.didTryToAttackAgain = true;
+            if (controls.dash) this.didTryToDash = true;
 
             if (this.age > 0.15) {
                 entity.strike(attackDamagePattern[this.counter]);
 
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
-                    if (this.didTryToAttackAgain) {
+                    if (this.didTryToDash) {
+                        stateMachine.transitionToState(new Dashing());    
+                    } else if (this.didTryToAttackAgain) {
                         stateMachine.transitionToState(new Charging(this.counter + 1));    
                     } else {
                         stateMachine.transitionToState(new LightRecover(this.counter));
@@ -244,6 +245,8 @@ characterStateMachine = ({
                 stateMachine.transitionToState(new Charging(this.counter + 1));
             } else if (controls.shield) {
                 stateMachine.transitionToState(new Shielding());
+            } else if (controls.dash) {
+                stateMachine.transitionToState(new Dashing());
             }
         }
     }
