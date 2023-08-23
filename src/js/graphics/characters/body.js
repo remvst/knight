@@ -110,6 +110,23 @@ canvasPrototype.renderHead = function(entity, color, slitColor = null) {
     });
 }
 
+canvasPrototype.renderCrown = function(entity) {
+    this.wrap(() => {
+        this.fillStyle = this.resolveColor('#ff0');
+        this.translate(0, -70);
+
+        this.beginPath();
+        this.lineTo(-8, 0);
+        this.lineTo(-4, 6);
+        this.lineTo(0, 0);
+        this.lineTo(4, 6);
+        this.lineTo(8, 0);
+        this.lineTo(8, 12);
+        this.lineTo(-8, 12);
+        this.fill();
+    });
+}
+
 canvasPrototype.renderStick = function() {
     this.fillStyle = this.resolveColor('#444');
     this.fillRect(-3, 10, 6, -40);

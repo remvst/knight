@@ -28,7 +28,6 @@ class Character extends Entity {
         this.collisionRadius = 30;
 
         this.lastDamage = -9;
-        this.damageTakenRatio = 1;
         this.strength = 100;
         this.damageCount = 0;
         this.parryCount = 0;

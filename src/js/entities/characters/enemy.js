@@ -1,96 +1,24 @@
-toRatio = (...valuesAndWeights) => {
-    let totalWeight = 0;
-    let weight = 0;
-    for (let i = 0 ; i < valuesAndWeights.length ; i++) {
-        weight += !!valuesAndWeights[i++];
-        totalWeight += valuesAndWeights[i];
+class Enemy extends Character {
+
+    constructor() {
+        super();
+        this.categories.push('enemy');
+        this.targetTeam = 'player';
     }
-    return weight / totalWeight;
+
+    remove() {
+        super.remove();
+
+        // Cancel any remaining aggression
+        firstItem(this.scene.category('aggressivity-tracker'))
+            .cancelAggression(this);
+    }
 }
 
-createEnemyType = ({
-    stick, sword, axe,
-    shield, armor, superArmor,
+createEnemyAI = ({
+    shield, 
     attackCount,
 }) => {
-    class EnemyType extends Character {
-        constructor() {
-            super();
-            this.categories.push('enemy');
-            this.targetTeam = 'player';
-
-            this.aggression = 1;
-            if (sword) this.aggression += 1;
-            if (axe) this.aggression += 2;
-
-            let weight = 0;
-            if (armor) weight += 0.2;
-            if (superArmor) weight += 0.3;
-            if (axe) weight += 0.1;
-            if (sword) weight += 0.3;
-            if (shield) weight += 0.3;
-
-            let protection = 0;
-            if (shield) protection += 0.3;
-            if (armor) protection += 0.5;
-            if (superArmor) protection += 0.7;
-
-            this.health = this.maxHealth = ~~interpolate(100, 400, protection);
-            this.strength = axe ? 40 : (sword ? 30 : 10);
-            this.baseSpeed = interpolate(120, 50, weight);
-    
-            if (stick) this.gibs.push(() => ctx.renderStick());
-            if (sword) this.gibs.push(() => ctx.renderSword());
-            if (shield) this.gibs.push(() => ctx.renderShield());
-            if (axe) this.gibs.push(() => ctx.renderAxe());
-    
-            this.stateMachine = characterStateMachine({
-                entity: this, 
-                chargeTime: 0.5,
-                staggerTime: (1 - protection) * 0.3,
-            });
-        }
-
-        get ai() {
-            return new EnemyTypeAI(this);
-        }
-
-        remove() {
-            super.remove();
-
-            // Cancel any remaining aggression
-            firstItem(this.scene.category('aggressivity-tracker'))
-                .cancelAggression(this);
-        }
-    
-        renderBody() {
-            ctx.renderAttackIndicator(this);
-            ctx.renderLegs(this, COLOR_LEGS);
-            ctx.renderArm(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN, () => {
-                if (stick) ctx.renderStick(this)
-                if (sword) ctx.renderSword(this);
-                if (axe) ctx.renderAxe(this);
-            });
-            ctx.renderChest(
-                this, 
-                armor 
-                    ? COLOR_ARMOR 
-                    : (superArmor ? '#444' : COLOR_SKIN), 
-                CHEST_WIDTH_NAKED,
-            );
-
-            ctx.renderHead(
-                this, 
-                superArmor ? '#666' : COLOR_SKIN, 
-                superArmor ? '#000' : COLOR_SKIN,
-            );
-
-            if (shield) ctx.renderArmAndShield(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN);
-            ctx.renderExhaustion(this, -70);
-            ctx.renderExclamation(this);
-        }
-    }
-
     class EnemyTypeAI extends EnemyAI {
         async doStart() {
             while (true) {
@@ -139,6 +67,84 @@ createEnemyType = ({
         }
     }
 
+    return EnemyTypeAI;
+}
+
+createEnemyType = ({
+    stick, sword, axe,
+    shield, armor, superArmor,
+    attackCount,
+}) => {
+    const ai = createEnemyAI({ shield, attackCount });
+
+    class EnemyType extends Enemy {
+        constructor() {
+            super();
+
+            this.aggression = 1;
+            if (sword) this.aggression += 1;
+            if (axe) this.aggression += 2;
+
+            let weight = 0;
+            if (armor) weight += 0.2;
+            if (superArmor) weight += 0.3;
+            if (axe) weight += 0.1;
+            if (sword) weight += 0.3;
+            if (shield) weight += 0.3;
+
+            let protection = 0;
+            if (shield) protection += 0.3;
+            if (armor) protection += 0.5;
+            if (superArmor) protection += 0.7;
+
+            this.health = this.maxHealth = ~~interpolate(100, 400, protection);
+            this.strength = axe ? 40 : (sword ? 30 : 10);
+            this.baseSpeed = interpolate(120, 50, weight);
+    
+            if (stick) this.gibs.push(() => ctx.renderStick());
+            if (sword) this.gibs.push(() => ctx.renderSword());
+            if (shield) this.gibs.push(() => ctx.renderShield());
+            if (axe) this.gibs.push(() => ctx.renderAxe());
+    
+            this.stateMachine = characterStateMachine({
+                entity: this, 
+                chargeTime: 0.5,
+                staggerTime: (1 - protection) * 0.3,
+            });
+        }
+
+        get ai() {
+            return new ai(this);
+        }
+    
+        renderBody() {
+            ctx.renderAttackIndicator(this);
+            ctx.renderLegs(this, COLOR_LEGS);
+            ctx.renderArm(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN, () => {
+                if (stick) ctx.renderStick(this)
+                if (sword) ctx.renderSword(this);
+                if (axe) ctx.renderAxe(this);
+            });
+            ctx.renderChest(
+                this, 
+                armor 
+                    ? COLOR_ARMOR 
+                    : (superArmor ? '#444' : COLOR_SKIN), 
+                CHEST_WIDTH_NAKED,
+            );
+
+            ctx.renderHead(
+                this, 
+                superArmor ? '#666' : COLOR_SKIN, 
+                superArmor ? '#000' : COLOR_SKIN,
+            );
+
+            if (shield) ctx.renderArmAndShield(this, armor || superArmor ? COLOR_LEGS : COLOR_SKIN);
+            ctx.renderExhaustion(this, -70);
+            ctx.renderExclamation(this);
+        }
+    }
+
     return EnemyType;
 };
 
@@ -172,16 +178,4 @@ WAVE_SETTINGS = [
     [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy],
     [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy, AxeShieldArmorEnemy, SwordShieldArmorEnemy],
     [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy, AxeShieldArmorEnemy, SwordShieldArmorEnemy, SwordShieldTankEnemy, AxeShieldTankEnemy],
-];
-
-ENEMY_TYPES = [
-    StickEnemy,
-    SwordEnemy,
-    SwordArmorEnemy,
-    AxeEnemy,
-    AxeArmorEnemy,
-    SwordShieldArmorEnemy,
-    SwordShieldTankEnemy,
-    AxeShieldTankEnemy,
-    AxeShieldArmorEnemy,
 ];

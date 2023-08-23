@@ -1,5 +1,5 @@
 class GameplayLevel extends Level {
-    constructor() {
+    constructor(waveIndex = 0) {
         super();
 
         const { scene } = this;
@@ -41,17 +41,36 @@ class GameplayLevel extends Level {
             }
         })();
 
+        async function slowMo() {
+            player.affectedBySpeedRatio = true;
+            scene.speedRatio = 0.1;
+            scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 3));
+            await scene.delay(3 * scene.speedRatio);
+            await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
+            scene.speedRatio = 1;
+            player.affectedBySpeedRatio = false;
+        }
+
+        function spawnWave(enemyCount, enemyTypes) {
+            return Array.apply(null, Array(enemyCount)).map(() => {
+                const enemy = scene.add(new (pick(enemyTypes))());
+                enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
+                enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(50, 100));
+                scene.add(new CharacterHUD(enemy));
+                return enemy
+            });
+        }
+
         // Scenario
         (async () => {
             const fade = scene.add(new Fade());
             await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
-            fade.remove();
 
             scene.add(new Announcement(nomangle('The Path')));
             await scene.delay(2);
 
             let nextWaveX = player.x + CANVAS_WIDTH;
-            for (let waveIndex = 0 ; waveIndex < 13 ; waveIndex++) {
+            for ( ; waveIndex < 13 ; waveIndex++) {
                 // Show progress
                 (async () => {
                     await scene.delay(1);
@@ -65,28 +84,14 @@ class GameplayLevel extends Level {
 
                 this.scene.add(new Announcement(nomangle('Wave ') + (waveIndex + 1)));
 
-                const waveEnemies = [];
-                const enemyTypes = WAVE_SETTINGS[min(WAVE_SETTINGS.length - 1, waveIndex)];
-                for (let i = 0 ; i < 3 + waveIndex * 0.5 ; i++) {
-                    const enemy = scene.add(new (pick(enemyTypes))());
-                    enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
-                    enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(50, 100));
+                const waveEnemies = spawnWave(
+                    ~~(3 + waveIndex * 0.5),
+                    WAVE_SETTINGS[min(WAVE_SETTINGS.length - 1, waveIndex)],
+                );
 
-                    scene.add(new CharacterHUD(enemy));
-
-                    waveEnemies.push(enemy);
-                }
-
+                // Wait until all enemies are defeated
                 await Promise.all(waveEnemies.map(enemy => scene.waitFor(() => enemy.health <= 0)));
-
-                // Slomo effect
-                player.affectedBySpeedRatio = true;
-                scene.speedRatio = 0.1;
-                scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 3));
-                await scene.delay(3 * scene.speedRatio);
-                await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
-                scene.speedRatio = 1;
-                player.affectedBySpeedRatio = false;
+                slowMo();
 
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
                 
@@ -101,8 +106,56 @@ class GameplayLevel extends Level {
 
                 nextWaveX = player.x + CANVAS_WIDTH;
             }
-            
-            // TODO fight the king!
+
+            // Last wave, reach the king
+            await scene.waitFor(() => player.x >= nextWaveX);
+            const king = scene.add(new KingEnemy());
+            king.x = camera.x + CANVAS_WIDTH + 50;
+            king.y = scene.pathCurve(king.x);
+            scene.add(new CharacterHUD(king));
+
+            await scene.waitFor(() => king.x - player.x < 100);
+            await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
+
+            // Make sure the player is near the king
+            player.x = king.x - 500;
+            player.y = scene.pathCurve(player.x);
+
+            const expo = scene.add(new Exposition([
+                nomangle('At last, he faced the emperor.'),
+            ]));
+
+            await scene.delay(3);
+            await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
+            await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
+
+            // Give the king an AI so they can start fighting
+            const aiType = createEnemyAI({
+                shield: true, 
+                attackCount: 3,
+            });
+            king.setController(new aiType());
+
+            // Spawn some mobs
+            spawnWave(5, WAVE_SETTINGS[WAVE_SETTINGS.length - 1]);
+
+            await scene.waitFor(() => king.health <= 0);
+
+            // Final slomo
+            await slowMo();
+            await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
+
+            // Congrats screen
+            const finalExpo = scene.add(new Exposition([
+                nomangle('After an epic fight, the emperor was defeated.'),
+                nomangle('Our hero\'s quest was complete.'),
+            ]));
+            await scene.add(new Interpolator(finalExpo, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
+            await scene.delay(6 * scene.speedRatio);
+            await scene.add(new Interpolator(finalExpo, 'alpha', 1, 0, 2 * scene.speedRatio)).await();
+
+            // Back to intro
+            level = new IntroLevel();
         })();
 
         // Game over
@@ -129,7 +182,8 @@ class GameplayLevel extends Level {
             await scene.delay(3);
             await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
-            level = new GameplayLevel();
+            // Start a level where we left off
+            level = new GameplayLevel(waveIndex);
         })();
     }
 }
