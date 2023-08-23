@@ -89,7 +89,7 @@ class GameplayLevel extends Level {
                 this.scene.add(new Announcement(nomangle('Wave ') + (waveIndex + 1)));
 
                 const waveEnemies = spawnWave(
-                    ~~(3 + waveIndex * 0.5),
+                    3 + waveIndex,
                     WAVE_SETTINGS[min(WAVE_SETTINGS.length - 1, waveIndex)],
                 );
 
