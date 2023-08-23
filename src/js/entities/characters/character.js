@@ -247,10 +247,10 @@ class Character extends Entity {
         }
     }
 
-    displayLabel(text) {
+    displayLabel(text, color) {
         if (this.lastLabel) this.lastLabel.remove();
 
-        this.lastLabel = new Label(text);
+        this.lastLabel = new Label(text, color);
         this.lastLabel.x = this.x;
         this.lastLabel.y = this.y - 90;
         this.scene.add(this.lastLabel);
@@ -268,7 +268,7 @@ class Character extends Entity {
 
         if (!this.stateMachine.state.exhausted) this.loseStamina(amount / this.maxHealth * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
-        this.displayLabel('-' + amount);
+        this.displayLabel('-' + amount, this.damageLabelColor);
 
         // Death
         if (this.health <= 0) this.die();
@@ -406,7 +406,7 @@ class Character extends Entity {
 
         this.poof();
 
-        this.displayLabel(nomangle('Slain!'));
+        this.displayLabel(nomangle('Slain!'), this.damageLabelColor);
 
         this.remove();
     }

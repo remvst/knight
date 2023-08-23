@@ -13,6 +13,8 @@ class Player extends Character {
 
         this.affectedBySpeedRatio = false;
 
+        this.damageLabelColor = '#f00';
+
         this.gibs = [
             () => ctx.renderSword(),
             () => ctx.renderShield(),

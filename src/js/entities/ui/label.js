@@ -1,7 +1,8 @@
 class Label extends Entity {
-    constructor(text) {
+    constructor(text, color = '#fff') {
         super();
         this.text = text.toUpperCase();
+        this.color = color;
     }
 
     get z() { 
@@ -18,7 +19,7 @@ class Label extends Entity {
         if (!this.infinite) ctx.globalAlpha = interpolate(0, 1, this.age / 0.25);
 
         ctx.font = nomangle('bold 14pt Arial');
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = this.color;
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 2;
         ctx.textAlign = nomangle('center');

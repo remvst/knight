@@ -149,15 +149,29 @@ axe = { axe: true, attackCount: 1 };
 armor = { armor: true };
 superArmor = { superArmor: true };
 
+// Weapon
 StickEnemy = createEnemyType({ ...stick, });
 AxeEnemy = createEnemyType({ ...axe, });
 SwordEnemy = createEnemyType({ ...sword, });
-AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
+
+// Weapon + armor
 SwordArmorEnemy = createEnemyType({ ...sword, ...armor, });
 AxeArmorEnemy = createEnemyType({ ...axe, ...armor, });
+
+// Weapon + armor + shield
+AxeShieldArmorEnemy = createEnemyType({ ...axe, ...shield, ...armor, });
 SwordShieldArmorEnemy = createEnemyType({ ...sword, ...shield, ...armor, });
+
+// Tank
 SwordShieldTankEnemy = createEnemyType({ ...sword,  ...shield, ...superArmor, });
 AxeShieldTankEnemy = createEnemyType({ ...axe,  ...shield, ...superArmor, });
+
+WAVE_SETTINGS = [
+    [StickEnemy, AxeEnemy, SwordEnemy],
+    [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy],
+    [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy, AxeShieldArmorEnemy, SwordShieldArmorEnemy],
+    [StickEnemy, AxeEnemy, SwordEnemy, SwordArmorEnemy, AxeArmorEnemy, AxeShieldArmorEnemy, SwordShieldArmorEnemy, SwordShieldTankEnemy, AxeShieldTankEnemy],
+];
 
 ENEMY_TYPES = [
     StickEnemy,

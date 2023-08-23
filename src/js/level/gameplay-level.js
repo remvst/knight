@@ -51,7 +51,7 @@ class GameplayLevel extends Level {
             await scene.delay(2);
 
             let nextWaveX = player.x + CANVAS_WIDTH;
-            for (let waveIndex = 1 ; waveIndex <= 13 ; waveIndex++) {
+            for (let waveIndex = 0 ; waveIndex < 13 ; waveIndex++) {
                 // Show progress
                 (async () => {
                     await scene.delay(1);
@@ -63,14 +63,14 @@ class GameplayLevel extends Level {
 
                 await scene.waitFor(() => player.x >= nextWaveX);
 
-                this.scene.add(new Announcement(nomangle('Wave ') + waveIndex));
+                this.scene.add(new Announcement(nomangle('Wave ') + (waveIndex + 1)));
 
                 const waveEnemies = [];
-                const enemyTypes = ENEMY_TYPES.slice(0, 1 + waveIndex / 2);
+                const enemyTypes = WAVE_SETTINGS[min(WAVE_SETTINGS.length - 1, waveIndex)];
                 for (let i = 0 ; i < 3 + waveIndex * 0.5 ; i++) {
                     const enemy = scene.add(new (pick(enemyTypes))());
                     enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
-                    enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(20, 50));
+                    enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(50, 100));
 
                     scene.add(new CharacterHUD(enemy));
 
