@@ -57,7 +57,7 @@ class GameplayLevel extends Level {
                     await scene.delay(1);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 0, 1, 1)).await();
                     await scene.add(new Interpolator(playerHUD, 'progress', playerHUD.progress, waveIndex / 13, 1)).await();
-                    await scene.delay(2);
+                    await scene.delay(3);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 1, 0, 1)).await();
                 })();
 

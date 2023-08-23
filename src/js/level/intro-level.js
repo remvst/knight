@@ -116,8 +116,8 @@ class IntroLevel extends Level {
             );
 
             // Shield tutorial 
-            const StickEnemy = createEnemyType({ stick: true, attackCount: 1, });
-            const enemy = scene.add(new StickEnemy());
+            const SwordArmorEnemy = createEnemyType({ sword: true, armor: true, attackCount: 1, });
+            const enemy = scene.add(new SwordArmorEnemy());
             enemy.health = enemy.maxHealth = Number.MAX_SAFE_INTEGER;
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
@@ -147,7 +147,7 @@ class IntroLevel extends Level {
                 nomangle('1254 AD'),
                 nomangle('The Kingdom of Syldavia is being invaded by the Northern Empire.'),
                 nomangle('The Syldavian army is outnumbered and outmatched.'),
-                nomangle('One lone soldier decides to take on the king himself.'),
+                nomangle('One lone soldier decides to take on the emperor himself.'),
                 nomangle('This is his story.'),
             ]));
 
