@@ -25,7 +25,6 @@ make
 - gameplay level
 - SFX
 - gamepad controls
-- skip tutorial
 - score
 
 ## Ideas
