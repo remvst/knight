@@ -57,6 +57,19 @@ class PlayerHUD extends Entity {
             });
         });
 
+        ctx.wrap(() => {
+            ctx.translate(CANVAS_WIDTH / 2, 90);
+
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.textBaseline = nomangle('top');
+            ctx.textAlign = nomangle('center');
+            ctx.font = nomangle('bold 16pt Impact');
+            ctx.strokeText(nomangle('SCORE: ') + this.player.score.toLocaleString(), 0, 0);
+            ctx.fillText(nomangle('SCORE: ') + this.player.score.toLocaleString(), 0, 0);
+        });
+
         if (this.player.combo > 0) {
             ctx.wrap(() => {
                 ctx.translate(CANVAS_WIDTH / 2 + 200, 70);

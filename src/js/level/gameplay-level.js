@@ -1,5 +1,5 @@
 class GameplayLevel extends Level {
-    constructor(waveIndex = 0) {
+    constructor(waveIndex = 0, score = 0) {
         super();
 
         const { scene } = this;
@@ -7,6 +7,7 @@ class GameplayLevel extends Level {
         const player = firstItem(scene.category('player'));
         player.x = waveIndex * CANVAS_WIDTH;
         player.y = scene.pathCurve(player.x);
+        player.score = score;
 
         const camera = firstItem(scene.category('camera'));
         camera.cycle(99);
@@ -104,7 +105,7 @@ class GameplayLevel extends Level {
                     player, 
                     'health', 
                     player.health, 
-                    min(player.maxHealth, player.health + 0.5), 
+                    min(player.maxHealth, player.health + player.maxHealth * 0.5), 
                     1,
                 ));
 
@@ -153,9 +154,10 @@ class GameplayLevel extends Level {
             const finalExpo = scene.add(new Exposition([
                 nomangle('After an epic fight, the emperor was defeated.'),
                 nomangle('Our hero\'s quest was complete.'),
+                nomangle('Historians estimate his final score was ') + player.score.toLocaleString() + '.',
             ]));
             await scene.add(new Interpolator(finalExpo, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
-            await scene.delay(6 * scene.speedRatio);
+            await scene.delay(9 * scene.speedRatio);
             await scene.add(new Interpolator(finalExpo, 'alpha', 1, 0, 2 * scene.speedRatio)).await();
 
             // Back to intro
@@ -174,18 +176,18 @@ class GameplayLevel extends Level {
             scene.speedRatio = 1;
 
             const expo = scene.add(new Exposition([pick([
-                nomangle('The path to glory is a challenging one.'),
+                nomangle('Failing never affected his will, only his score.'),
                 nomangle('Giving up was never an option.'),
                 nomangle('His first attempts weren\'t successful.'),
                 nomangle('He did not reach the King until after several attempts.'),
-                nomangle('Many followed his footsteps.'),
+                nomangle('After licking his wounds, he resumed his quest.'),
             ])]));
 
             await scene.delay(3);
             await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
             // Start a level where we left off
-            level = new GameplayLevel(waveIndex);
+            level = new GameplayLevel(waveIndex, max(0, score - 5000)); // TODO figure out a value
         })();
     }
 }

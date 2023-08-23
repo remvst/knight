@@ -13,6 +13,14 @@ class Enemy extends Character {
         firstItem(this.scene.category('aggressivity-tracker'))
             .cancelAggression(this);
     }
+
+    die() {
+        super.die();
+
+        for (const player of this.scene.category('player')) {
+            player.score += ~~(100 * this.aggression * player.combo);
+        }
+    }
 }
 
 createEnemyAI = ({

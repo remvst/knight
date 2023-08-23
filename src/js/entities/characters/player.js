@@ -5,6 +5,8 @@ class Player extends Character {
 
         this.targetTeam = 'enemy';
 
+        this.score = 0;
+
         this.baseSpeed = 250;
         this.strength = 30;
 
