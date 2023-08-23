@@ -4,6 +4,8 @@ class GameplayLevel extends Level {
 
         const { scene } = this;
 
+        let waveStartScore = score;
+
         const player = firstItem(scene.category('player'));
         player.x = waveIndex * CANVAS_WIDTH;
         player.y = scene.pathCurve(player.x);
@@ -87,6 +89,8 @@ class GameplayLevel extends Level {
 
                 await scene.waitFor(() => player.x >= nextWaveX);
 
+                waveStartScore = player.score;
+
                 this.scene.add(new Announcement(nomangle('Wave ') + (waveIndex + 1)));
 
                 const waveEnemies = spawnWave(
@@ -106,7 +110,7 @@ class GameplayLevel extends Level {
                     'health', 
                     player.health, 
                     min(player.maxHealth, player.health + player.maxHealth * 0.5), 
-                    1,
+                    2,
                 ));
 
                 nextWaveX = player.x + CANVAS_WIDTH;
@@ -187,7 +191,7 @@ class GameplayLevel extends Level {
             await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
             // Start a level where we left off
-            level = new GameplayLevel(waveIndex, max(0, score - 5000)); // TODO figure out a value
+            level = new GameplayLevel(waveIndex, max(0, waveStartScore - 5000)); // TODO figure out a value
         })();
     }
 }
