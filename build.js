@@ -50,6 +50,14 @@ const CONSTANTS = {
     "DEBUG_CHARACTER_STATS": false,
     "DEBUG_CHARACTER_AI": false,
     "DEBUG_PLAYER_MAGNET": false,
+
+    "INPUT_MODE_MOUSE": 0,
+    "INPUT_MODE_TOUCH": 1,
+    "INPUT_MODE_GAMEPAD": 2,
+
+    "TOUCH_JOYSTICK_RADIUS": 50,
+    "TOUCH_JOYSTICK_MAX_RADIUS": 150,
+    "TOUCH_BUTTON_RADIUS": 35,
 };
 
 function copy(obj) {
@@ -82,6 +90,7 @@ compiler.run((tasks) => {
 
                 "src/js/input/keyboard.js",
                 "src/js/input/mouse.js",
+                "src/js/input/touch.js",
 
                 "src/js/ai/character-controller.js",
 

@@ -23,6 +23,7 @@ frame = () => {
 
     // Rendering
     ctx.wrap(() => level.scene.render());
+    renderTouchControls();
 
     if (DEBUG) {
         ctx.fillStyle = '#fff';

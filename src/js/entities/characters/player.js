@@ -100,14 +100,25 @@ class PlayerController extends CharacterController {
 
         if (x || y) this.entity.controls.angle = atan2(y, x);
         this.entity.controls.force = x || y ? 1 : 0;
-        this.entity.controls.shield = DOWN[16] || MOUSE_RIGHT_DOWN;
-        this.entity.controls.attack = MOUSE_DOWN;
-        this.entity.controls.dash = DOWN[32];
+        this.entity.controls.shield = DOWN[16] || MOUSE_RIGHT_DOWN || TOUCH_SHIELD_BUTTON.down;
+        this.entity.controls.attack = MOUSE_DOWN || TOUCH_ATTACK_BUTTON.down;
+        this.entity.controls.dash = DOWN[32] || TOUCH_DASH_BUTTON.down;
 
         const mouseRelX = (MOUSE_POSITION.x - CANVAS_WIDTH / 2) / (CANVAS_WIDTH / 2);
         const mouseRelY = (MOUSE_POSITION.y - CANVAS_HEIGHT / 2) / (CANVAS_HEIGHT / 2);
         this.entity.controls.aim.x = camera.x + mouseRelX * CANVAS_WIDTH / 2 / camera.zoom;
         this.entity.controls.aim.y = camera.y + mouseRelY * CANVAS_HEIGHT / 2 / camera.zoom;
+
+        if (inputMode == INPUT_MODE_TOUCH) {
+            const { touch } = TOUCH_JOYSTICK;
+            this.entity.controls.aim.x = this.entity.x + (touch.x - TOUCH_JOYSTICK.x);
+            this.entity.controls.aim.y = this.entity.y + (touch.y - TOUCH_JOYSTICK.y);
+
+            this.entity.controls.angle = angleBetween(TOUCH_JOYSTICK, touch);
+            this.entity.controls.force = TOUCH_JOYSTICK.touchIdentifier < 0
+                ? 0
+                : min(1, dist(touch, TOUCH_JOYSTICK) / TOUCH_JOYSTICK_RADIUS);
+        }
 
         if (x) this.entity.facing = x;
     }

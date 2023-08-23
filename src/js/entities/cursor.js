@@ -9,6 +9,7 @@ class Cursor extends Entity {
     }
 
     doRender() {
+        if (inputMode == INPUT_MODE_TOUCH) return;
         ctx.translate(this.player.controls.aim.x, this.player.controls.aim.y);
 
         ctx.fillStyle = '#000';
