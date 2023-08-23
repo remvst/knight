@@ -74,7 +74,6 @@ class GameplayLevel extends Level {
                     scene.add(new CharacterHUD(enemy));
 
                     waveEnemies.push(enemy);
-                    break;
                 }
 
                 await Promise.all(waveEnemies.map(enemy => scene.waitFor(() => enemy.health <= 0)));

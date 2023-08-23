@@ -24,7 +24,6 @@ make
 - balance enemy waves
 - gameplay level
 - SFX
-- mobile controls
 - gamepad controls
 - skip tutorial
 - score
