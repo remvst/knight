@@ -2,7 +2,7 @@ class Level {
     constructor() {
         this.scene = new Scene();
 
-        const camera = this.scene.add(new Camera());
+        this.scene.add(new Camera());
 
         DOWN = {};
         MOUSE_DOWN = MOUSE_RIGHT_DOWN = false;
@@ -14,24 +14,6 @@ class Level {
 
         this.scene.add(new Rain());
         this.scene.add(new PauseOverlay());
-
-        for (let i = 0 ; i < 0 ; i++) {
-            const enemy = new TankEnemy();
-            enemy.x = rnd(-600, 600);
-            enemy.y = rnd(-600, 600);
-            this.scene.add(enemy);
-
-            this.scene.add(new CharacterHUD(enemy));
-        }
-
-        for (let i = 0 ; i < 0 ; i++) {
-            const enemy = new SwordAndShieldEnemy();
-            enemy.x = rnd(-600, 600);
-            enemy.y = rnd(-600, 600);
-            this.scene.add(enemy);
-
-            this.scene.add(new CharacterHUD(enemy));
-        }
 
         for (let i = 0 ; i < 400 ; i++) {
             const grass = new Grass();
