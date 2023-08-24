@@ -35,6 +35,11 @@ class Player extends Character {
         return new PlayerController();
     }
 
+    damage(amount) {
+        super.damage(amount);
+        sound(...[2.07,,71,.01,.05,.03,2,.14,,,,,.01,1.5,,.1,.19,.95,.05,.16]);
+    }
+
     getColor(color) {
         return this.age - this.lastDamage < 0.1 ? '#f00' : super.getColor(color);
     }

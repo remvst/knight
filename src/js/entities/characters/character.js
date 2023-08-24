@@ -167,7 +167,7 @@ class Character extends Entity {
     }
 
     strike(relativeStrength) {
-        // this.loseStamina(0.1);
+        sound(...[.5,,400,.1,.01,,3,.92,17,,,,,2,,,,1.04]);
 
         const victim = this.pickVictim(this.strikeRadiusX, this.strikeRadiusY, PI);
         if (victim) {
@@ -192,7 +192,6 @@ class Character extends Entity {
                     for (const parryVictim of this.scene.category(victim.targetTeam)) {
                         if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX, victim.strikeRadiusY)) {
                             parryVictim.dash(angleBetween(victim, parryVictim), 100, 0.2);
-                            // parryVictim.loseStamina(1);
                         }
                     }
 
@@ -205,6 +204,8 @@ class Character extends Entity {
                         await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
                         this.scene.speedRatio = 1;
                     })();
+
+                    sound(...[2.14,,1e3,.01,.2,.31,3,3.99,,.9,,,.08,1.9,,,.22,.34,.12]);
                 } else {
                     // Regular parry, victim loses stamina
                     victim.loseStamina(relativeStrength * 0.2);
@@ -213,6 +214,8 @@ class Character extends Entity {
                     const animation = this.scene.add(new ShieldBlock());
                     animation.x = victim.x;
                     animation.y = victim.y - 30;
+
+                    sound(...[2.03,,200,,.04,.12,1,1.98,,,,,,-2.4,,,.1,.59,.05,.17]);
                 }
             } else {
                 victim.damage(this.strength * relativeStrength);
@@ -395,6 +398,8 @@ class Character extends Entity {
         this.displayLabel(nomangle('Slain!'), this.damageLabelColor);
 
         this.remove();
+
+        sound(...[2.1,,400,.03,.1,.4,4,4.9,.6,.3,,,.13,1.9,,.1,.08,.32]);
     }
 
     poof() {

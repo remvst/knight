@@ -1,4 +1,4 @@
-class DummyEnemy extends Character {
+class DummyEnemy extends Enemy {
     constructor() {
         super();
         this.categories.push('enemy');

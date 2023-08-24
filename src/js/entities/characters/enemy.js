@@ -21,6 +21,11 @@ class Enemy extends Character {
             player.score += ~~(100 * this.aggression * player.combo);
         }
     }
+
+    damage(amount) {
+        super.damage(amount);
+        sound(...[1.6,,278,,.01,.01,2,.7,-7.1,,,,.07,1,,,.09,.81,.08]);
+    }
 }
 
 createEnemyAI = ({
