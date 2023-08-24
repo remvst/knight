@@ -21,8 +21,6 @@ class State {
     get shieldRaiseRatio() { return 0; }
     get speedRatio() { return 1; }
     get attackPreparationRatio() { return 0; }
-    get shielded() { return false; }
-    get perfectParry() { return false; }
 
     onEnter() {
 
