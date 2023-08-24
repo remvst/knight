@@ -109,6 +109,8 @@ ontouchmove = (event) => {
 ontouchend = (event) => {
     event.preventDefault();
     updateTouches(event.touches);
+
+    if (onclick) onclick();
 };
 
 renderTouchControls = () => {
