@@ -48,7 +48,7 @@ class Entity {
 
     cancelCameraOffset(camera) {
         ctx.translate(camera.x, camera.y);
-        ctx.scale(1 / camera.zoom, 1 / camera.zoom);
+        ctx.scale(1 / camera.appliedZoom, 1 / camera.appliedZoom);
         ctx.translate(evaluate(-CANVAS_WIDTH / 2), evaluate(-CANVAS_HEIGHT / 2));
     }
 }

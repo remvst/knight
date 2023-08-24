@@ -6,6 +6,12 @@ class Camera extends Entity {
         this.affectedBySpeedRatio = false;
     }
 
+    get appliedZoom() {
+        // I'm a lazy butt and refuse to update the entire game to have a bit more zoom.
+        // So instead I do dis ¯\_(ツ)_/¯
+        return max(1.2, this.zoom);
+    }
+
     cycle(elapsed) {
         super.cycle(elapsed);
 

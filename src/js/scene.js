@@ -81,9 +81,9 @@ class Scene {
         }
         
         ctx.wrap(() => {
-            ctx.scale(camera.zoom, camera.zoom);
+            ctx.scale(camera.appliedZoom, camera.appliedZoom);
             ctx.translate(-camera.x, -camera.y);
-            ctx.translate(CANVAS_WIDTH / 2 / camera.zoom, CANVAS_HEIGHT / 2 / camera.zoom);
+            ctx.translate(CANVAS_WIDTH / 2 / camera.appliedZoom, CANVAS_HEIGHT / 2 / camera.appliedZoom);
 
             this.sortedEntities.sort((a, b) => a.z - b.z);
 
