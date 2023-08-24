@@ -1,6 +1,7 @@
-let MOUSE_DOWN = false;
-let MOUSE_RIGHT_DOWN = false;
-const MOUSE_POSITION = {x: 0, y: 0};
+MOUSE_DOWN = false;
+MOUSE_RIGHT_DOWN = false;
+MOUSE_POSITION = {x: 0, y: 0};
+
 onmousedown = (evt) => evt.button == 2 ? MOUSE_RIGHT_DOWN = true : MOUSE_DOWN = true;
 onmouseup = (evt) => evt.button == 2 ? MOUSE_RIGHT_DOWN = false : MOUSE_DOWN = false;
 onmousemove = (evt) => getEventPosition(evt, MOUSE_POSITION);
