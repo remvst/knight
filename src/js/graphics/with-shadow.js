@@ -12,8 +12,6 @@ canvasPrototype.withShadow = function(render) {
 
     this.wrap(() => {
         this.isShadow = false;
-        // this.resolveColor = x => x;
-
         render();
     });
 };
