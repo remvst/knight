@@ -56,17 +56,20 @@ createEnemyAI = ({
                     for (let i = attackCount ; i-- ; ) {
                         await this.startAI(new Attack(0.5));
                     }
-                    await this.startAI(new Wait(2));
+                    await this.startAI(new Wait(0.5));
                 } catch (e) {}
 
                 // We're done attacking, let's allow someone else to be aggro
                 await this.startAI(new BecomePassive());
 
                 // Retreat a bit so we're not too close to the player
+                const dash = !shield && random() < 0.5;
                 await this.race([
                     new RetreatAI(300, 300),
-                    new Wait(4),
-                    shield ? new HoldShield() : new AI(),
+                    new Wait(dash ? 0.1 : 4),
+                    dash 
+                        ? new Dash() 
+                        : (shield ? new HoldShield() : new AI()),
                 ]);
                 await this.startAI(new Wait(1));
 

@@ -240,3 +240,13 @@ class HoldShield extends AI {
         this.entity.controls.shield = false;
     }
 }
+
+class Dash extends AI {
+    update() {
+        this.entity.controls.dash = true;
+    }
+
+    onDone() {
+        this.entity.controls.dash = false;
+    }
+}
