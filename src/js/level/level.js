@@ -32,4 +32,14 @@ class Level {
     cycle(elapsed) {
         this.scene.cycle(elapsed);
     }
+
+    async respawn(x, y) {
+        const fade = scene.add(new Fade());
+        await scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
+        player.x = x;
+        player.y = y;
+        camera.cycle(999);
+        await scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
+        fade.remove();
+    }
 }

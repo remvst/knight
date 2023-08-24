@@ -13,6 +13,7 @@ class IntroLevel extends Level {
 
         for (let r = 0 ; r < 1 ; r += 1 / 3) {
             const water = scene.add(new Water());
+            water.noRegen = true;
             water.x = cos(r * TWO_PI) * 300 + rnd(-50, 50);
             water.y = sin(r * TWO_PI) * 300 + rnd(-50, 50);
             water.rotation = random() * TWO_PI;
@@ -32,13 +33,7 @@ class IntroLevel extends Level {
         (async () => {
             while (true) {
                 await scene.waitFor(() => distP(player.x, player.y, 0, 0) > 650);
-
-                const fade = scene.add(new Fade());
-                await scene.add(new Interpolator(fade, 'alpha', 0, 1, 1)).await();
-                player.x = player.y = 0;
-                camera.cycle(999);
-                await scene.add(new Interpolator(fade, 'alpha', 1, 0, 1)).await();
-                fade.remove();
+                await this.respawn(0, 0);
             }
         })();
 

@@ -38,13 +38,7 @@ class GameplayLevel extends Level {
         (async () => {
             while (true) {
                 await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 800);
-
-                const fade = scene.add(new Fade());
-                await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2)).await();
-                player.y = scene.pathCurve(player.x);
-                camera.cycle(99);
-                await scene.add(new Interpolator(fade, 'alpha', 1, 0, 2)).await();
-                fade.remove();
+                await this.respawn(player.x, scene.pathCurve(player.x));
             }
         })();
 
