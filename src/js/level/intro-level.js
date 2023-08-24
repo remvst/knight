@@ -11,16 +11,6 @@ class IntroLevel extends Level {
             tree.y = sin(r * TWO_PI) * 600 + rnd(-20, 20);
         }
 
-        for (let r = 0 ; r < 1 ; r += 1 / 3) {
-            const water = scene.add(new Water());
-            water.noRegen = true;
-            water.x = cos(r * TWO_PI) * 300 + rnd(-50, 50);
-            water.y = sin(r * TWO_PI) * 300 + rnd(-50, 50);
-            water.rotation = random() * TWO_PI;
-            water.width = rnd(50, 100);
-            water.height = rnd(100, 200);
-        }
-
         const camera = firstItem(scene.category('camera'));
         camera.zoom = 3;
         camera.cycle(99);
@@ -143,7 +133,6 @@ class IntroLevel extends Level {
                 nomangle('The Kingdom of Syldavia is being invaded by the Northern Empire.'),
                 nomangle('The Syldavian army is outnumbered and outmatched.'),
                 nomangle('One lone soldier decides to take on the emperor himself.'),
-                nomangle('This is his story.'),
             ]));
 
             await scene.delay(18);
