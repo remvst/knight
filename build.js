@@ -133,6 +133,7 @@ compiler.run((tasks) => {
                 "src/js/entities/characters/corpse.js",
 
                 "src/js/sound/ZzFXMicro.js",
+                "src/js/sound/rain.js",
 
                 "src/js/level/level.js",
                 "src/js/level/intro-level.js",

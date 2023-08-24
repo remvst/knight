@@ -60,6 +60,8 @@ class Character extends Entity {
     cycle(elapsed) {
         super.cycle(elapsed);
 
+        this.renderAge = this.age * (this.inWater ? 0.5 : 1)
+
         this.stateMachine.cycle(elapsed);
 
         this.controller.cycle(elapsed);
@@ -128,11 +130,11 @@ class Character extends Entity {
         const adjustedDY = abs(this.y - victim.y) / (radiusY / radiusX);
 
         const adjustedDistance = hypot(dX, adjustedDY);
-
         const distanceScore = 1 - adjustedDistance / radiusX;
-        if (distanceScore < 0 || angleScore < 0) return 0;
 
-        return (distanceScore + angleScore) / 2;
+        return distanceScore < 0 || angleScore < 0 
+            ? 0
+            : (distanceScore + angleScore) / 2;
     }
 
     pickVictim(radiusX, radiusY, fov) {
@@ -151,19 +153,17 @@ class Character extends Entity {
 
     lunge() {
         const victim = this.pickVictim(this.magnetRadiusX, this.magnetRadiusY, PI / 2);
-        if (!victim) {
-            return this.dash(
+        return victim
+            ? this.dash(
+                angleBetween(this, victim), 
+                max(0, dist(this, victim) - this.strikeRadiusX / 2), 
+                0.1,
+            )
+            : this.dash(
                 angleBetween(this, this.controls.aim), 
                 40, 
                 0.1,
             );
-        } else {
-            return this.dash(
-                angleBetween(this, victim), 
-                max(0, dist(this, victim) - this.strikeRadiusX / 2), 
-                0.1,
-            );
-        }
     }
 
     strike(relativeStrength) {
@@ -171,7 +171,7 @@ class Character extends Entity {
 
         const victim = this.pickVictim(this.strikeRadiusX, this.strikeRadiusY, PI);
         if (victim) {
-            const angle = atan2(victim.y - this.y, victim.x - this.x);
+            const angle = angleBetween(this, victim);
             if (victim.stateMachine.state.shielded) {
                 victim.facing = sign(this.x - victim.x) || 1;
                 victim.parryCount++;
@@ -262,10 +262,6 @@ class Character extends Entity {
 
         // Death
         if (this.health <= 0) this.die();
-    }
-
-    get renderAge() {
-        return this.age * (this.inWater ? 0.5 : 1);
     }
 
     doRender() {

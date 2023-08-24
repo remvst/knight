@@ -24,13 +24,11 @@ class CharacterHUD extends Entity {
             this.character.age - max(this.character.lastStaminaLoss, this.character.lastDamage) > 2
         ) return;
  
+        ctx.translate(this.character.x, this.character.y + 20);
         ctx.wrap(() => {
-            ctx.translate(this.character.x, this.character.y + 20);
-            ctx.wrap(() => {
-                ctx.translate(0, 4);
-                this.staminaGauge.render(60, 6, staminaGradient, true);
-            });
-            this.healthGauge.render(80, 5, healthGradient);
+            ctx.translate(0, 4);
+            this.staminaGauge.render(60, 6, staminaGradient, true);
         });
+        this.healthGauge.render(80, 5, healthGradient);
     }
 }

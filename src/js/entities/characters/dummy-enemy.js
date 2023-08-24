@@ -2,16 +2,8 @@ class DummyEnemy extends Character {
     constructor() {
         super();
         this.categories.push('enemy');
-        this.targetTeam = 'player';
-
-        this.baseSpeed = 100;
 
         this.health = this.maxHealth = Number.MAX_SAFE_INTEGER;
-
-        this.stateMachine = characterStateMachine({
-            entity: this, 
-            chargeTime: 0.5,
-        });
     }
 
     renderBody() {
