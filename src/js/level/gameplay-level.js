@@ -45,9 +45,9 @@ class GameplayLevel extends Level {
         async function slowMo() {
             player.affectedBySpeedRatio = true;
             scene.speedRatio = 0.1;
-            scene.add(new Interpolator(camera, 'zoom', camera.zoom, 3, 3));
+            await camera.zoomTo(3);
             await scene.delay(3 * scene.speedRatio);
-            await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
+            await camera.zoomTo(1);
             scene.speedRatio = 1;
             player.affectedBySpeedRatio = false;
         }

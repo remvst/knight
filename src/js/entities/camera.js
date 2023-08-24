@@ -9,7 +9,7 @@ class Camera extends Entity {
     get appliedZoom() {
         // I'm a lazy butt and refuse to update the entire game to have a bit more zoom.
         // So instead I do dis ¯\_(ツ)_/¯
-        return max(1.2, this.zoom);
+        return interpolate(1.2, 3, (this.zoom - 1) / 3);
     }
 
     cycle(elapsed) {
@@ -23,5 +23,12 @@ class Camera extends Entity {
             this.x += appliedDist * cos(angle);
             this.y += appliedDist * sin(angle);
         }
+    }
+
+    zoomTo(toValue) {
+        if (this.previousInterpolator) {
+            this.previousInterpolator.remove();
+        }
+        return this.scene.add(new Interpolator(this, 'zoom', this.zoom, toValue, 2)).await();
     }
 }

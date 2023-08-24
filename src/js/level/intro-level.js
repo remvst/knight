@@ -41,7 +41,7 @@ class IntroLevel extends Level {
 
             player.setController(new PlayerController());
             await scene.add(new Interpolator(logo, 'alpha', 1, 0, 2)).await();
-            await scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 2)).await();
+            await camera.zoomTo(1);
 
             scene.add(new Announcement(nomangle('Prologue')))
 

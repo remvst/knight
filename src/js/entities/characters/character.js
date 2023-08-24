@@ -199,9 +199,9 @@ class Character extends Entity {
                         this.scene.speedRatio = 0.1;
 
                         const camera = firstItem(this.scene.category('camera'));
-                        await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 2, 0.2)).await();
+                        await camera.zoomTo(2);
                         await this.scene.delay(5 * this.scene.speedRatio);
-                        await this.scene.add(new Interpolator(camera, 'zoom', camera.zoom, 1, 0.2)).await();
+                        await camera.zoomTo(1);
                         this.scene.speedRatio = 1;
                     })();
 
