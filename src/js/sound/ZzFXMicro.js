@@ -119,4 +119,4 @@ const zzfxG = // generate samples
     return b;
 }
 
-sound = (...def) => zzfx(...def).start();
+sound = (...def) => zzfx(...def).nomangle(start)();
