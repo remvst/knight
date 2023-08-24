@@ -167,7 +167,7 @@ class Character extends Entity {
     }
 
     strike(relativeStrength) {
-        sound(...[.5,,400,.1,.01,,3,.92,17,,,,,2,,,,1.04]);
+        sound(...[.1,,400,.1,.01,,3,.92,17,,,,,2,,,,1.04]);
 
         const victim = this.pickVictim(this.strikeRadiusX, this.strikeRadiusY, PI);
         if (victim) {
