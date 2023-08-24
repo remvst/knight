@@ -47,7 +47,7 @@ class Tree extends Obstacle {
                     ctx.globalAlpha = this.alpha;
                 }
 
-                if (!ctx.isShadow) ctx.fillRect(-this.trunkWidth / 2, 0, this.trunkWidth, -this.trunkHeight);
+                if (!ctx.isShadow) ctx.fillRect(0, 0, this.trunkWidth, -this.trunkHeight);
 
                 ctx.translate(0, -this.trunkHeight);
 
