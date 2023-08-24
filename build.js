@@ -1,7 +1,7 @@
 const compiler = require('./js13k-compiler/src/compiler');
 
-let belowLayer = -999999;
-let aboveLayer = 999999;
+let belowLayer = -9990;
+let aboveLayer = 9990;
 
 const CONSTANTS = {
     "true": 1,
@@ -58,6 +58,8 @@ const CONSTANTS = {
     "TOUCH_JOYSTICK_RADIUS": 50,
     "TOUCH_JOYSTICK_MAX_RADIUS": 150,
     "TOUCH_BUTTON_RADIUS": 35,
+
+    "RIPPLE_DURATION": 2,
 };
 
 function copy(obj) {

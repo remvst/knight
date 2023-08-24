@@ -48,9 +48,8 @@ class Water extends Entity {
             ctx.lineWidth = 4;
 
             for (let i = 3; i-- ; ) {
-                const duration = 2;
-                const relativeAge = (this.age + this.rng.next(0, 20)) / duration;
-                const ratio = min(1, relativeAge % (duration / 2));
+                const relativeAge = (this.age + this.rng.next(0, 20)) / RIPPLE_DURATION;
+                const ratio = min(1, relativeAge % (RIPPLE_DURATION / 2));
 
                 ctx.globalAlpha = (1 - ratio) / 2;
                 ctx.beginPath();
