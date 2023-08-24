@@ -60,6 +60,7 @@ const CONSTANTS = {
     "TOUCH_BUTTON_RADIUS": 35,
 
     "RIPPLE_DURATION": 2,
+    "THUNDER_INTERVAL": 10,
 };
 
 function copy(obj) {

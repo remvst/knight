@@ -65,11 +65,20 @@ class Scene {
     }
 
     render() {
+        const camera = firstItem(this.category('camera'));
+
         // Background
         ctx.fillStyle = '#996';
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-        const camera = firstItem(this.category('camera'));
+        // Thunder
+        if (camera.age % THUNDER_INTERVAL < 0.3 && camera.age % 0.2 < 0.1) {
+            ctx.wrap(() => {
+                ctx.globalAlpha = 0.3;
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            });
+        }
         
         ctx.wrap(() => {
             ctx.scale(camera.zoom, camera.zoom);
