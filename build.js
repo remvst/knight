@@ -18,7 +18,7 @@ const CONSTANTS = {
     "PLAYER_DASH_DURATION": 0.3,
     "PLAYER_DASH_DISTANCE": 200,
 
-    "MAX_AGGRESSION": 5,
+    "MAX_AGGRESSION": 7,
 
     "LAYER_CORPSE": belowLayer--,
     "LAYER_WATER": belowLayer--,
