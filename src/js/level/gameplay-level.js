@@ -70,6 +70,7 @@ class GameplayLevel extends Level {
             scene.add(new Announcement(nomangle('The Path')));
             await scene.delay(2);
 
+
             let nextWaveX = player.x + CANVAS_WIDTH;
             for ( ; waveIndex < 13 ; waveIndex++) {
                 // Show progress
@@ -81,8 +82,15 @@ class GameplayLevel extends Level {
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 1, 0, 1)).await();
                 })();
 
-                await scene.waitFor(() => player.x >= nextWaveX);
+                const instruction = scene.add(new Instruction());
+                (async () => {
+                    await scene.delay(7),
+                    instruction.text = nomangle('Follow the path to the right');
+                })();
 
+                await scene.waitFor(() => player.x >= nextWaveX);
+                
+                instruction.remove();
                 waveStartScore = player.score;
 
                 this.scene.add(new Announcement(nomangle('Wave ') + (waveIndex + 1)));
