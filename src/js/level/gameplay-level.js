@@ -107,7 +107,7 @@ class GameplayLevel extends Level {
                     2,
                 ));
 
-                nextWaveX = player.x + CANVAS_WIDTH;
+                nextWaveX = player.x + evaluate(CANVAS_WIDTH * 2);
             }
 
             // Last wave, reach the king
