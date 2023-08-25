@@ -13,6 +13,7 @@ class PlayerHUD extends Entity {
         this.progressAlpha = 0;
 
         this.dummyPlayer = new Player();
+        this.dummyKing = new KingEnemy();
 
         this.affectedBySpeedRatio = false;
     }
@@ -46,14 +47,20 @@ class PlayerHUD extends Entity {
             ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT - 150);
             this.progressGauge.render(600, 10, '#fff');
 
+            ctx.resolveColor = () => '#fff';
+            ctx.shadowColor = '#000';
+            ctx.shadowBlur = 1;
+
             ctx.wrap(() => {
                 ctx.translate(interpolate(-300, 300, this.progressGauge.displayedValue), 25 - 5);
                 ctx.scale(0.5, 0.5);
-                ctx.resolveColor = () => '#fff';
-    
-                ctx.shadowColor = '#000';
-                ctx.shadowBlur = 1;
                 this.dummyPlayer.renderBody();
+            });
+
+            ctx.wrap(() => {
+                ctx.translate(300, 25 - 5);
+                ctx.scale(0.5, 0.5);
+                this.dummyKing.renderBody();
             });
         });
 
