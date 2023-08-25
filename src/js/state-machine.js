@@ -114,6 +114,8 @@ characterStateMachine = ({
 
             entity.dash(entity.controls.angle, PLAYER_DASH_DISTANCE, PLAYER_DASH_DURATION);
             sound(...[1.99,,427,.01,,.07,,.62,6.7,-0.7,,,,.2,,,.11,.76,.05]);
+
+            entity.loseStamina(0.15);
         }
 
         cycle(elapsed) {

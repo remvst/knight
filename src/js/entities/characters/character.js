@@ -66,7 +66,7 @@ class Character extends Entity {
 
         this.controller.cycle(elapsed);
 
-        if (this.inWater) {
+        if (this.inWater && this.controls.force) {
             this.loseStamina(elapsed * 0.2);
         }
 
