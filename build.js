@@ -136,6 +136,8 @@ compiler.run((tasks) => {
                 "src/js/entities/characters/corpse.js",
 
                 "src/js/sound/ZzFXMicro.js",
+                "src/js/sound/sonantx.js",
+                "src/js/sound/song.js",
 
                 "src/js/level/level.js",
                 "src/js/level/intro-level.js",
@@ -267,6 +269,7 @@ compiler.run((tasks) => {
 
         if (uglify) {
             sequence.push(tasks.uglifyES());
+            sequence.push(tasks.roadroller());
         }
 
         return tasks.sequence(sequence);

@@ -37,6 +37,8 @@ class IntroLevel extends Level {
             await new Promise(r => onclick = r);
             msg.text = '';
 
+            playSong();
+
             can.style[nomangle('cursor')] = 'none';
 
             player.setController(new PlayerController());
