@@ -200,7 +200,7 @@ class Character extends Entity {
 
                         const camera = firstItem(this.scene.category('camera'));
                         await camera.zoomTo(2);
-                        await this.scene.delay(5 * this.scene.speedRatio);
+                        await this.scene.delay(3 * this.scene.speedRatio);
                         await camera.zoomTo(1);
                         this.scene.speedRatio = 1;
                     })();
