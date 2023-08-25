@@ -445,7 +445,7 @@ SONG = {
             ]
         }
     ],
-    "songLen": 41
+    "songLen": 31
 }
 
 playSong = () => new MusicGenerator(SONG).createAudioBuffer(buffer => {
