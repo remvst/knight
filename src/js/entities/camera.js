@@ -29,6 +29,6 @@ class Camera extends Entity {
         if (this.previousInterpolator) {
             this.previousInterpolator.remove();
         }
-        return this.scene.add(new Interpolator(this, 'zoom', this.zoom, toValue, 2)).await();
+        return this.scene.add(new Interpolator(this, 'zoom', this.zoom, toValue, 1)).await();
     }
 }

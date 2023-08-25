@@ -44,9 +44,9 @@ class GameplayLevel extends Level {
 
         async function slowMo() {
             player.affectedBySpeedRatio = true;
-            scene.speedRatio = 0.1;
+            scene.speedRatio = 0.2;
             await camera.zoomTo(3);
-            await scene.delay(3 * scene.speedRatio);
+            await scene.delay(1.5 * scene.speedRatio);
             await camera.zoomTo(1);
             scene.speedRatio = 1;
             player.affectedBySpeedRatio = false;
@@ -72,7 +72,7 @@ class GameplayLevel extends Level {
 
 
             let nextWaveX = player.x + CANVAS_WIDTH;
-            for ( ; waveIndex < 13 ; waveIndex++) {
+            for ( ; waveIndex < 10 ; waveIndex++) {
                 // Show progress
                 (async () => {
                     await scene.delay(1);
@@ -89,7 +89,7 @@ class GameplayLevel extends Level {
                 })();
 
                 await scene.waitFor(() => player.x >= nextWaveX);
-                
+
                 instruction.remove();
                 waveStartScore = player.score;
 

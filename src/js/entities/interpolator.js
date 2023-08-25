@@ -38,5 +38,3 @@ class Interpolator extends Entity {
         }
     }
 }
-
-removeObjectWhenDone = interpolator => interpolator.object.remove();
