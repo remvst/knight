@@ -59,7 +59,7 @@ class PlayerHUD extends Entity {
 
             ctx.wrap(() => {
                 ctx.translate(300, 25 - 5);
-                ctx.scale(0.5, 0.5);
+                ctx.scale(-0.5, 0.5);
                 this.dummyKing.renderBody();
             });
         });
