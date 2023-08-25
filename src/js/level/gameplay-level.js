@@ -78,6 +78,16 @@ class GameplayLevel extends Level {
                     await scene.delay(1);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 0, 1, 1)).await();
                     await scene.add(new Interpolator(playerHUD, 'progress', playerHUD.progress, waveIndex / 13, 1)).await();
+
+                    // Regen a bit of health
+                    scene.add(new Interpolator(
+                        player, 
+                        'health', 
+                        player.health, 
+                        min(player.maxHealth, player.health + player.maxHealth * 0.5), 
+                        2,
+                    ));
+
                     await scene.delay(3);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 1, 0, 1)).await();
                 })();
@@ -105,15 +115,6 @@ class GameplayLevel extends Level {
                 slowMo();
 
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
-                
-                // Regen a bit of health
-                scene.add(new Interpolator(
-                    player, 
-                    'health', 
-                    player.health, 
-                    min(player.maxHealth, player.health + player.maxHealth * 0.5), 
-                    2,
-                ));
 
                 nextWaveX = player.x + evaluate(CANVAS_WIDTH * 2);
             }
