@@ -69,10 +69,10 @@ class PlayerHUD extends Entity {
 
             ctx.fillStyle = '#fff';
             ctx.strokeStyle = '#000';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 4;
             ctx.textBaseline = nomangle('top');
             ctx.textAlign = nomangle('center');
-            ctx.font = nomangle('bold 16pt Impact');
+            ctx.font = nomangle('bold 16pt Times New Roman');
             ctx.strokeText(nomangle('SCORE: ') + this.player.score.toLocaleString(), 0, 0);
             ctx.fillText(nomangle('SCORE: ') + this.player.score.toLocaleString(), 0, 0);
         });
