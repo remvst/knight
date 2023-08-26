@@ -462,7 +462,7 @@ playSong = () => new MusicGenerator(SONG).createAudioBuffer(buffer => {
         source.connect(audioCtx.destination);
     }
 
-    source.start();
+    source.nomangle(start)();
 
     playSong = () => 0;
 });
