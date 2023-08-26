@@ -114,7 +114,7 @@ createEnemyType = ({
             if (superArmor) protection += 0.7;
 
             this.health = this.maxHealth = ~~interpolate(100, 400, protection);
-            this.strength = axe ? 40 : (sword ? 30 : 10);
+            this.strength = axe ? 35 : (sword ? 25 : 10);
             this.baseSpeed = interpolate(120, 50, weight);
     
             if (stick) this.gibs.push(() => ctx.renderStick());
@@ -125,7 +125,7 @@ createEnemyType = ({
             this.stateMachine = characterStateMachine({
                 entity: this, 
                 chargeTime: 0.5,
-                staggerTime: (1 - protection) * 0.3,
+                staggerTime: interpolate(0.3, 0.1, protection),
             });
         }
 

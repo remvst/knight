@@ -137,7 +137,7 @@ class IntroLevel extends Level {
                 nomangle('One lone soldier decides to take on the emperor himself.'),
             ]));
 
-            await scene.delay(18);
+            await scene.delay(15);
 
             await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 

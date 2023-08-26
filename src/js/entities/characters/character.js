@@ -208,7 +208,7 @@ class Character extends Entity {
                     sound(...[2.14,,1e3,.01,.2,.31,3,3.99,,.9,,,.08,1.9,,,.22,.34,.12]);
                 } else {
                     // Regular parry, victim loses stamina
-                    victim.loseStamina(relativeStrength * 0.2);
+                    victim.loseStamina(relativeStrength * this.strength / 100);
                     victim.displayLabel(nomangle('Blocked!'));
                 
                     const animation = this.scene.add(new ShieldBlock());

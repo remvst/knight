@@ -72,7 +72,7 @@ class GameplayLevel extends Level {
 
 
             let nextWaveX = player.x + CANVAS_WIDTH;
-            for ( ; waveIndex < 10 ; waveIndex++) {
+            for ( ; waveIndex < 8 ; waveIndex++) {
                 // Show progress
                 (async () => {
                     await scene.delay(1);
@@ -189,7 +189,7 @@ class GameplayLevel extends Level {
                 nomangle('After licking his wounds, he resumed his quest.'),
             ])]));
 
-            await scene.delay(3);
+            await scene.delay(2);
             await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
             // Start a level where we left off
