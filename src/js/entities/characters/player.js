@@ -10,6 +10,8 @@ class Player extends Character {
         this.baseSpeed = 250;
         this.strength = 30;
 
+        this.staminaRecoveryDelay = 5;
+
         this.magnetRadiusX = 250;
         this.magnetRadiusY = 250;
 

@@ -27,6 +27,8 @@ class Character extends Entity {
         this.strength = 100;
         this.damageCount = this.parryCount = 0;
 
+        this.staminaRecoveryDelay = 99;
+
         this.setController(this.ai);
 
         this.gibs = [];
@@ -87,7 +89,7 @@ class Character extends Entity {
         }
 
         // Stamina regen
-        if (this.age - this.lastStaminaLoss > 5 || this.stateMachine.state.exhausted) {
+        if (this.age - this.lastStaminaLoss > this.staminaRecoveryDelay || this.stateMachine.state.exhausted) {
             this.stamina = min(1, this.stamina + elapsed * 0.3);
         }
 
