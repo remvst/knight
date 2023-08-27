@@ -162,7 +162,7 @@ class Character extends Entity {
         return victim
             ? this.dash(
                 angleBetween(this, victim), 
-                max(0, dist(this, victim) - this.strikeRadiusX / 2), 
+                max(0, dist(this, victim) - this.strikeRadiusY / 2), 
                 0.1,
             )
             : this.dash(
