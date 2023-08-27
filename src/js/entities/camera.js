@@ -4,6 +4,8 @@ class Camera extends Entity {
         this.categories.push('camera');
         this.zoom = 1;
         this.affectedBySpeedRatio = false;
+
+        this.minX = -evaluate(CANVAS_WIDTH / 2);
     }
 
     get appliedZoom() {
@@ -23,6 +25,8 @@ class Camera extends Entity {
             this.x += appliedDist * cos(angle);
             this.y += appliedDist * sin(angle);
         }
+
+        this.x = max(this.minX, this.x);
     }
 
     zoomTo(toValue) {

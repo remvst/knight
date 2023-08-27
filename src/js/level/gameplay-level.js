@@ -37,8 +37,10 @@ class GameplayLevel extends Level {
         // Respawn when far from the path
         (async () => {
             while (true) {
-                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 800);
-                await this.respawn(player.x, scene.pathCurve(player.x));
+                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 800 || player.x < camera.minX - CANVAS_WIDTH / 2);
+
+                const x = max(camera.minX + CANVAS_WIDTH, player.x);
+                await this.respawn(x, scene.pathCurve(x));
             }
         })();
 
@@ -110,6 +112,7 @@ class GameplayLevel extends Level {
                 this.scene.add(new Announcement(nomangle('Wave Cleared')));
 
                 nextWaveX = player.x + evaluate(CANVAS_WIDTH * 2);
+                camera.minX = player.x - CANVAS_WIDTH;
             }
 
             // Last wave, reach the king
