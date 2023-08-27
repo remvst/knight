@@ -226,6 +226,11 @@ class Character extends Entity {
                 victim.damage(this.strength * relativeStrength);
                 victim.dash(angle, this.strength * relativeStrength, 0.1);
 
+                // Regen a bit of health after a kill
+                if (!victim.health) {
+                    this.health = min(this.health + this.maxHealth * 0.1, this.maxHealth);
+                }
+
                 this.updateCombo(1);
 
                 const impactX = victim.x + rnd(-20, 20);
@@ -269,7 +274,7 @@ class Character extends Entity {
         this.displayLabel('-' + amount, this.damageLabelColor);
 
         // Death
-        if (this.health <= 0) this.die();
+        if (!this.health) this.die();
     }
 
     doRender() {
