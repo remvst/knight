@@ -86,7 +86,7 @@ class PlayerHUD extends Entity {
                 ctx.lineWidth = 4;
                 ctx.textBaseline = nomangle('middle');
                 ctx.textAlign = nomangle('right');
-                ctx.font = nomangle('bold 36pt Impact');
+                ctx.font = nomangle('bold 36pt Times New Roman');
 
                 ctx.rotate(-PI / 32);
 
