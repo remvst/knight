@@ -303,7 +303,7 @@ class Character extends Entity {
         ctx.withShadow(() => {
             if (inWater) {
                 ctx.beginPath();
-                ctx.rect(-100, -100, 200, 100);
+                ctx.rect(-150, -150, 300, 150);
                 ctx.clip();
 
                 ctx.translate(0, 10);
