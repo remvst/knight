@@ -139,18 +139,22 @@ class Character extends Entity {
             : (distanceScore + angleScore) / 2;
     }
 
-    pickVictim(radiusX, radiusY, fov) {
+    pickVictims(radiusX, radiusY, fov) {
         return Array
             .from(this.scene.category(this.targetTeam))
+            .filter((victim) => this.strikability(victim, radiusX, radiusY, fov) > 0);
+    }
+
+    pickVictim(radiusX, radiusY, fov) {
+        return this.pickVictims(radiusX, radiusY, fov)
             .reduce((acc, other) => {
-                const strikabilityOther = this.strikability(other, radiusX, radiusX, fov);
-                if (strikabilityOther <= 0) return acc;
                 if (!acc) return other;
 
-                return strikabilityOther > this.strikability(acc, radiusX, radiusY, fov) 
+                return this.strikability(other, radiusX, radiusX, fov) > this.strikability(acc, radiusX, radiusY, fov) 
                     ? other 
                     : acc;
             }, null);
+        
     }
 
     lunge() {
@@ -171,8 +175,7 @@ class Character extends Entity {
     strike(relativeStrength) {
         sound(...[.1,,400,.1,.01,,3,.92,17,,,,,2,,,,1.04]);
 
-        const victim = this.pickVictim(this.strikeRadiusX, this.strikeRadiusY, PI);
-        if (victim) {
+        for (const victim of this.pickVictims(this.strikeRadiusX, this.strikeRadiusY, PI)) {
             const angle = angleBetween(this, victim);
             if (victim.stateMachine.state.shielded) {
                 victim.facing = sign(this.x - victim.x) || 1;
