@@ -70,14 +70,13 @@ class GameplayLevel extends Level {
             scene.add(new Announcement(nomangle('The Path')));
             await scene.delay(2);
 
-
             let nextWaveX = player.x + CANVAS_WIDTH;
-            for ( ; waveIndex < 8 ; waveIndex++) {
+            for ( ; waveIndex < WAVE_COUNT ; waveIndex++) {
                 // Show progress
                 (async () => {
                     await scene.delay(1);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 0, 1, 1)).await();
-                    await scene.add(new Interpolator(playerHUD, 'progress', playerHUD.progress, waveIndex / 13, 1)).await();
+                    await scene.add(new Interpolator(playerHUD, 'progress', playerHUD.progress, waveIndex / WAVE_COUNT, 1)).await();
 
                     // Regen a bit of health
                     scene.add(new Interpolator(
