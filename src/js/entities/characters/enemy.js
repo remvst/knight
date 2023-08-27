@@ -54,7 +54,7 @@ createEnemyAI = ({
                 // Okay we're allowed to be aggro, let's do it!
                 try {
                     await this.race([
-                        new Timeout(500 / this.baseSpeed),
+                        new Timeout(500 / this.entity.baseSpeed),
                         new ReachPlayer(this.entity.strikeRadiusX, this.entity.strikeRadiusY),
                     ]);
 
