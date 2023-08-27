@@ -20,7 +20,7 @@ make
 
 ## TODO
 
-- SFX
+- deterministic waves
 - gamepad controls
 
 ## Ideas
