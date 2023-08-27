@@ -7,6 +7,9 @@ class PlayerHUD extends Entity {
         this.staminaGauge = new Gauge(() => this.player.stamina);
         this.progressGauge = new Gauge(() => this.progress);
 
+        this.healthGauge.regenRate = 0.1;
+        this.progressGauge.regenRate = 0.1;
+
         this.progressGauge.displayedValue = 0;
 
         this.progress = 0;

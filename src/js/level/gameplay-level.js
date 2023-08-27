@@ -76,16 +76,10 @@ class GameplayLevel extends Level {
                 (async () => {
                     await scene.delay(1);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 0, 1, 1)).await();
-                    await scene.add(new Interpolator(playerHUD, 'progress', playerHUD.progress, waveIndex / WAVE_COUNT, 1)).await();
+                    playerHUD.progress = waveIndex / WAVE_COUNT;
 
                     // Regen a bit of health
-                    scene.add(new Interpolator(
-                        player, 
-                        'health', 
-                        player.health, 
-                        min(player.maxHealth, player.health + player.maxHealth * 0.5), 
-                        2,
-                    ));
+                    player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
 
                     await scene.delay(3);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 1, 0, 1)).await();

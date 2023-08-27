@@ -16,14 +16,19 @@ class Gauge {
     constructor(getValue) {
         this.getValue = getValue;
         this.value = this.displayedValue = 1;
+        this.regenRate = 0.5;
     }
 
     cycle(elapsed) {
-        this.displayedValue += between(-elapsed * 0.5, this.getValue() - this.displayedValue, elapsed * 0.5);
+        this.displayedValue += between(
+            -elapsed * 0.5, 
+            this.getValue() - this.displayedValue, 
+            elapsed * this.regenRate,
+        );
     }
 
     render(width, height, color, half) {
-        function renderGague(
+        function renderGauge(
             width,
             height, 
             value,
@@ -54,12 +59,12 @@ class Gauge {
         ctx.wrap(() => {
             ctx.wrap(() => {
                 ctx.globalAlpha *= 0.5;
-                renderGague(width + 8, height + 4, 1, '#000');
+                renderGauge(width + 8, height + 4, 1, '#000');
             });
 
             ctx.translate(0, 2);
-            renderGague(width, height, this.displayedValue, '#fff');
-            renderGague(width, height, this.getValue(), color);
+            renderGauge(width, height, this.displayedValue, '#fff');
+            renderGauge(width, height, min(this.displayedValue, this.getValue()), color);
         });
     }
 }
