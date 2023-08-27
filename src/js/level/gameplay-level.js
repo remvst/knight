@@ -93,7 +93,7 @@ class GameplayLevel extends Level {
 
                 const instruction = scene.add(new Instruction());
                 (async () => {
-                    await scene.delay(7),
+                    await scene.delay(10),
                     instruction.text = nomangle('Follow the path to the right');
                 })();
 
