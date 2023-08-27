@@ -19,6 +19,7 @@ class TestLevel extends Level {
             enemy.poof();
 
             this.scene.add(new CharacterHUD(enemy));
+            this.scene.add(new CharacterOffscreenIndicator(enemy));
         }
 
         // const king = this.scene.add(new KingEnemy());

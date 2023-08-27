@@ -60,6 +60,7 @@ class GameplayLevel extends Level {
                 enemy.x = player.x + rnd(-CANVAS_WIDTH / 2, CANVAS_WIDTH / 2);
                 enemy.y = player.y + pick([-1, 1]) * (evaluate(CANVAS_HEIGHT / 2) + rnd(50, 100));
                 scene.add(new CharacterHUD(enemy));
+                scene.add(new CharacterOffscreenIndicator(enemy));
                 return enemy
             });
         }
@@ -143,6 +144,7 @@ class GameplayLevel extends Level {
                 attackCount: 3,
             });
             king.setController(new aiType());
+            scene.add(new CharacterOffscreenIndicator(king));
 
             // Spawn some mobs
             spawnWave(5, WAVE_SETTINGS[WAVE_SETTINGS.length - 1]);
