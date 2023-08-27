@@ -37,7 +37,7 @@ class GameplayLevel extends Level {
         // Respawn when far from the path
         (async () => {
             while (true) {
-                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 800 || player.x < camera.minX - CANVAS_WIDTH / 2);
+                await scene.waitFor(() => abs(player.y - scene.pathCurve(player.x)) > 1000 || player.x < camera.minX - CANVAS_WIDTH / 2);
 
                 const x = max(camera.minX + CANVAS_WIDTH, player.x);
                 await this.respawn(x, scene.pathCurve(x));
