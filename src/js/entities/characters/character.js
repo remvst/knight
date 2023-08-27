@@ -223,7 +223,7 @@ class Character extends Entity {
                     sound(...[2.03,,200,,.04,.12,1,1.98,,,,,,-2.4,,,.1,.59,.05,.17]);
                 }
             } else {
-                victim.damage(this.strength * relativeStrength);
+                victim.damage(~~(this.strength * relativeStrength));
                 victim.dash(angle, this.strength * relativeStrength, 0.1);
 
                 // Regen a bit of health after a kill
