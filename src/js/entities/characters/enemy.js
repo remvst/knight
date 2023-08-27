@@ -52,6 +52,7 @@ createEnemyAI = ({
                 await this.startAI(new BecomeAggressive());
 
                 // Okay we're allowed to be aggro, let's do it!
+                let failedToAttack;
                 try {
                     await this.race([
                         new Timeout(500 / this.entity.baseSpeed),
@@ -62,13 +63,15 @@ createEnemyAI = ({
                         await this.startAI(new Attack(0.5));
                     }
                     await this.startAI(new Wait(0.5));
-                } catch (e) {}
+                } catch (e) {
+                    failedToAttack = true;
+                }
 
                 // We're done attacking, let's allow someone else to be aggro
                 await this.startAI(new BecomePassive());
 
                 // Retreat a bit so we're not too close to the player
-                const dash = !shield && random() < 0.5;
+                const dash = !shield && !failedToAttack && random() < 0.5;
                 await this.race([
                     new RetreatAI(300, 300),
                     new Wait(dash ? 0.1 : 4),
