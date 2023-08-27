@@ -6,22 +6,24 @@ class TestLevel extends Level {
         this.scene.add(new PlayerHUD(player));
 
         const camera = firstItem(this.scene.category('camera'));
-        camera.zoom = 3;
+        // camera.zoom = 3;
 
         // player.health = player.maxHealth = Number.MAX_SAFE_INTEGER;
 
         this.scene.add(new Path())
 
-        // for (let r = 0 ; r < 1 ; r += 1 / 5) {
-        //     const enemy = this.scene.add(new DummyEnemy());
-        //     enemy.x = cos(r * TWO_PI) * 200;
-        //     enemy.y = -400 + sin(r * TWO_PI) * 200;
-        //     enemy.poof();
-        // }
+        for (let r = 0 ; r < 1 ; r += 1 / 5) {
+            const enemy = this.scene.add(new StickEnemy());
+            enemy.x = cos(r * TWO_PI) * 200;
+            enemy.y = -400 + sin(r * TWO_PI) * 200;
+            enemy.poof();
 
-        const king = this.scene.add(new KingEnemy());
-        king.x = 400;
-        this.scene.add(new CharacterHUD(king));
+            this.scene.add(new CharacterHUD(enemy));
+        }
+
+        // const king = this.scene.add(new KingEnemy());
+        // king.x = 400;
+        // this.scene.add(new CharacterHUD(king));
 
         // for (let r = 0 ; r < 1 ; r += 1 / 10) {
         //     const type = pick(ENEMY_TYPES);
