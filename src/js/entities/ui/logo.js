@@ -31,6 +31,7 @@ class Logo extends Entity {
 
         for (const player of this.scene.category('player')) {
             player.doRender(camera);
+            if (BEATEN) ctx.renderCrown(player);
         }
     }
 }

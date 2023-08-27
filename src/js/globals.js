@@ -4,6 +4,7 @@ let can;
 let ctx;
 
 let GAME_PAUSED;
+let BEATEN;
 
 canvasPrototype = CanvasRenderingContext2D.prototype;
 

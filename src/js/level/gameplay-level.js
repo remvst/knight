@@ -151,6 +151,9 @@ class GameplayLevel extends Level {
 
             await scene.waitFor(() => king.health <= 0);
 
+            player.health = player.maxHealth = 999;
+            BEATEN = true;
+
             // Final slomo
             await slowMo();
             await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
