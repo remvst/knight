@@ -146,11 +146,19 @@ characterStateMachine = ({
         }
 
         cycle(elapsed) {
+            const { attackPreparationRatio } = this;
+
             super.cycle(elapsed);
 
             if (!controls.attack) {
                 const counter = this.age >= 1 ? attackDamagePattern.length - 1 : this.counter;
                 stateMachine.transitionToState(new Strike(counter));
+            }
+
+            if (attackPreparationRatio < 1 && this.attackPreparationRatio >= 1) {
+                const animation = entity.scene.add(new FullCharge());
+                animation.x = entity.x - entity.facing * 20;
+                animation.y = entity.y - 60;
             }
         }
     }

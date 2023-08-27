@@ -106,6 +106,7 @@ compiler.run((tasks) => {
                 "src/js/entities/path.js",
                 "src/js/entities/aggressivity-tracker.js",
 
+                "src/js/entities/animations/full-charge.js",
                 "src/js/entities/animations/shield-block.js",
                 "src/js/entities/animations/perfect-parry.js",
                 "src/js/entities/animations/particle.js",
@@ -271,7 +272,7 @@ compiler.run((tasks) => {
 
         if (uglify) {
             sequence.push(tasks.uglifyES());
-            // sequence.push(tasks.roadroller());
+            sequence.push(tasks.roadroller());
         }
 
         return tasks.sequence(sequence);

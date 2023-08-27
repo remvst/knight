@@ -1,4 +1,4 @@
-class ShieldBlock extends Entity {
+class FullCharge extends Entity {
 
     get z() { 
         return LAYER_ANIMATIONS; 
@@ -18,7 +18,7 @@ class ShieldBlock extends Entity {
         ctx.scale(ratio, ratio);
 
         ctx.globalAlpha = 1 - ratio; 
-        ctx.strokeStyle = '#fff';
+        ctx.strokeStyle = '#ff0';
         ctx.lineWidth = 10;
         ctx.beginPath();
         ctx.arc(0, 0, 80, 0, TWO_PI);
