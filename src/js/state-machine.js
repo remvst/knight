@@ -203,10 +203,13 @@ characterStateMachine = ({
             if (this.age > 0.15) {
                 entity.strike(attackDamagePattern[this.counter]);
 
+                if (this.didTryToDash) {
+                    stateMachine.transitionToState(new Dashing());   
+                    return; 
+                }
+
                 if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
-                    if (this.didTryToDash) {
-                        stateMachine.transitionToState(new Dashing());    
-                    } else if (this.didTryToAttackAgain) {
+                    if (this.didTryToAttackAgain) {
                         stateMachine.transitionToState(new Charging(this.counter + 1));    
                     } else {
                         stateMachine.transitionToState(new LightRecover(this.counter));
@@ -266,6 +269,8 @@ characterStateMachine = ({
 
             if (this.age > 0.5) {
                 stateMachine.transitionToState(new Idle());
+            } else if (controls.dash) {
+                stateMachine.transitionToState(new Dashing());
             }
         }
     }
