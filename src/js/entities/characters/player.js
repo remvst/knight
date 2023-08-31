@@ -1,3 +1,10 @@
+FOV_GRADIENT = [0, 255].map(red => createCanvas(1, 1, ctx => {
+    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, PLAYER_MAGNET_RADIUS);
+    grad.addColorStop(0, 'rgba(' + red + ',0,0,.1)');
+    grad.addColorStop(1, 'rgba(' + red + ',0,0,0)');
+    return grad;
+}));
+
 class Player extends Character {
     constructor() {
         super();
@@ -12,8 +19,7 @@ class Player extends Character {
 
         this.staminaRecoveryDelay = 2;
 
-        this.magnetRadiusX = 250;
-        this.magnetRadiusY = 250;
+        this.magnetRadiusX = this.magnetRadiusY = PLAYER_MAGNET_RADIUS;
 
         this.affectedBySpeedRatio = false;
 
@@ -47,13 +53,27 @@ class Player extends Character {
     }
 
     render() {
+        const victim = this.pickVictim(this.magnetRadiusX, this.magnetRadiusY, PI / 2);
+        if (victim) {
+            ctx.wrap(() => {
+                ctx.globalAlpha = 0.2;
+                ctx.strokeStyle = '#f00';
+                ctx.lineWidth = 5;
+                ctx.setLineDash([10, 10]);
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(victim.x, victim.y);
+                ctx.stroke();
+            });
+        }
+
         ctx.wrap(() => {
             ctx.translate(this.x, this.y);
 
             const aimAngle = angleBetween(this, this.controls.aim);
-            ctx.fillStyle = 'rgba(0,0,0,.03)';
+            ctx.fillStyle = FOV_GRADIENT[+!!victim];
             ctx.beginPath();
-            ctx.ellipse(0, 0, this.strikeRadiusX * 4, this.strikeRadiusY * 4, 0, aimAngle - PI / 4, aimAngle + PI / 4);
+            ctx.arc(0, 0, this.magnetRadiusX, aimAngle - PI / 4, aimAngle + PI / 4);
             ctx.lineTo(0, 0);
             ctx.fill();
         });
