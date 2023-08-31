@@ -15,6 +15,8 @@ class Level {
         this.scene.add(new Rain());
         this.scene.add(new PauseOverlay());
 
+        for (let i = 2 ; i-- ; ) this.scene.add(new Bird());
+
         for (let i = 0 ; i < 400 ; i++) {
             const grass = new Grass();
             grass.x = rnd(-2, 2) * CANVAS_WIDTH;

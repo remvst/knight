@@ -143,6 +143,7 @@ compiler.run((tasks) => {
                 "src/js/entities/animations/particle.js",
                 "src/js/entities/animations/swing-effect.js",
                 "src/js/entities/animations/rain.js",
+                "src/js/entities/animations/bird.js",
                 
                 "src/js/entities/props/grass.js",
                 "src/js/entities/props/obstacle.js",
