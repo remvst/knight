@@ -12,3 +12,4 @@ install:
 	brew install node advancecomp || sudo apt-get install -y advancecomp
 	cd js13k-compiler && npm install
 	./install-ect.sh
+	mkdir -p build
