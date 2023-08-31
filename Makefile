@@ -9,6 +9,6 @@ update: install
 
 install:
 	git submodule update --init --recursive
-	brew install node advancecomp || apt-get install -y advancecomp
+	brew install node advancecomp || sudo apt-get install -y advancecomp
 	cd js13k-compiler && npm install
 	./install-ect.sh
