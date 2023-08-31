@@ -7,7 +7,7 @@ update: install
 	cd js13k-compiler && git checkout master && git pull && npm install
 
 install:
-	git submodule init
-	git submodule update
+	git submodule update --init --recursive
 	brew install node advancecomp
 	cd js13k-compiler && git checkout master && git pull && npm install
+	./install-ect.sh

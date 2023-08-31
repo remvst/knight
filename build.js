@@ -11,7 +11,7 @@ class ECTZip extends Task {
     execute(input) {
         return new Promise((resolve, reject) => {
             // Guess I'm hardcoding this :p
-            const subprocess = spawn('../Efficient-Compression-Tool/build/ect', [
+            const subprocess = spawn('./Efficient-Compression-Tool/build/ect', [
                 '-zip', 
                 this.filename,
                 '-9',

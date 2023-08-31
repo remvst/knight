@@ -1,3 +1,6 @@
 [submodule "js13k-compiler"]
 	path = js13k-compiler
 	url = https://github.com/remvst/js13k-compiler
+[submodule "Efficient-Compression-Tool"]
+	path = Efficient-Compression-Tool
+	url = https://github.com/fhanau/Efficient-Compression-Tool
