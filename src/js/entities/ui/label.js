@@ -21,7 +21,7 @@ class Label extends Entity {
         ctx.font = nomangle('bold 14pt Arial');
         ctx.fillStyle = this.color;
         ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3;
         ctx.textAlign = nomangle('center');
         ctx.textBaseline = nomangle('middle');
 
