@@ -92,6 +92,8 @@ const CONSTANTS = {
 
     "RIPPLE_DURATION": 2,
     "THUNDER_INTERVAL": 10,
+
+    "SONG_VOLUME": 0.5,
 };
 
 function copy(obj) {
