@@ -11,15 +11,13 @@ class Grass extends Entity {
     }
 
     doRender() {
-        if (inputMode == INPUT_MODE_TOUCH) return;
-
         ctx.translate(this.x, this.y);
         
         ctx.withShadow(() => {
             this.rng.reset();
 
             let x = 0;
-            for (let i = 0 ; i < 5 ; i++) {
+            for (let i = 0 ; i < (inputMode == INPUT_MODE_TOUCH ? 2 : 5) ; i++) {
                 ctx.wrap(() => {
                     ctx.fillStyle = ctx.resolveColor('#ab8');
                     ctx.translate(x, 0);
