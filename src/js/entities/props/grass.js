@@ -11,6 +11,8 @@ class Grass extends Entity {
     }
 
     doRender() {
+        if (inputMode == INPUT_MODE_TOUCH) return;
+
         ctx.translate(this.x, this.y);
         
         ctx.withShadow(() => {
