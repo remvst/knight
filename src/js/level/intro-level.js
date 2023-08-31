@@ -77,8 +77,6 @@ class IntroLevel extends Level {
                 enemy.x = cos(r * TWO_PI) * 200;
                 enemy.y = sin(r * TWO_PI) * 200;
                 enemy.poof();
-
-                scene.add(new CharacterOffscreenIndicator(enemy));
             }
 
             await this.repeat(
@@ -110,6 +108,7 @@ class IntroLevel extends Level {
             enemy.health = enemy.maxHealth = Number.MAX_SAFE_INTEGER;
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
+            scene.add(new CharacterOffscreenIndicator(enemy));
 
             await this.repeat(
                 msg,
