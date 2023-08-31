@@ -1,4 +1,33 @@
 const compiler = require('./js13k-compiler/src/compiler');
+const spawn = require('child_process').spawn;
+const Task = require('./js13k-compiler/src/tasks/task');
+
+class ECTZip extends Task {
+    constructor(filename) {
+        super();
+        this.filename = filename;
+    }
+
+    execute(input) {
+        return new Promise((resolve, reject) => {
+            // Guess I'm hardcoding this :p
+            const subprocess = spawn('../Efficient-Compression-Tool/build/ect', [
+                '-zip', 
+                this.filename,
+                '-9',
+                '-strip',
+            ]);
+
+            subprocess.on('exit', (code) => {
+                if (code === 0) {
+                    resolve(input);
+                } else {
+                    reject('ect failed with error code ' + code);
+                }
+            });
+        });
+    }
+}
 
 let belowLayer = -9990;
 let aboveLayer = 9990;
@@ -322,9 +351,17 @@ compiler.run((tasks) => {
             tasks.output(__dirname + '/build/index.html'),
             tasks.label('Building ZIP'),
             tasks.zip('index.html'),
+
+            // Regular zip
             tasks.output(__dirname + '/build/game.zip'),
             tasks.checkSize(__dirname + '/build/game.zip'),
+
+            // ADV zip
             tasks.advzip(__dirname + '/build/game.zip'),
+            tasks.checkSize(__dirname + '/build/game.zip'),
+
+            // ECT zip
+            new ECTZip(__dirname + '/build/game.zip'),
             tasks.checkSize(__dirname + '/build/game.zip'),
         ]);
     }
