@@ -16,14 +16,14 @@ class MobileJoystick {
         TOUCH_CONTROLS_CTX.lineWidth = 2;
         TOUCH_CONTROLS_CTX.fillStyle = 'rgba(0,0,0,0.5)';
         TOUCH_CONTROLS_CTX.beginPath();
-        TOUCH_CONTROLS_CTX.arc(this.x, this.y, radius, 0, TWO_PI);
+        TOUCH_CONTROLS_CTX.arc(this.x, this.y, radius * devicePixelRatio, 0, TWO_PI);
         TOUCH_CONTROLS_CTX.fill();
         TOUCH_CONTROLS_CTX.stroke();
 
         TOUCH_CONTROLS_CTX.globalAlpha = 0.5;
         TOUCH_CONTROLS_CTX.fillStyle = '#fff';
         TOUCH_CONTROLS_CTX.beginPath();
-        TOUCH_CONTROLS_CTX.arc(this.touch.x, this.touch.y, 30, 0, TWO_PI);
+        TOUCH_CONTROLS_CTX.arc(this.touch.x, this.touch.y, 30 * devicePixelRatio, 0, TWO_PI);
         TOUCH_CONTROLS_CTX.fill();
     }
 }
@@ -41,6 +41,8 @@ class MobileButton {
 
     render() {
         TOUCH_CONTROLS_CTX.translate(this.x(), this.y());
+
+        TOUCH_CONTROLS_CTX.scale(devicePixelRatio, devicePixelRatio);
 
         TOUCH_CONTROLS_CTX.strokeStyle = '#fff';
         TOUCH_CONTROLS_CTX.lineWidth = 2;
@@ -62,9 +64,10 @@ updateTouches = (touches) => {
     for (const button of TOUCH_BUTTONS) {
         button.down = false;
         for (const touch of touches) {
+            getEventPosition(touch, TOUCH_CONTROLS_CANVAS, touch);
             if (
-                abs(button.x() - touch.pageX) < TOUCH_BUTTON_RADIUS &&
-                abs(button.y() - touch.pageY) < TOUCH_BUTTON_RADIUS
+                abs(button.x() - touch.x) < TOUCH_BUTTON_RADIUS * devicePixelRatio &&
+                abs(button.y() - touch.y) < TOUCH_BUTTON_RADIUS * devicePixelRatio
             ) {
                 button.down = true;
             }
@@ -75,7 +78,7 @@ updateTouches = (touches) => {
     for (const touch of touches) {
         if (
             touch.identifier === TOUCH_JOYSTICK.touchIdentifier || 
-            touch.pageX < innerWidth / 2
+            touch.x < TOUCH_CONTROLS_CANVAS.width / 2
         ) {
             movementTouch = touch;
             break;
@@ -84,12 +87,12 @@ updateTouches = (touches) => {
 
     if (movementTouch) {
         if (TOUCH_JOYSTICK.touchIdentifier < 0) {
-            TOUCH_JOYSTICK.x = movementTouch.pageX;
-            TOUCH_JOYSTICK.y = movementTouch.pageY;
+            TOUCH_JOYSTICK.x = movementTouch.x;
+            TOUCH_JOYSTICK.y = movementTouch.y;
         }
         TOUCH_JOYSTICK.touchIdentifier = movementTouch.identifier;
-        TOUCH_JOYSTICK.touch.x = movementTouch.pageX;
-        TOUCH_JOYSTICK.touch.y = movementTouch.pageY;
+        TOUCH_JOYSTICK.touch.x = movementTouch.x;
+        TOUCH_JOYSTICK.touch.y = movementTouch.y;
     } else {
         TOUCH_JOYSTICK.touchIdentifier = -1;
     }
@@ -115,8 +118,8 @@ ontouchend = (event) => {
 
 renderTouchControls = () => {
     TOUCH_CONTROLS_CANVAS.style.display = inputMode == INPUT_MODE_TOUCH ? 'block' : 'hidden';
-    TOUCH_CONTROLS_CANVAS.width = innerWidth;
-    TOUCH_CONTROLS_CANVAS.height = innerHeight;
+    TOUCH_CONTROLS_CANVAS.width = innerWidth * devicePixelRatio;
+    TOUCH_CONTROLS_CANVAS.height = innerHeight * devicePixelRatio;
 
     for (const button of TOUCH_BUTTONS.concat([TOUCH_JOYSTICK])) {
         TOUCH_CONTROLS_CTX.wrap(() => button.render());
@@ -130,18 +133,18 @@ TOUCH_CONTROLS_CTX = TOUCH_CONTROLS_CANVAS.getContext('2d');
 
 TOUCH_BUTTONS = [
     TOUCH_ATTACK_BUTTON = new MobileButton(
-        () => TOUCH_CONTROLS_CANVAS.width - 175,
-        () => TOUCH_CONTROLS_CANVAS.height - 75,
+        () => TOUCH_CONTROLS_CANVAS.width - 175 * devicePixelRatio,
+        () => TOUCH_CONTROLS_CANVAS.height - 75 * devicePixelRatio,
         nomangle('ATK'),
     ),
     TOUCH_SHIELD_BUTTON = new MobileButton(
-        () => TOUCH_CONTROLS_CANVAS.width - 75,
-        () => TOUCH_CONTROLS_CANVAS.height - 75,
+        () => TOUCH_CONTROLS_CANVAS.width - 75 * devicePixelRatio,
+        () => TOUCH_CONTROLS_CANVAS.height - 75 * devicePixelRatio,
         nomangle('DEF'),
     ),
     TOUCH_DASH_BUTTON = new MobileButton(
-        () => TOUCH_CONTROLS_CANVAS.width - 125,
-        () => TOUCH_CONTROLS_CANVAS.height - 150,
+        () => TOUCH_CONTROLS_CANVAS.width - 125 * devicePixelRatio,
+        () => TOUCH_CONTROLS_CANVAS.height - 150 * devicePixelRatio,
         nomangle('ROLL'),
     ),
 ];
