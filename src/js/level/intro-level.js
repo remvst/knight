@@ -77,6 +77,8 @@ class IntroLevel extends Level {
                 enemy.x = cos(r * TWO_PI) * 200;
                 enemy.y = sin(r * TWO_PI) * 200;
                 enemy.poof();
+
+                scene.add(new CharacterOffscreenIndicator(enemy));
             }
 
             await this.repeat(
