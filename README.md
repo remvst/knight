@@ -1,26 +1,29 @@
 # Path To Glory
 
 <p align="center">
-<img src="/assets/title-screen.png">
+<img src="/assets/icon-400x400.png">
 </p>
 
-My entry for 2023's JS13K competition.
+My entry for 2023's [JS13K](https://js13kgames.com/) competition.
 
-## Installation
-
-```sh
-make install
-```
-
-## Build
-
-```sh
-make
-```
+> 1254 AD
+>
+> The Kingdom of Syldavia is being invaded by the Northern Empire.
+>
+> The Syldavian army is outnumbered and outmatched.
+>
+> One lone soldier decides to take on the emperor himself.
 
 <p align="center">
 <img src="/assets/gameplay-screenshot.png">
 </p>
+
+## Build
+
+```sh
+make install
+make
+```
 
 ## TODO
 
