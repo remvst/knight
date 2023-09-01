@@ -15,7 +15,7 @@ class Entity {
     }
 
     get inWater() {
-        if (!this.scene) return;
+        if (this.scene)
         for (const water of this.scene.category('water')) {
             if (water.contains(this)) return true;
         }
@@ -28,14 +28,12 @@ class Entity {
     render() {
         const camera = firstItem(this.scene.category('camera'));
         if (
-            !isBetween(camera.x - CANVAS_WIDTH / 2 - this.renderPadding, this.x, camera.x + CANVAS_WIDTH / 2 + this.renderPadding) ||
-            !isBetween(camera.y - CANVAS_HEIGHT / 2 - this.renderPadding, this.y, camera.y + CANVAS_HEIGHT / 2 + this.renderPadding)
+            isBetween(camera.x - CANVAS_WIDTH / 2 - this.renderPadding, this.x, camera.x + CANVAS_WIDTH / 2 + this.renderPadding) &&
+            isBetween(camera.y - CANVAS_HEIGHT / 2 - this.renderPadding, this.y, camera.y + CANVAS_HEIGHT / 2 + this.renderPadding)
         ) {
-            return;
+            this.rng.reset();
+            this.doRender(camera);
         }
-
-        this.rng.reset();
-        this.doRender(camera);
     }
 
     doRender(camera) {
