@@ -1,7 +1,7 @@
 # Path To Glory
 
 <p align="center">
-<img src="/assets/title-screen.png" width="400"><img src="/assets/gameplay-screenshot.png" width="400">
+<img src="/assets/title-screen.png">
 </p>
 
 My entry for 2023's JS13K competition.
@@ -17,6 +17,10 @@ make install
 ```sh
 make
 ```
+
+<p align="center">
+<img src="/assets/gameplay-screenshot.png">
+</p>
 
 ## TODO
 
