@@ -2,8 +2,6 @@
 <img src="/assets/gameplay-screenshot.png">
 </p>
 
-# Path To Glory
-
 > 1254 AD
 >
 > The Kingdom of Syldavia is being invaded by the Northern Empire.
@@ -12,9 +10,10 @@
 >
 > One lone soldier decides to take on the emperor himself.
 
-**Path To Glory** is my entry for 2023's [JS13K](https://js13kgames.com/) competition.
+**Path To Glory** is my entry for 2023's [JS13K](https://js13kgames.com/).
+The theme for the competition was **13th century**.
 
-The game is a beat 'em up where you fight waves of enemies until you reach the final boss.
+The game is a historically inaccurate beat 'em up where you fight waves of enemies until you reach the final boss.
 
 ## Build
 
