@@ -193,7 +193,7 @@ class GameplayLevel extends Level {
 
                 // Tip
                 pick([
-                    nomangle('His shield would not fail him again ([SHIELD] / [RIGHT CLICK])'),
+                    nomangle('His shield would not fail him again ([SHIFT] / [RIGHT CLICK])'),
                     nomangle('Rolling would help him dodge attacks ([SPACE] / [CTRL])'),
                     nomangle('Heavy attacks would be key to his success'),
                 ]),
