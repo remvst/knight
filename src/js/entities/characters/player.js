@@ -137,7 +137,7 @@ class PlayerController extends CharacterController {
         this.entity.controls.force = x || y ? 1 : 0;
         this.entity.controls.shield = DOWN[16] || MOUSE_RIGHT_DOWN || TOUCH_SHIELD_BUTTON.down;
         this.entity.controls.attack = MOUSE_DOWN || TOUCH_ATTACK_BUTTON.down;
-        this.entity.controls.dash = DOWN[32] || TOUCH_DASH_BUTTON.down;
+        this.entity.controls.dash = DOWN[32] || DOWN[17] || TOUCH_DASH_BUTTON.down;
 
         const mouseRelX = (MOUSE_POSITION.x - CANVAS_WIDTH / 2) / (CANVAS_WIDTH / 2);
         const mouseRelY = (MOUSE_POSITION.y - CANVAS_HEIGHT / 2) / (CANVAS_HEIGHT / 2);

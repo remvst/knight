@@ -59,7 +59,7 @@ class IntroLevel extends Level {
             // Roll tutorial
             await this.repeat(
                 msg,
-                nomangle('Press [SPACE] to roll'),
+                nomangle('Press [SPACE] or [CTRL] to roll'),
                 async () => {
                     await scene.waitFor(() => player.stateMachine.state.dashAngle !== undefined);
                     await scene.waitFor(() => player.stateMachine.state.dashAngle === undefined);
