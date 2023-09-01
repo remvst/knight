@@ -279,28 +279,7 @@ class Character extends Entity {
         if (!this.health) this.die();
     }
 
-    heal(amount) {
-        amount = ~~min(this.maxHealth - this.health, amount);
-        this.health += amount
-
-        for (let i = amount ; --i > 0 ;) {
-            setTimeout(() => {
-                const angle = random() * TWO_PI;
-                const dist = random() * 40;
-
-                const x = this.x + rnd(-10, 10);
-                const y = this.y - 30 + sin(angle) * dist;
-
-                this.scene.add(new Particle(
-                    '#0f0',
-                    [5, 10],
-                    [x, x + rnd(-10, 10)],
-                    [y, y + rnd(-30, -60)],
-                    rnd(1, 1.5),
-                ));
-            }, i * 100);
-        }
-    }
+    heal() {}
 
     doRender() {
         const { inWater, renderAge } = this;
