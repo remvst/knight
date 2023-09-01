@@ -58,10 +58,10 @@ canvasPrototype.renderLegs = function(entity, color) {
     this.wrap(() => {
         const { age } = entity;
 
+        this.translate(0, -32);
+
         // Left leg
         this.wrap(() => {
-            this.translate(0, -32);
-
             this.fillStyle = this.resolveColor(color);
             this.translate(-6, 12);
             if (entity.controls.force) this.rotate(-sin(age * TWO_PI * 4) * PI / 16);
@@ -70,8 +70,6 @@ canvasPrototype.renderLegs = function(entity, color) {
 
         // Right leg
         this.wrap(() => {
-            this.translate(0, -32);
-
             this.fillStyle = this.resolveColor(color);
             this.translate(6, 12);
             if (entity.controls.force) this.rotate(sin(age * TWO_PI * 4) * PI / 16);

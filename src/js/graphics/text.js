@@ -7,8 +7,8 @@ LOGO_GRADIENT = createCanvas(1, 1, (ctx) => {
 });
 
 canvasPrototype.renderLargeText = function (bits) {
-    this.textBaseline = 'alphabetic';
-    this.textAlign = 'left';
+    this.textBaseline = nomangle('alphabetic');
+    this.textAlign = nomangle('left');
     this.fillStyle = LOGO_GRADIENT;
     this.strokeStyle = '#000';
     this.lineWidth = 4;

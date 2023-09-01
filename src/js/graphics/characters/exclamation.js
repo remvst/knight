@@ -10,9 +10,9 @@ exclamation = createCanvas(50, 50, (ctx, can) => {
     }
     ctx.fill();
 
-    ctx.font = 'bold 18pt Arial';
+    ctx.font = nomangle('bold 18pt Arial');
     ctx.fillStyle = '#f00';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.textAlign = nomangle('center');
+    ctx.textBaseline = nomangle('middle');
     ctx.fillText('!!!', 0, 0);
 });

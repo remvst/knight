@@ -11,7 +11,7 @@ interpolate = (from, to, ratio) => between(0, ratio, 1) * (to - from) + from;
 
 // Easing
 linear = x => x;
-easeOutQuint = x => 1 - Math.pow(1 - x, 5);
+easeOutQuint = x => 1 - pow(1 - x, 5);
 
 // Modulo centered around zero: the result will be between -y and +y
 moduloWithNegative = (x, y) => {
@@ -26,7 +26,6 @@ moduloWithNegative = (x, y) => {
 };
 
 // Make Math global
-const math = Math;
-Object.getOwnPropertyNames(math).forEach(n => w[n] = w[n] || math[n]);
+Object.getOwnPropertyNames(Math).forEach(n => w[n] = w[n] || Math[n]);
 
 TWO_PI = PI * 2;
