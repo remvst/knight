@@ -180,17 +180,26 @@ class GameplayLevel extends Level {
 
             const fade = scene.add(new Fade());
             await scene.add(new Interpolator(fade, 'alpha', 0, 1, 2 * scene.speedRatio)).await();
+            scene.speedRatio = 2;
 
-            scene.speedRatio = 1;
+            const expo = scene.add(new Exposition([
+                // Story
+                pick([
+                    nomangle('Failing never affected his will, only his score.'),
+                    nomangle('Giving up was never an option.'),
+                    nomangle('His first attempts weren\'t successful.'),
+                    nomangle('After licking his wounds, he resumed his quest.'),
+                ]), 
 
-            const expo = scene.add(new Exposition([pick([
-                nomangle('Failing never affected his will, only his score.'),
-                nomangle('Giving up was never an option.'),
-                nomangle('His first attempts weren\'t successful.'),
-                nomangle('After licking his wounds, he resumed his quest.'),
-            ])]));
+                // Tip
+                pick([
+                    nomangle('His shield would not fail him again ([SHIELD] / [RIGHT CLICK])'),
+                    nomangle('Rolling would help him dodge attacks ([SPACE] / [CTRL])'),
+                    nomangle('Heavy attacks would be key to his success'),
+                ]),
+            ]));
 
-            await scene.delay(2);
+            await scene.delay(6);
             await scene.add(new Interpolator(expo, 'alpha', 1, 0, 2)).await();
 
             // Start a level where we left off
