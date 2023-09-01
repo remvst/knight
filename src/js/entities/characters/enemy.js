@@ -96,6 +96,17 @@ createEnemyType = ({
 }) => {
     const ai = createEnemyAI({ shield, attackCount });
 
+    const weight = 0
+        + (!!armor * 0.2) 
+        + (!!superArmor * 0.3) 
+        + (!!axe * 0.1)
+        + (!!(sword || shield) * 0.3);
+
+    const protection = 0
+        + (!!shield * 0.3)
+        + (!!armor * 0.5)
+        + (!!superArmor * 0.7);
+
     class EnemyType extends Enemy {
         constructor() {
             super();
@@ -103,17 +114,6 @@ createEnemyType = ({
             this.aggression = 1;
             if (sword) this.aggression += 1;
             if (axe) this.aggression += 2;
-
-            const weight = 0
-                + (armor * 0.2) 
-                + (superArmor * 0.3) 
-                + (axe * 0.1)
-                + ((sword || shield) * 0.3);
-
-            const protection = 0
-                + (shield * 0.3)
-                + (armor * 0.5)
-                + (superArmor * 0.7);
 
             this.health = this.maxHealth = ~~interpolate(100, 400, protection);
             this.strength = axe ? 35 : (sword ? 25 : 10);
