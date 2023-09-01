@@ -166,7 +166,7 @@ class Character extends Entity {
     strike(relativeStrength) {
         sound(...[.1,,400,.1,.01,,3,.92,17,,,,,2,,,,1.04]);
 
-        for (const victim of this.pickVictims(this.strikeRadiusX, this.strikeRadiusY, PI)) {
+        for (const victim of this.pickVictims(this.strikeRadiusX, this.strikeRadiusY, TWO_PI)) {
             const angle = angleBetween(this, victim);
             if (victim.stateMachine.state.shielded) {
                 victim.facing = sign(this.x - victim.x) || 1;
