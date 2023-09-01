@@ -193,9 +193,12 @@ class Character extends Entity {
                     const animation = this.scene.add(new PerfectParry());
                     animation.x = victim.x;
                     animation.y = victim.y - 30;
+                    
+                    this.perfectlyBlocked = true; // Disable "exhausted" label
+                    this.loseStamina(1);
 
                     for (const parryVictim of this.scene.category(victim.targetTeam)) {
-                        if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX, victim.strikeRadiusY)) {
+                        if (victim.isWithinRadii(parryVictim, victim.strikeRadiusX * 2, victim.strikeRadiusY * 2)) {
                             parryVictim.dash(angleBetween(victim, parryVictim), 100, 0.2);
                         }
                     }

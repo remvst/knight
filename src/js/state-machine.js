@@ -297,7 +297,8 @@ characterStateMachine = ({
         }
 
         onEnter() {
-            entity.displayLabel(nomangle('Exhausted'));
+            if (!entity.perfectlyBlocked) entity.displayLabel(nomangle('Exhausted'));
+            entity.perfectBlocked = false;
         }
 
         cycle(elapsed) {
