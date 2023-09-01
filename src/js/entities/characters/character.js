@@ -104,16 +104,8 @@ class Character extends Entity {
         this.lastComboChange = this.age;
     }
 
-    isStrikable(character, radiusX, radiusY) {
-        if (character === this) return false;
-
-        const angle = angleBetween(this, character);
-        const aimAngle = angleBetween(this, this.controls.aim);
-        if (abs(normalize(aimAngle - angle)) > PI / 2) {
-            return false;
-        }
-
-        return this.isWithinRadii(character, radiusX, radiusY);
+    isStrikable(victim, radiusX, radiusY) {
+        return this.strikability(victim, radiusX, radiusY, PI / 2) > 0;
     }
 
     isWithinRadii(character, radiusX, radiusY) {
@@ -136,7 +128,7 @@ class Character extends Entity {
 
         return distanceScore < 0 || angleScore < 0 
             ? 0
-            : (distanceScore + angleScore) / 2;
+            : (distanceScore * 2 + angleScore) / 3;
     }
 
     pickVictims(radiusX, radiusY, fov) {
