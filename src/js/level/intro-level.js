@@ -156,7 +156,7 @@ class IntroLevel extends Level {
 
             while (true) {
                 const { damageCount } = enemy;
-                await this.scene.waitFor(() => enemy.damageCount > damageCount);
+                await scene.waitFor(() => enemy.damageCount > damageCount);
 
                 if (confirm(nomangle('Skip intro?'))) {
                     level = new GameplayLevel();
@@ -173,8 +173,8 @@ class IntroLevel extends Level {
         
         msg.text = instruction + ' (' + count + '/' + count + ')';
 
-        await this.scene.delay(1);
+        await scene.delay(1);
         msg.text = '';
-        await this.scene.delay(1);
+        await scene.delay(1);
     }
 }
