@@ -5,11 +5,11 @@ onload = () => {
 
     ctx = can.getContext('2d');
 
-    if (inputMode == INPUT_MODE_TOUCH) {
-        can.width *= 0.5;
-        can.height *= 0.5;
-        ctx.scale(0.5, 0.5);
-    }
+    // if (inputMode == INPUT_MODE_TOUCH) {
+    //     can.width *= 0.5;
+    //     can.height *= 0.5;
+    //     ctx.scale(0.5, 0.5);
+    // }
 
     onresize();
     frame();
