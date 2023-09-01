@@ -159,7 +159,7 @@ class Character extends Entity {
 
     lunge() {
         const victim = this.pickVictim(this.magnetRadiusX, this.magnetRadiusY, PI / 2);
-        return victim
+        victim
             ? this.dash(
                 angleBetween(this, victim), 
                 max(0, dist(this, victim) - this.strikeRadiusY / 2), 
@@ -256,10 +256,9 @@ class Character extends Entity {
     displayLabel(text, color) {
         if (this.lastLabel) this.lastLabel.remove();
 
-        this.lastLabel = new Label(text, color);
+        this.lastLabel = this.scene.add(new Label(text, color));
         this.lastLabel.x = this.x;
         this.lastLabel.y = this.y - 90;
-        this.scene.add(this.lastLabel);
     }
 
     loseStamina(amount) {
@@ -391,36 +390,23 @@ class Character extends Entity {
     }
 
     dash(angle, distance, duration) {
-        const target = {
-            x: this.x + cos(angle) * distance, 
-            y: this.y + sin(angle) * distance, 
-        };
-        this.scene.add(new Interpolator(this, 'x', this.x, target.x, duration));
-        this.scene.add(new Interpolator(this, 'y', this.y, target.y, duration));
-        return target;
+        this.scene.add(new Interpolator(this, 'x', this.x, this.x + cos(angle) * distance, duration));
+        this.scene.add(new Interpolator(this, 'y', this.y, this.y + sin(angle) * distance, duration));
     }
 
     die() {
         const duration = 1;
 
-        const gibs = this.gibs.concat(
-            () => {
-                ctx.slice(30, true, 0.5);
-                ctx.translate(0, 30);
-                this.renderBody();
-            },
-            () => {
-                ctx.slice(30, false, 0.5);
-                ctx.translate(0, 30);
-                this.renderBody();
-            },
-        );
+        const gibs = this.gibs.concat([true, false].map((sliceUp) => () => {
+            ctx.slice(30, sliceUp, 0.5);
+            ctx.translate(0, 30);
+            this.renderBody();
+        }));
 
         for (const step of gibs) {
-            const bit = new Corpse(step);
+            const bit = this.scene.add(new Corpse(step));
             bit.x = this.x;
             bit.y = this.y;
-            this.scene.add(bit);
     
             const angle = angleBetween(this, this.controls.aim) + PI + rnd(-1, 1) * PI / 4;
             const distance = rnd(30, 60);
