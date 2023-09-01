@@ -127,7 +127,7 @@ class Character extends Entity {
 
         return distanceScore < 0 || angleScore < 0 
             ? 0
-            : (distanceScore * 2 + angleScore) / 3;
+            : (distanceScore + pow(angleScore, 3));
     }
 
     pickVictims(radiusX, radiusY, fov) {
