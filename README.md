@@ -25,6 +25,12 @@ make install
 make
 ```
 
+## Debugging
+
+When opening `debug.html`:
+- <kbd>F</kbd> to speed up time
+- <kbd>G</kbd> to slow down time
+
 # License
 
 Feel free to read the code but don't use it for commercial purposes. The game is the result of a lot of hard work and I wish to maintain all rights to it.
