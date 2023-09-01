@@ -73,6 +73,8 @@ class GameplayLevel extends Level {
             scene.add(new Announcement(nomangle('The Path')));
             await scene.delay(2);
 
+            playerHUD.progress = playerHUD.progressGauge.displayedValue = waveIndex / WAVE_COUNT;
+
             let nextWaveX = player.x + CANVAS_WIDTH;
             for ( ; waveIndex < WAVE_COUNT ; waveIndex++) {
                 // Show progress
