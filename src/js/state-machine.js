@@ -168,21 +168,19 @@ characterStateMachine = ({
             super();
             this.counter = counter;
             this.prepareRatio = -min(PLAYER_HEAVY_ATTACK_INDEX, this.counter + 1) * 0.4;
-            this.windup = 0.05;
-            this.duration = 0.15;
         }
 
         get swordRaiseRatio() { 
-            return this.age < this.windup 
+            return this.age < STRIKE_WINDUP 
                 ? interpolate(
                     this.previous.swordRaiseRatio, 
                     this.prepareRatio, 
-                    this.age / this.windup,
+                    this.age / STRIKE_WINDUP,
                 )
                 : interpolate(
                     this.prepareRatio, 
                     1, 
-                    (this.age - this.windup) / (this.duration - this.windup),
+                    (this.age - STRIKE_WINDUP) / (STRIKE_DURATION - STRIKE_WINDUP),
                 );   
         }
 
@@ -200,7 +198,7 @@ characterStateMachine = ({
         cycle(elapsed) {
             super.cycle(elapsed);
 
-            if (this.age >= this.windup) {
+            if (this.age >= STRIKE_WINDUP) {
                 entity.scene.add(this.anim);
                 this.anim.toAngle = this.swordRaiseRatio;
             }
