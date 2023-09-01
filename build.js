@@ -98,6 +98,9 @@ const CONSTANTS = {
     "THUNDER_INTERVAL": 10,
 
     "SONG_VOLUME": 0.5,
+
+    // Fix for my mangler sucking
+    "aggressivity-tracker": 'at',
 };
 
 function copy(obj) {
