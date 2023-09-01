@@ -5,8 +5,11 @@ class ScreenshotLevel extends Level {
         oncontextmenu = () => {};
 
         const player = firstItem(this.scene.category('player'));
+        player.age = 0.4;
+
         MOUSE_POSITION.x = Number.MAX_SAFE_INTEGER;
         MOUSE_POSITION.y = CANVAS_HEIGHT / 2;
+        DOWN[39] = true;
 
         const camera = firstItem(this.scene.category('camera'));
         camera.zoom = 2;
@@ -89,6 +92,9 @@ class ScreenshotLevel extends Level {
         enemy2.setController(new AI());
         enemy2.controls.aim.x = player.x;
         enemy2.controls.aim.y = player.y;
+        enemy2.controls.force = 1;
+        enemy2.age = 0.6;
+        enemy2.controls.angle = angleBetween(enemy2, player)
 
         this.cycle(0); // helps regen grass
     }
