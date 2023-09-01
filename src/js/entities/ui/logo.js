@@ -11,10 +11,10 @@ class Logo extends Entity {
     doRender(camera) {
         if (GAME_PAUSED) return;
 
+        ctx.globalAlpha = this.alpha;
+
         ctx.wrap(() => {
             this.cancelCameraOffset(camera);
-
-            ctx.globalAlpha = this.alpha;
     
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
