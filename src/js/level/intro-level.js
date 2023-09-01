@@ -16,7 +16,7 @@ class IntroLevel extends Level {
         camera.cycle(99);
 
         const player = firstItem(scene.category('player'));
-        player.health = Number.MAX_SAFE_INTEGER;
+        player.health = LARGE_INT;
         player.setController(new CharacterController());
 
         // Respawn when leaving the area
@@ -105,7 +105,7 @@ class IntroLevel extends Level {
             // Shield tutorial 
             const SwordArmorEnemy = createEnemyType({ sword: true, armor: true, attackCount: 1, });
             const enemy = scene.add(new SwordArmorEnemy());
-            enemy.health = enemy.maxHealth = Number.MAX_SAFE_INTEGER;
+            enemy.health = LARGE_INT;
             enemy.x = camera.x + CANVAS_WIDTH / 2 / camera.zoom + 20;
             enemy.y = -99;
             scene.add(new CharacterOffscreenIndicator(enemy));

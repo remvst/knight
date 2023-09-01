@@ -3,7 +3,7 @@ class DummyEnemy extends Enemy {
         super();
         this.categories.push('enemy');
 
-        this.health = this.maxHealth = Number.MAX_SAFE_INTEGER;
+        this.health = LARGE_INT;
     }
 
     renderBody() {

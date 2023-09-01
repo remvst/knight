@@ -38,6 +38,8 @@ const CONSTANTS = {
     "const": "let",
     "null": 0,
 
+    "LARGE_INT": 9999,
+
     "CANVAS_WIDTH": 1280,
     "CANVAS_HEIGHT": 720,
 
