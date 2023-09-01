@@ -48,7 +48,7 @@ class PlayerHUD extends Entity {
             ctx.globalAlpha = this.progressAlpha;
 
             ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT - 150);
-            this.progressGauge.render(600, 10, '#fff');
+            this.progressGauge.render(600, 10, '#fff', false, WAVE_COUNT);
 
             ctx.resolveColor = () => '#fff';
             ctx.shadowColor = '#000';

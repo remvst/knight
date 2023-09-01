@@ -27,7 +27,7 @@ class Gauge {
         );
     }
 
-    render(width, height, color, half) {
+    render(width, height, color, half, ridgeCount) {
         function renderGauge(
             width,
             height, 
@@ -65,6 +65,12 @@ class Gauge {
             ctx.translate(0, 2);
             renderGauge(width, height, this.displayedValue, '#fff');
             renderGauge(width, height, min(this.displayedValue, this.getValue()), color);
+
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = '#000';
+            for (const r = 1 / ridgeCount ; r < 1 ; r += 1 / ridgeCount) {
+                ctx.fillRect(r * width - width / 2, 0, 1, height);
+            }
         });
     }
 }
