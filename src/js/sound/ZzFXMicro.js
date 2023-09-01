@@ -22,7 +22,7 @@
 const zzfx = (...z)=> zzfxP(zzfxG(...z)); // generate and play sound
 const zzfxV = .3;    // volume
 const zzfxR = 44100; // sample rate
-const zzfxX = new (window.AudioContext||webkitAudioContext); // audio context
+const zzfxX = new AudioContext; // audio context
 const zzfxP = (...samples)=>  // play samples
 {
     // create buffer and source

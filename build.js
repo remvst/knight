@@ -307,6 +307,8 @@ compiler.run((tasks) => {
                     "repeat",
                     "elements",
                     "text",
+                    "source",
+                    "frequency",
                 ]
             }));
         }
