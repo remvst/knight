@@ -50,7 +50,7 @@ const CONSTANTS = {
     "PLAYER_DASH_DISTANCE": 200,
     "PLAYER_MAGNET_RADIUS": 250,
 
-    "MAX_AGGRESSION": 7,
+    "MAX_AGGRESSION": 6,
 
     "LAYER_CORPSE": belowLayer--,
     "LAYER_WATER": belowLayer--,
