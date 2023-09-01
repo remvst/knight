@@ -214,15 +214,13 @@ characterStateMachine = ({
                     return; 
                 }
 
-                if (this.counter < PLAYER_HEAVY_ATTACK_INDEX) {
-                    if (this.didTryToAttackAgain) {
-                        stateMachine.transitionToState(new Charging(this.counter + 1));    
-                    } else {
-                        stateMachine.transitionToState(new LightRecover(this.counter));
-                    }
-                } else {
-                    stateMachine.transitionToState(new HeavyRecover());
-                }
+                stateMachine.transitionToState(
+                    this.counter < PLAYER_HEAVY_ATTACK_INDEX
+                        ? this.didTryToAttackAgain
+                            ? new Charging(this.counter + 1)
+                            : new LightRecover(this.counter)
+                        : new HeavyRecover()
+                );
             }
         }
     }
