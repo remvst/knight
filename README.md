@@ -15,6 +15,8 @@ The theme for the competition was **13th century**.
 
 The game is a historically inaccurate beat 'em up where you fight waves of enemies until you reach the final boss.
 
+You can play the game at http://glory.tap2play.io/
+
 ## Build
 
 ```sh
