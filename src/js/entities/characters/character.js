@@ -1,7 +1,7 @@
 class Character extends Entity {
     constructor() {
         super();
-        this.categories.push('character');
+        this.categories.push('character', 'obstacle');
 
         this.renderPadding = 90;
 
@@ -79,13 +79,12 @@ class Character extends Entity {
 
         this.facing = sign(this.controls.aim.x - this.x) || 1;
 
-        // Collisions with other characters
-        for (const character of this.scene.category('character')) {
-            if (character === this) continue;
-            if (dist(this, character) > this.collisionRadius) continue;
-            const angle = angleBetween(this, character);
-            this.x = character.x - cos(angle) * this.collisionRadius;
-            this.y = character.y - sin(angle) * this.collisionRadius;
+        // Collisions with other characters and obstacles
+        for (const obstacle of this.scene.category('obstacle')) {
+            if (obstacle === this || dist(this, obstacle) > obstacle.collisionRadius) continue;
+            const angle = angleBetween(this, obstacle);
+            this.x = obstacle.x - cos(angle) * obstacle.collisionRadius;
+            this.y = obstacle.y - sin(angle) * obstacle.collisionRadius;
         }
 
         // Stamina regen

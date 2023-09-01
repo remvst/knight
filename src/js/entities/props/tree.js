@@ -6,7 +6,7 @@ class Tree extends Obstacle {
         this.trunkWidth = this.rng.next(10, 20);
         this.trunkHeight = this.rng.next(100, 250);
 
-        this.radius = 20;
+        this.collisionRadius = 20;
         this.alpha = 1;
         
         this.renderPadding = this.trunkHeight + 60;
