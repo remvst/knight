@@ -95,7 +95,7 @@ class Character extends Entity {
 
         // Combo reset
         if (this.age - this.lastComboChange > 5) {
-            this.updateCombo(-99999, '');
+            this.updateCombo(-99);
         }
     }
 
@@ -272,7 +272,7 @@ class Character extends Entity {
         this.damageCount++;
 
         if (!this.stateMachine.state.exhausted) this.loseStamina(amount / this.maxHealth * 0.3);
-        this.updateCombo(-99999, nomangle('Ouch!'));
+        this.updateCombo(-99);
         this.displayLabel('' + amount, this.damageLabelColor);
 
         // Death
