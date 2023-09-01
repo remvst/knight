@@ -3,9 +3,9 @@ class CharacterController {
         this.entity = entity;
     }
 
-    get description() {
-        return this.constructor.name;
-    }
+    // get description() {
+    //     return this.constructor.name;
+    // }
 
     cycle() {}
 }
@@ -64,9 +64,9 @@ class EnemyAI extends AI {
         }
     }
 
-    get description() {
-        return Array.from(this.ais).map(ai => ai.description).join('+');
-    }
+    // get description() {
+    //     return Array.from(this.ais).map(ai => ai.description).join('+');
+    // }
 
     async start(entity) {
         super.start(entity);

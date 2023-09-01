@@ -367,7 +367,7 @@ class Character extends Entity {
             
             if (DEBUG_CHARACTER_AI) {
                 bits.push(...[
-                    nomangle('AI: ') + this.controller.description,
+                    nomangle('AI: ') + this.controller.constructor.name,
                 ]);
             }
             

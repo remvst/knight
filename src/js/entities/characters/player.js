@@ -116,9 +116,9 @@ class Player extends Character {
 }
 
 class PlayerController extends CharacterController {
-    get description() {
-        return 'Player';
-    }
+    // get description() {
+    //     return 'Player';
+    // }
 
     cycle() {
         let x = 0, y = 0;
