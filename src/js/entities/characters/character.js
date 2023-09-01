@@ -228,7 +228,7 @@ class Character extends Entity {
 
                 // Regen a bit of health after a kill
                 if (!victim.health) {
-                    this.health = min(this.health + this.maxHealth * 0.1, this.maxHealth);
+                    this.heal(this.maxHealth * 0.1);
                 }
 
                 this.updateCombo(1);
@@ -271,10 +271,16 @@ class Character extends Entity {
 
         if (!this.stateMachine.state.exhausted) this.loseStamina(amount / this.maxHealth * 0.3);
         this.updateCombo(-99999, nomangle('Ouch!'));
-        this.displayLabel('-' + amount, this.damageLabelColor);
+        this.displayLabel('' + amount, this.damageLabelColor);
 
         // Death
         if (!this.health) this.die();
+    }
+
+    heal(amount) {
+        amount = ~~min(this.maxHealth - this.health, amount);
+        this.health += amount
+        if (amount) this.displayLabel('Heal +' + amount, '#0f0');
     }
 
     doRender() {

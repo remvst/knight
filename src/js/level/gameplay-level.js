@@ -84,7 +84,7 @@ class GameplayLevel extends Level {
                     playerHUD.progress = waveIndex / WAVE_COUNT;
 
                     // Regen a bit of health
-                    player.health = min(player.maxHealth, player.health + player.maxHealth * 0.5);
+                    player.heal(player.maxHealth * 0.5);
 
                     await scene.delay(3);
                     await scene.add(new Interpolator(playerHUD, 'progressAlpha', 1, 0, 1)).await();
