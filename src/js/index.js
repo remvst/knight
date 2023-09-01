@@ -12,6 +12,23 @@ onload = () => {
     // }
 
     onresize();
+
+    if (RENDER_PLAYER_ICON) {
+        oncontextmenu = () => {};
+        ctx.wrap(() => {
+            can.width *= 10;
+            can.height *= 10;
+            ctx.scale(10, 10);
+
+            ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
+            ctx.scale(5, 5);
+            ctx.translate(0, 30);
+            const player = new Player();
+            player.renderBody();
+        });
+        return;
+    }
+
     frame();
 };
 

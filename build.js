@@ -88,6 +88,8 @@ const CONSTANTS = {
     "DEBUG_CHARACTER_AI": false,
     "DEBUG_PLAYER_MAGNET": false,
 
+    "RENDER_PLAYER_ICON": false,
+
     "INPUT_MODE_MOUSE": 0,
     "INPUT_MODE_TOUCH": 1,
     "INPUT_MODE_GAMEPAD": 2,
