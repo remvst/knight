@@ -57,10 +57,10 @@ characterStateMachine = ({
         cycle(elapsed) {
             super.cycle(elapsed);
             if (entity.stamina === 0) {
-                this.stateMachine.transitionToState(new Exhausted());
+                stateMachine.transitionToState(new Exhausted());
             }
             if (entity.age - entity.lastDamage < staggerTime) {
-                this.stateMachine.transitionToState(new Staggered());
+                stateMachine.transitionToState(new Staggered());
             }
         }
     }
@@ -76,11 +76,11 @@ characterStateMachine = ({
         cycle(elapsed) {
             super.cycle(elapsed);
             if (controls.shield) {
-                this.stateMachine.transitionToState(new Shielding());
+                stateMachine.transitionToState(new Shielding());
             } else if (controls.attack) {
-                this.stateMachine.transitionToState(new Charging());
+                stateMachine.transitionToState(new Charging());
             } else if (controls.dash) {
-                this.stateMachine.transitionToState(new Dashing());
+                stateMachine.transitionToState(new Dashing());
             }
         }
     }
