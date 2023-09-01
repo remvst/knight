@@ -173,8 +173,8 @@ class IntroLevel extends Level {
         
         msg.text = instruction + ' (' + count + '/' + count + ')';
 
-        await scene.delay(1);
+        await this.scene.delay(1);
         msg.text = '';
-        await scene.delay(1);
+        await this.scene.delay(1);
     }
 }
