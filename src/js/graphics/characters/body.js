@@ -1,127 +1,127 @@
 canvasPrototype.renderSword = function() {
-    this.wrap(() => {
-        this.fillStyle = this.resolveColor('#444');
-        this.fillRect(-10, -2, 20, 4);
-        this.fillRect(-3, 0, 6, 12);
+    with (this) wrap(() => {
+        fillStyle = resolveColor('#444');
+        fillRect(-10, -2, 20, 4);
+        fillRect(-3, 0, 6, 12);
 
-        this.fillStyle = this.resolveColor('#fff');
-        this.beginPath();
-        this.moveTo(-3, 0);
-        this.lineTo(-5, -35);
-        this.lineTo(0, -40);
-        this.lineTo(5, -35);
-        this.lineTo(3, 0);
-        this.fill();
+        fillStyle = resolveColor('#fff');
+        beginPath();
+        moveTo(-3, 0);
+        lineTo(-5, -35);
+        lineTo(0, -40);
+        lineTo(5, -35);
+        lineTo(3, 0);
+        fill();
     });
 };
 
 canvasPrototype.renderAxe = function() {
-    this.wrap(() => {
-        this.fillStyle = this.resolveColor(COLOR_WOOD);
-        this.fillRect(-2, 12, 4, -40);
+    with (this) wrap(() => {
+        fillStyle = resolveColor(COLOR_WOOD);
+        fillRect(-2, 12, 4, -40);
 
-        this.translate(0, -20);
+        translate(0, -20);
 
         const radius = 10;
 
-        this.fillStyle = this.resolveColor('#eee');
+        fillStyle = resolveColor('#eee');
 
-        this.beginPath();
-        this.arc(0, 0, radius, -PI / 4, PI / 4);
-        this.arc(0, radius * hypot(1, 1), radius, -PI / 4, -PI * 3 / 4, true);
-        this.arc(0, 0, radius, PI * 3 / 4, -PI * 3 / 4);
-        this.arc(0, -radius * hypot(1, 1), radius, PI * 3 / 4, PI / 4, true);
-        this.fill();
+        beginPath();
+        arc(0, 0, radius, -PI / 4, PI / 4);
+        arc(0, radius * hypot(1, 1), radius, -PI / 4, -PI * 3 / 4, true);
+        arc(0, 0, radius, PI * 3 / 4, -PI * 3 / 4);
+        arc(0, -radius * hypot(1, 1), radius, PI * 3 / 4, PI / 4, true);
+        fill();
     });
 };
 
 canvasPrototype.renderShield = function() {
-    this.wrap(() => {
-        this.fillStyle = this.resolveColor('#fff');
+    with (this) wrap(() => {
+        fillStyle = resolveColor('#fff');
 
-        for (const [scale, col] of [[0.8, this.resolveColor('#fff')], [0.6, this.resolveColor('#888')]]) {
-            this.fillStyle = col;
-            this.scale(scale, scale);
-            this.beginPath();
-            this.moveTo(0, -15);
-            this.lineTo(15, -10);
-            this.lineTo(12, 10);
-            this.lineTo(0, 25);
-            this.lineTo(-12, 10);
-            this.lineTo(-15, -10);
-            this.fill();
+        for (const [bitScale, col] of [[0.8, resolveColor('#fff')], [0.6, resolveColor('#888')]]) {
+            fillStyle = col;
+            scale(bitScale, bitScale);
+            beginPath();
+            moveTo(0, -15);
+            lineTo(15, -10);
+            lineTo(12, 10);
+            lineTo(0, 25);
+            lineTo(-12, 10);
+            lineTo(-15, -10);
+            fill();
         }
     });
 };
 
 canvasPrototype.renderLegs = function(entity, color) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         const { age } = entity;
 
-        this.translate(0, -32);
+        translate(0, -32);
 
         // Left leg
-        this.wrap(() => {
-            this.fillStyle = this.resolveColor(color);
-            this.translate(-6, 12);
-            if (entity.controls.force) this.rotate(-sin(age * TWO_PI * 4) * PI / 16);
-            this.fillRect(-4, 0, 8, 20);
+        wrap(() => {
+            fillStyle = resolveColor(color);
+            translate(-6, 12);
+            if (entity.controls.force) rotate(-sin(age * TWO_PI * 4) * PI / 16);
+            fillRect(-4, 0, 8, 20);
         });
 
         // Right leg
-        this.wrap(() => {
-            this.fillStyle = this.resolveColor(color);
-            this.translate(6, 12);
-            if (entity.controls.force) this.rotate(sin(age * TWO_PI * 4) * PI / 16);
-            this.fillRect(-4, 0, 8, 20);
+        wrap(() => {
+            fillStyle = resolveColor(color);
+            translate(6, 12);
+            if (entity.controls.force) rotate(sin(age * TWO_PI * 4) * PI / 16);
+            fillRect(-4, 0, 8, 20);
         });
     });
 };
 
 canvasPrototype.renderChest = function(entity, color, width = 25) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         const { renderAge } = entity;
 
-        this.translate(0, -32);
+        translate(0, -32);
 
         // Breathing
-        this.translate(0, sin(renderAge * TWO_PI / 5) * 0.5);
-        this.rotate(sin(renderAge * TWO_PI / 5) * PI / 128);
+        translate(0, sin(renderAge * TWO_PI / 5) * 0.5);
+        rotate(sin(renderAge * TWO_PI / 5) * PI / 128);
 
-        this.fillStyle = this.resolveColor(color);
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
-        this.fillRect(-width / 2, -15, width, 30);
+        fillStyle = resolveColor(color);
+        if (entity.controls.force) rotate(-sin(renderAge * TWO_PI * 4) * PI / 64);
+        fillRect(-width / 2, -15, width, 30);
     });
 }
 
 canvasPrototype.renderHead = function(entity, color, slitColor = null) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         const { renderAge } = entity;
 
-        this.fillStyle = this.resolveColor(color);
-        this.translate(0, -54);
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-        this.fillRect(-6, -7, 12, 15);
+        fillStyle = resolveColor(color);
+        translate(0, -54);
+        if (entity.controls.force) rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
+        fillRect(-6, -7, 12, 15);
 
-        this.fillStyle = this.resolveColor(slitColor);
-        if (slitColor) this.fillRect(4, -5, -6, 4);
+        fillStyle = resolveColor(slitColor);
+        if (slitColor) fillRect(4, -5, -6, 4);
     });
 }
 
 canvasPrototype.renderCrown = function(entity) {
-    this.wrap(() => {
-        this.fillStyle = this.resolveColor('#ff0');
-        this.translate(0, -70);
+    with (this) wrap(() => {
+        fillStyle = resolveColor('#ff0');
+        translate(0, -70);
 
-        this.beginPath();
-        this.lineTo(-8, 0);
-        this.lineTo(-4, 6);
-        this.lineTo(0, 0);
-        this.lineTo(4, 6);
-        this.lineTo(8, 0);
-        this.lineTo(8, 12);
-        this.lineTo(-8, 12);
-        this.fill();
+        beginPath();
+        lineTo(-8, 0);
+        lineTo(-4, 6);
+        lineTo(0, 0);
+        lineTo(4, 6);
+        lineTo(8, 0);
+        lineTo(8, 12);
+        lineTo(-8, 12);
+        fill();
     });
 }
 
@@ -131,49 +131,49 @@ canvasPrototype.renderStick = function() {
 }
 
 canvasPrototype.renderArm = function(entity, color, renderTool) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         if (!entity.health) return;
 
         const { renderAge } = entity;
 
-        this.translate(11, -42);
+        translate(11, -42);
         
-        this.fillStyle = this.resolveColor(color);
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-        this.rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
+        fillStyle = resolveColor(color);
+        if (entity.controls.force) rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
+        rotate(entity.stateMachine.state.swordRaiseRatio * PI / 2);
 
         // Breathing
-        this.rotate(sin(renderAge * TWO_PI / 5) * PI / 32);
+        rotate(sin(renderAge * TWO_PI / 5) * PI / 32);
 
-        this.fillRect(0, -3, 20, 6);
+        fillRect(0, -3, 20, 6);
 
-        this.translate(18, -6);
+        translate(18, -6);
         renderTool();
     });
 }
 
 canvasPrototype.renderArmAndShield = function(entity, armColor) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         const { renderAge } = entity;
 
-        this.translate(0, -32);
+        translate(0, -32);
 
-        this.fillStyle = this.resolveColor(armColor);
-        this.translate(-10, -8);
-        if (entity.controls.force) this.rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
-        this.rotate(Math.PI / 3);
-        this.rotate(entity.stateMachine.state.shieldRaiseRatio * -PI / 3);
+        fillStyle = resolveColor(armColor);
+        translate(-10, -8);
+        if (entity.controls.force) rotate(-sin(renderAge * TWO_PI * 4) * PI / 32);
+        rotate(PI / 3);
+        rotate(entity.stateMachine.state.shieldRaiseRatio * -PI / 3);
 
         // Breathing
-        this.rotate(sin(renderAge * TWO_PI / 5) * PI / 64);
+        rotate(sin(renderAge * TWO_PI / 5) * PI / 64);
 
         const armLength = 10 + 15 * entity.stateMachine.state.shieldRaiseRatio;
-        this.fillRect(0, -3, armLength, 6);
+        fillRect(0, -3, armLength, 6);
 
         // Shield
-        this.wrap(() => {
-            this.translate(armLength, 0);
-            this.renderShield();
+        wrap(() => {
+            translate(armLength, 0);
+            renderShield();
         });
     });
 };
@@ -194,34 +194,34 @@ canvasPrototype.renderExhaustion = function(entity, y) {
 };
 
 canvasPrototype.renderAttackIndicator = function(entity) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         if (!entity.health) return;
 
         const progress = entity.stateMachine.state.attackPreparationRatio;
         if (progress > 0 && !this.isShadow) {
-            this.strokeStyle = 'rgba(255,0,0,1)';
-            this.fillStyle = 'rgba(255,0,0,.5)';
-            this.globalAlpha = interpolate(0.5, 0, progress);
-            this.lineWidth = 10;
-            this.beginPath();
-            this.scale(1 - progress, 1 - progress);
-            this.ellipse(0, 0, entity.strikeRadiusX, entity.strikeRadiusY, 0, 0, TWO_PI);
-            this.fill();
-            this.stroke();
+            strokeStyle = 'rgba(255,0,0,1)';
+            fillStyle = 'rgba(255,0,0,.5)';
+            globalAlpha = interpolate(0.5, 0, progress);
+            lineWidth = 10;
+            beginPath();
+            scale(1 - progress, 1 - progress);
+            ellipse(0, 0, entity.strikeRadiusX, entity.strikeRadiusY, 0, 0, TWO_PI);
+            fill();
+            stroke();
         }
     });
 };
 
 canvasPrototype.renderExclamation = function(entity) {
-    this.wrap(() => {
+    with (this) wrap(() => {
         if (!entity.health) return;
 
-        this.translate(0, -100 + pick([-2, 2]));
+        translate(0, -100 + pick([-2, 2]));
 
-        if (entity.stateMachine.state.attackPreparationRatio > 0 && !this.isShadow) {
+        if (entity.stateMachine.state.attackPreparationRatio > 0 && !isShadow) {
             const progress = min(1, 2 * entity.stateMachine.state.age / 0.25);
-            this.scale(progress, progress);
-            this.drawImage(exclamation, -exclamation.width / 2, -exclamation.height / 2);
+            scale(progress, progress);
+            drawImage(exclamation, -exclamation.width / 2, -exclamation.height / 2);
         }
     });
 };
