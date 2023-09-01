@@ -193,7 +193,9 @@ canvasPrototype.renderExhaustion = function(entity, y) {
     }
 };
 
-canvasPrototype.renderAttackIndicator = function(entity) {
+canvasPrototype.renderAttackIndicator = function() {
+    if (RENDER_SCREENSHOT) return;
+
     with (this) wrap(() => {
         if (!entity.health) return;
 

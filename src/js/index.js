@@ -23,8 +23,7 @@ onload = () => {
             ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
             ctx.scale(5, 5);
             ctx.translate(0, 30);
-            const player = new Player();
-            player.renderBody();
+            new Player().renderBody();
         });
         return;
     }
@@ -35,6 +34,7 @@ onload = () => {
 let lastFrame = performance.now();
 
 const level = new IntroLevel();
+if (RENDER_SCREENSHOT) level = new ScreenshotLevel();
 
 frame = () => {
     const current = performance.now();
@@ -42,12 +42,12 @@ frame = () => {
     lastFrame = current;
 
     // Game update
-    level.cycle(elapsed);
+    if (!RENDER_SCREENSHOT) level.cycle(elapsed);
 
     // Rendering
     ctx.wrap(() => level.scene.render());
 
-    if (DEBUG) {
+    if (DEBUG && !RENDER_SCREENSHOT) {
         ctx.fillStyle = '#fff';
         ctx.strokeStyle = '#000';
         ctx.textAlign = nomangle('left');

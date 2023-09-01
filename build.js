@@ -89,6 +89,7 @@ const CONSTANTS = {
     "DEBUG_PLAYER_MAGNET": false,
 
     "RENDER_PLAYER_ICON": false,
+    "RENDER_SCREENSHOT": false,
 
     "INPUT_MODE_MOUSE": 0,
     "INPUT_MODE_TOUCH": 1,
@@ -106,6 +107,10 @@ const CONSTANTS = {
     // Fix for my mangler sucking
     "aggressivity-tracker": 'at',
 };
+
+if (CONSTANTS.RENDER_SCREENSHOT) {
+    CONSTANTS.CANVAS_HEIGHT = CONSTANTS.CANVAS_WIDTH / (400 / 250);
+}
 
 function copy(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -190,6 +195,7 @@ compiler.run((tasks) => {
                 "src/js/level/intro-level.js",
                 "src/js/level/gameplay-level.js",
                 constants.DEBUG ? "src/js/level/test-level.js" : null,
+                constants.DEBUG ? "src/js/level/screenshot-level.js" : null,
                 
                 "src/js/util/resizer.js",
                 "src/js/util/first-item.js",

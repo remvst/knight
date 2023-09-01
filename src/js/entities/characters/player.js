@@ -56,6 +56,8 @@ class Player extends Character {
         const victim = this.pickVictim(this.magnetRadiusX, this.magnetRadiusY, PI / 2);
         if (victim) {
             ctx.wrap(() => {
+                if (RENDER_SCREENSHOT) return;
+
                 ctx.globalAlpha = 0.2;
                 ctx.strokeStyle = '#f00';
                 ctx.lineWidth = 5;
@@ -68,6 +70,8 @@ class Player extends Character {
         }
 
         ctx.wrap(() => {
+            if (RENDER_SCREENSHOT) return;
+
             ctx.translate(this.x, this.y);
 
             const aimAngle = angleBetween(this, this.controls.aim);
