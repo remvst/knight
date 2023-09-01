@@ -164,8 +164,9 @@ class PlayerController extends CharacterController {
 
         const mouseRelX = (MOUSE_POSITION.x - CANVAS_WIDTH / 2) / (CANVAS_WIDTH / 2);
         const mouseRelY = (MOUSE_POSITION.y - CANVAS_HEIGHT / 2) / (CANVAS_HEIGHT / 2);
-        this.entity.controls.aim.x = camera.x + mouseRelX * CANVAS_WIDTH / 2 / camera.appliedZoom;
-        this.entity.controls.aim.y = camera.y + mouseRelY * CANVAS_HEIGHT / 2 / camera.appliedZoom;
+
+        this.entity.controls.aim.x = this.entity.x + mouseRelX * CANVAS_WIDTH / 2 / camera.appliedZoom;
+        this.entity.controls.aim.y = this.entity.y + mouseRelY * CANVAS_HEIGHT / 2 / camera.appliedZoom;
 
         if (inputMode == INPUT_MODE_TOUCH) {
             const { touch } = TOUCH_JOYSTICK;
