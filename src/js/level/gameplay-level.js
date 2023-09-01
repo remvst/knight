@@ -18,20 +18,18 @@ class GameplayLevel extends Level {
         scene.add(new Path());
 
         for (let i = 0 ; i < 15 ; i++) {
-            const tree = new Tree();
+            const tree = scene.add(new Tree());
             tree.x = rnd(-1, 1) * CANVAS_WIDTH / 2;
             tree.y = rnd(-1, 1) * CANVAS_HEIGHT / 2;
-            scene.add(tree);
         }
 
         for (let i = 0 ; i < 20 ; i++) {
-            const water = new Water();
+            const water = scene.add(new Water());
             water.width = rnd(100, 200);
             water.height = rnd(200, 400);
             water.rotation = random() * TWO_PI;
             water.x = random() * CANVAS_WIDTH * 5;
             water.y = random() * CANVAS_HEIGHT * 5;
-            scene.add(water);
         }
 
         // Respawn when far from the path
