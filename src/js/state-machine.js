@@ -46,7 +46,7 @@ characterStateMachine = ({
         0.8,
         0.9,
         1,
-        2,
+        3,
     ];
 
     chargeTime = chargeTime || 1;
