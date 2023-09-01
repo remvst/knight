@@ -306,6 +306,7 @@ compiler.run((tasks) => {
                     "line",
                     "repeat",
                     "elements",
+                    "text",
                 ]
             }));
         }

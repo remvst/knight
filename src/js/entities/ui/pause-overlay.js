@@ -15,7 +15,7 @@ class PauseOverlay extends Entity {
             ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3);
 
             ctx.renderLargeText([
-                [nomangle('G'), 192, 0],
+                [nomangle('G'), 192],
                 [nomangle('AME'), 96, 30],
                 [nomangle('P'), 192, -30],
                 [nomangle('AUSED'), 96],
@@ -24,7 +24,7 @@ class PauseOverlay extends Entity {
 
         ctx.wrap(() => {
             ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT * 3 / 4);
-            ctx.renderInstruction(nomangle('Press [P] or [ESC] to resume'));
+            ctx.renderInstruction(nomangle('[P] or [ESC] to resume'));
         });
 
     }
