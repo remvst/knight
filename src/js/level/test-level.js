@@ -3,6 +3,8 @@ class TestLevel extends Level {
         super();
 
         const player = firstItem(this.scene.category('player'));
+        player.health = player.maxHealth = LARGE_INT;
+        
         this.scene.add(new PlayerHUD(player));
 
         const camera = firstItem(this.scene.category('camera'));
@@ -14,8 +16,10 @@ class TestLevel extends Level {
 
         for (let r = 0 ; r < 1 ; r += 1 / 5) {
             const enemy = this.scene.add(new StickEnemy());
-            enemy.x = cos(r * TWO_PI) * 200;
-            enemy.y = -400 + sin(r * TWO_PI) * 200;
+            enemy.x = cos(r * TWO_PI) * 100;
+            enemy.y = -400 + sin(r * TWO_PI) * 100;
+            enemy.setController(new AI());
+            enemy.health = enemy.maxHealth = LARGE_INT;
             enemy.poof();
 
             this.scene.add(new CharacterHUD(enemy));
@@ -39,7 +43,7 @@ class TestLevel extends Level {
         for (let i = 0 ; i < 20 ; i++) {
             const tree = new Tree();
             tree.x = random() * 10000;
-            this.scene.add(tree);
+            // this.scene.add(tree);
         }
 
         // (async () => {
