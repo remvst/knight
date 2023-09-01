@@ -280,10 +280,8 @@ class Character extends Entity {
     heal(amount) {
         amount = ~~min(this.maxHealth - this.health, amount);
         this.health += amount
-        // if (amount) this.displayLabel('Heal +' + amount, '#0f0');
 
-        if (amount)
-        for (let i = 10 ; --i ;) {
+        for (let i = amount ; --i > 0 ;) {
             setTimeout(() => {
                 const angle = random() * TWO_PI;
                 const dist = random() * 40;
