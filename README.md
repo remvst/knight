@@ -10,6 +10,8 @@
 >
 > One lone soldier decides to take on the emperor himself.
 
+# Path To Glory
+
 **Path To Glory** is my entry for 2023's [JS13K](https://js13kgames.com/).
 The theme for the competition was **13th century**.
 
@@ -31,7 +33,7 @@ When opening `debug.html`:
 - <kbd>G</kbd> to slow down time
 - `level = new TestLevel()` to use test level
 - `level = new GameplayLevel()` to skip tutorial
-- `level = new GameplayLevel(99)` to go straight to final boss
+- `level = new GameplayLevel(99)` to jump straight to the final boss
 
 # License
 
