@@ -104,17 +104,16 @@ createEnemyType = ({
             if (sword) this.aggression += 1;
             if (axe) this.aggression += 2;
 
-            let weight = 0;
-            if (armor) weight += 0.2;
-            if (superArmor) weight += 0.3;
-            if (axe) weight += 0.1;
-            if (sword) weight += 0.3;
-            if (shield) weight += 0.3;
+            const weight = 0
+                + (armor * 0.2) 
+                + (superArmor * 0.3) 
+                + (axe * 0.1)
+                + ((sword || shield) * 0.3);
 
-            let protection = 0;
-            if (shield) protection += 0.3;
-            if (armor) protection += 0.5;
-            if (superArmor) protection += 0.7;
+            const protection = 0
+                + (shield * 0.3)
+                + (armor * 0.5)
+                + (superArmor * 0.7);
 
             this.health = this.maxHealth = ~~interpolate(100, 400, protection);
             this.strength = axe ? 35 : (sword ? 25 : 10);
